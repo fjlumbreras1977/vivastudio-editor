@@ -36,10 +36,10 @@ export class MicrophoneRecorder{
   }
   async test(deviceId){try{this.stopping=false;await this.openInput(deviceId);this.mode='test';}catch(e){this.cleanup();throw e;}}
   signal(){
-    let peak=0;
-    if(this.stream)for(const analyser of this.analysers){const data=new Float32Array(analyser.fftSize);analyser.getFloatTimeDomainData?.(data);for(const value of data)peak=Math.max(peak,Math.abs(value));}
+    let peak=0,min=0,max=0;
+    if(this.stream)for(const analyser of this.analysers){const data=new Float32Array(analyser.fftSize);analyser.getFloatTimeDomainData?.(data);for(const value of data){peak=Math.max(peak,Math.abs(value));min=Math.min(min,value);max=Math.max(max,value);}}
     this.peak=Math.max(this.peak,peak);if(peak>0.00001)this.signalSeen=true;
-    return {peak,db:peak?20*Math.log10(peak):-Infinity,level:Math.max(0,Math.min(1,(20*Math.log10(peak||1e-8)+72)/72)),muted:!!this.inputTrack?.muted,ended:this.inputTrack?.readyState==='ended',suspended:!!this.context.state&&this.context.state!=='running',elapsed:this.startedWall===undefined?0:(performance.now()-this.startedWall)/1000};
+    return {peak,min,max,db:peak?20*Math.log10(peak):-Infinity,level:Math.max(0,Math.min(1,(20*Math.log10(peak||1e-8)+72)/72)),muted:!!this.inputTrack?.muted,ended:this.inputTrack?.readyState==='ended',suspended:!!this.context.state&&this.context.state!=='running',elapsed:this.startedWall===undefined?0:(performance.now()-this.startedWall)/1000};
   }
   async start(deviceId){
     try{

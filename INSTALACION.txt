@@ -1,7 +1,7 @@
 VIVA STUDIO — PAQUETE COMPLETO PARA HOSTING
 Logo y favicon: imagen VIVA aportada por el usuario.
 El logo abre https://fjlumbreras1977.github.io/vivstudio/#home en la misma pestaña.
-Versión 1.3.0
+Versión 1.4.0
 
 ABRIR DIRECTAMENTE EN EL ORDENADOR
 
@@ -55,7 +55,8 @@ No pegues el contenido de index.html en el editor de una entrada: sube los archi
 
 CÓMO USARLO
 
-Al abrirlo encontrarás un proyecto en blanco con tres pistas vacías. Puedes
+Al abrirlo encontrarás un proyecto en blanco con Pista 1, Pista 2 y Pista 3
+vacías. Ninguna pista tiene Rec activado y no se abre el micrófono al entrar. Puedes
 empezar en blanco, importar un audio o explorar la demo de sonidos sintetizados.
 La demo se carga únicamente al pulsar su botón. Si existe una sesión anterior
 autoguardada en este navegador, puedes recuperarla con el botón correspondiente.
@@ -68,21 +69,49 @@ Abrir el editor no reemplaza esa sesión por el proyecto vacío.
   la prueba, se comprueba el nuevo dispositivo.
 - Grabar: selecciona Rec en la pista de destino, coloca el cursor y pulsa el botón
   rojo. Autoriza el micrófono cuando lo solicite el navegador. Para finalizar,
-  pulsa otra vez el botón rojo o el botón Detener.
+  pulsa otra vez el botón rojo o el botón Detener. La onda de entrada se dibuja
+  en directo en la pista mientras grabas; no necesitas esperar a finalizar.
 - Editar: arrastra los clips para moverlos y sus extremos para recortarlos.
+  El recorte se ve y se escucha durante el arrastre: onda, puntos y duración
+  se actualizan sin esperar a soltar el ratón.
   Coloca el cursor dentro del clip y pulsa S para dividirlo.
+- Altura de pistas: el control Altura general cambia el grosor de todas las
+  pistas. Arrastra el borde inferior de una pista para ajustar solo esa pista.
+  La onda y la línea de volumen se adaptan a su altura; el tamaño queda guardado
+  en el proyecto. Con el tirador enfocado, las flechas arriba/abajo también sirven.
 - Ordenar pistas: arrastra el asa de puntos junto al número de la pista. Una línea
   indica si la colocarás encima o debajo de la pista de destino. El mezclador
   refleja el mismo orden. También puedes enfocar el asa y usar Alt+flecha arriba
   o Alt+flecha abajo. Se conservan los audios y los ajustes de cada pista.
-- Puntos de volumen: haz clic derecho sobre el audio y elige Añadir punto de
-  volumen. Arrastra el círculo azul hacia abajo para bajar el volumen y hacia
-  arriba para recuperarlo; abajo del todo silencia ese punto. Puedes mover los
-  puntos interiores horizontalmente para ajustar el momento del cambio.
-  La línea interpola el volumen entre los puntos y afecta a la reproducción
-  y al MP3/WAV exportado. Los puntos se conservan al cortar, duplicar y guardar.
-  Para bajar solo un tramo, añade puntos en sus extremos y en su interior;
-  deja los extremos arriba y baja los puntos interiores.
+- Línea de volumen: cada bloque empieza con una línea blanca punteada en el centro
+  de la forma de onda y dos puntos, uno al principio y otro al final. El centro
+  equivale a 0 dB / 100 %. Arrastra la línea arriba para subir el volumen o abajo
+  para bajarlo. El cambio se escucha durante la reproducción sin reiniciar el audio.
+  Arrastra los puntos para ajustar tramos y añade puntos con el botón derecho.
+  Al pasar el ratón, el punto se ilumina, crece ligeramente y muestra su nivel.
+- Cantidades de volumen: clic derecho -> Ajustar volumen en dB / %. Puedes fijar
+  un nivel, aumentar o reducir el volumen escribiendo tu propia cantidad. Se aplica
+  al punto pulsado o al bloque completo si haces clic fuera de un punto.
+  0 dB / 100 % es el nivel original; 50 % equivale aproximadamente a -6 dB.
+  Aumentar un 25 % multiplica el nivel actual por 1,25; reducirlo un 25 % lo
+  multiplica por 0,75. Aumentar/reducir en dB suma/resta esa cantidad al nivel actual.
+  No hay una lista de valores obligatorios. En Propiedades también puedes cambiar
+  la unidad dB/% y escribir el nivel del punto seleccionado o de todo el bloque.
+  Los cambios se conservan al cortar, duplicar, guardar y exportar a MP3/WAV.
+- Unir: haz clic en los dos bloques que quieres unir en una misma pista y pulsa W.
+  No hace falta mantener Ctrl al seleccionarlos. Verás ambos bloques resaltados.
+  Si eliges un tercero, quedan seleccionados los dos últimos; hacer clic en un
+  espacio vacío quita la selección. Solo se unen esos dos bloques. Se mantienen
+  su posición temporal, sus cambios de volumen, recortes y fundidos; los huecos
+  intermedios se conservan como silencio. Deshacer restaura los dos originales.
+- Copiar/cortar/pegar: clic derecho sobre un bloque completo o un fragmento
+  seleccionado y elige la operación. Para pegar, pulsa el botón derecho en la
+  posición de destino de cualquier pista. Ctrl+C, Ctrl+X y Ctrl+V también funcionan;
+  Ctrl+V pega en la pista activa y en la posición del cursor temporal.
+- Progreso: durante la carga y preparación del audio se muestra una barra visible.
+  La lectura indica el porcentaje cuando el navegador puede medirlo; la
+  descodificación muestra actividad mientras se procesa. Al exportar, la mezcla
+  muestra actividad y la codificación MP3 indica su progreso hasta completar.
 - Marcadores de corte: el menú de clic derecho ofrece Añadir marcador de corte
   para definir segmentos. Añade dos marcadores y selecciona el tramo entre ellos.
   También puedes marcar un inicio y un final desde el menú.
@@ -93,7 +122,10 @@ Abrir el editor no reemplaza esa sesión por el proyecto vacío.
   El resto del audio conserva su posición. Escape quita la selección.
   Deshacer y Rehacer permiten revertir las operaciones y el orden de pistas.
 - Mezclar: ajusta volumen, panorama, ecualizador, compresor y fundidos.
-  M silencia una pista; S, en los controles de la pista, la escucha en solo.
+  M silencia una pista y la muestra gris con su onda en gris claro.
+  S escucha una sola pista: todas pasan a gris con la onda en blanco pálido
+  y la S activa queda resaltada. Al salir de Solo vuelven los colores originales,
+  salvo las pistas que sigan silenciadas.
 - Guardar proyecto: descarga un archivo .vivastudio que incluye todos sus audios.
 - Abrir: importa de nuevo un proyecto .vivastudio para continuar trabajando.
 - Exportar: descarga la mezcla en MP3 de 128, 192, 256 o 320 kbps, o en WAV.
@@ -141,7 +173,7 @@ Para empezar, es más sencillo abrir directamente la dirección /estudio/.
 
 SI LA PÁGINA NO CARGA
 
-- Comprueba que el index.html que has abierto es el de la versión 1.3.0.
+- Comprueba que el index.html que has abierto es el de la versión 1.4.0.
 - Si reemplazas una versión del hosting, vacía su caché y vuelve a cargar la página.
 - Una política de seguridad personalizada del hosting debe permitir los scripts
   integrados y los workers blob que usa el editor.
@@ -154,9 +186,13 @@ SI LA PÁGINA NO CARGA
 
 VALIDACIÓN
 
-Se han comprobado automatización de volumen en reproducción y exportación,
+Se han comprobado arrastre de la línea blanca punteada, dos puntos iniciales por
+bloque, cantidades personalizadas en dB/%, unión de los dos bloques seleccionados
+con W, copiar/cortar/pegar bloques y fragmentos, progreso de carga/exportación, y
+automatización de volumen en reproducción y exportación,
 conservación de puntos tras cortes/recortes/duplicados, prueba de señal de entrada,
 reactivación del audio tras el permiso, captura nativa independiente de la salida,
+onda en directo mientras se graba y conservación de la vista al cambiar el tamaño,
 inicio en blanco, demo explícita, puntos y segmentos, orden de
 pistas en ambos sentidos y sincronización del mezclador, cortes, recortes,
 fundidos, mezcla programada, silencio/solo,
