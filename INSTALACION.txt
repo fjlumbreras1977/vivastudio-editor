@@ -1,7 +1,7 @@
 VIVA STUDIO — PAQUETE COMPLETO PARA HOSTING
 Logo y favicon: imagen VIVA aportada por el usuario.
 El logo abre https://fjlumbreras1977.github.io/vivstudio/#home en la misma pestaña.
-Versión 1.4.0
+Versión 1.4.1
 
 ABRIR DIRECTAMENTE EN EL ORDENADOR
 
@@ -123,8 +123,8 @@ Abrir el editor no reemplaza esa sesión por el proyecto vacío.
   Deshacer y Rehacer permiten revertir las operaciones y el orden de pistas.
 - Mezclar: ajusta volumen, panorama, ecualizador, compresor y fundidos.
   M silencia una pista y la muestra gris con su onda en gris claro.
-  S escucha una sola pista: todas pasan a gris con la onda en blanco pálido
-  y la S activa queda resaltada. Al salir de Solo vuelven los colores originales,
+  S escucha una sola pista: la pista con S activa conserva su color y el resto
+  queda gris con la onda en blanco pálido. La S activa queda resaltada. Al salir de Solo vuelven los colores originales,
   salvo las pistas que sigan silenciadas.
 - Guardar proyecto: descarga un archivo .vivastudio que incluye todos sus audios.
 - Abrir: importa de nuevo un proyecto .vivastudio para continuar trabajando.
@@ -173,7 +173,7 @@ Para empezar, es más sencillo abrir directamente la dirección /estudio/.
 
 SI LA PÁGINA NO CARGA
 
-- Comprueba que el index.html que has abierto es el de la versión 1.4.0.
+- Comprueba que el index.html que has abierto es el de la versión 1.4.1.
 - Si reemplazas una versión del hosting, vacía su caché y vuelve a cargar la página.
 - Una política de seguridad personalizada del hosting debe permitir los scripts
   integrados y los workers blob que usa el editor.
