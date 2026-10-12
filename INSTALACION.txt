@@ -1,6 +1,7 @@
 VIVA STUDIO — PAQUETE COMPLETO PARA HOSTING
 Logo y favicon: imagen VIVA aportada por el usuario.
-Versión 1.2.0
+El logo abre https://fjlumbreras1977.github.io/vivstudio/#home en la misma pestaña.
+Versión 1.3.0
 
 ABRIR DIRECTAMENTE EN EL ORDENADOR
 
@@ -61,6 +62,10 @@ autoguardada en este navegador, puedes recuperarla con el botón correspondiente
 Abrir el editor no reemplaza esa sesión por el proyecto vacío.
 
 - Importar audio: selecciona uno o varios archivos o arrástralos a las pistas.
+- Probar micro: selecciona una Entrada y pulsa Probar micro. Habla y comprueba
+  el medidor de entrada y el aviso Señal recibida. Finalizar prueba libera el
+  micrófono; la prueba no graba audio ni crea clips. Si cambias de entrada durante
+  la prueba, se comprueba el nuevo dispositivo.
 - Grabar: selecciona Rec en la pista de destino, coloca el cursor y pulsa el botón
   rojo. Autoriza el micrófono cuando lo solicite el navegador. Para finalizar,
   pulsa otra vez el botón rojo o el botón Detener.
@@ -70,9 +75,16 @@ Abrir el editor no reemplaza esa sesión por el proyecto vacío.
   indica si la colocarás encima o debajo de la pista de destino. El mezclador
   refleja el mismo orden. También puedes enfocar el asa y usar Alt+flecha arriba
   o Alt+flecha abajo. Se conservan los audios y los ajustes de cada pista.
-- Puntos de edición: haz clic derecho dentro de un clip y elige Añadir punto de
-  edición. Los puntos son límites de segmentos, no automatización de volumen.
-  Añade dos puntos y haz clic derecho entre ellos para seleccionar ese tramo.
+- Puntos de volumen: haz clic derecho sobre el audio y elige Añadir punto de
+  volumen. Arrastra el círculo azul hacia abajo para bajar el volumen y hacia
+  arriba para recuperarlo; abajo del todo silencia ese punto. Puedes mover los
+  puntos interiores horizontalmente para ajustar el momento del cambio.
+  La línea interpola el volumen entre los puntos y afecta a la reproducción
+  y al MP3/WAV exportado. Los puntos se conservan al cortar, duplicar y guardar.
+  Para bajar solo un tramo, añade puntos en sus extremos y en su interior;
+  deja los extremos arriba y baja los puntos interiores.
+- Marcadores de corte: el menú de clic derecho ofrece Añadir marcador de corte
+  para definir segmentos. Añade dos marcadores y selecciona el tramo entre ellos.
   También puedes marcar un inicio y un final desde el menú.
 - Segmentos: con el tramo seleccionado puedes escucharlo, copiarlo, cortarlo,
   duplicarlo, silenciarlo, eliminarlo, conservarlo o exportarlo en MP3/WAV.
@@ -104,12 +116,19 @@ MICRÓFONO Y COMPATIBILIDAD
 
 En el hosting, la grabación necesita HTTPS, permiso de micrófono y un navegador
 con AudioWorklet o MediaRecorder.
-En un archivo local se utiliza la captura nativa MediaRecorder para evitar la
-carga de módulos AudioWorklet desde blob:null. Si esa carga falla en el hosting,
-el editor también cambia automáticamente a la captura nativa. El permiso de
-micrófono sigue siendo necesario. Al finalizar, la toma se convierte para editarla
-y exportarla a MP3. Si falla esa conversión, se descarga una copia del audio
-original para conservar la grabación.
+La grabación utiliza directamente el flujo del micrófono mediante MediaRecorder,
+tanto en archivos locales como en el hosting. La captura no depende del volumen,
+los botones M/S, la reproducción de la mezcla ni la carga de módulos AudioWorklet.
+Cuando el navegador no ofrece captura nativa compatible, en HTTPS puede usarse
+AudioWorklet como alternativa. El motor de entrada se reactiva después del
+permiso y el medidor comprueba los canales por separado.
+Al finalizar, la toma se convierte para editarla y exportarla a MP3. Si falla esa
+conversión, se descarga una copia del audio original para conservar la grabación.
+El aviso de la entrada muestra el nombre real del micrófono, si está silenciado,
+si recibe señal y si la toma guardada está en silencio.
+Si no entra señal, pulsa Probar micro, elige explícitamente tu micrófono en Entrada
+y comprueba su volumen y su botón de silencio en Windows/macOS. El navegador no
+puede activar una entrada silenciada por el sistema ni sustituir sus permisos.
 Si estás usando auriculares con micrófono, elige la entrada correcta en el selector.
 Si grabas sobre música, usa auriculares para que no vuelva a entrar por el micrófono.
 Si cambias de dispositivo o desconectas el micrófono, revisa la entrada seleccionada.
@@ -122,7 +141,7 @@ Para empezar, es más sencillo abrir directamente la dirección /estudio/.
 
 SI LA PÁGINA NO CARGA
 
-- Comprueba que el index.html que has abierto es el de la versión 1.2.0.
+- Comprueba que el index.html que has abierto es el de la versión 1.3.0.
 - Si reemplazas una versión del hosting, vacía su caché y vuelve a cargar la página.
 - Una política de seguridad personalizada del hosting debe permitir los scripts
   integrados y los workers blob que usa el editor.
@@ -135,7 +154,10 @@ SI LA PÁGINA NO CARGA
 
 VALIDACIÓN
 
-Se han comprobado inicio en blanco, demo explícita, puntos y segmentos, orden de
+Se han comprobado automatización de volumen en reproducción y exportación,
+conservación de puntos tras cortes/recortes/duplicados, prueba de señal de entrada,
+reactivación del audio tras el permiso, captura nativa independiente de la salida,
+inicio en blanco, demo explícita, puntos y segmentos, orden de
 pistas en ambos sentidos y sincronización del mezclador, cortes, recortes,
 fundidos, mezcla programada, silencio/solo,
 guardado de proyectos, el flujo de exportación y MP3 reproducibles en las cuatro
