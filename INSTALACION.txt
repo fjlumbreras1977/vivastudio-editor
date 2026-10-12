@@ -1,0 +1,161 @@
+VIVA STUDIO — PAQUETE COMPLETO PARA HOSTING
+Logo y favicon: imagen VIVA aportada por el usuario.
+Versión 1.2.0
+
+ABRIR DIRECTAMENTE EN EL ORDENADOR
+
+1. Descomprime el ZIP.
+2. Abre el archivo index.html de la carpeta viva-studio con doble clic.
+3. El editor, sus controles y el codificador MP3 están integrados en ese HTML:
+   ya no dependen de la carga de módulos JavaScript desde archivos separados.
+4. Importa tus audios, edítalos y exporta la mezcla.
+5. Para el micrófono y la selección de salida, el navegador necesita los permisos
+   y las APIs correspondientes. Si no los habilita al abrir un archivo local,
+   utiliza el editor en tu hosting con HTTPS.
+
+DETECCIÓN AUTOMÁTICA DE ENTRADAS Y SALIDAS
+
+La barra Entrada / Salida consulta automáticamente los dispositivos disponibles
+al abrir el editor y actualiza las listas cuando conectas o desconectas hardware.
+Por defecto, se utilizan la entrada y la salida que tenga elegidas tu sistema.
+El botón Detectar solicita permiso al navegador para mostrar los nombres de los
+micrófonos, interfaces de audio, auriculares y altavoces disponibles.
+Esta comprobación libera el micrófono al terminar; no inicia una grabación.
+
+El selector Entrada elige el micrófono que se usará al grabar.
+El selector Salida cambia el destino de la reproducción cuando el navegador
+permite elegir dispositivos. Si no ofrece esa API, la reproducción sigue usando
+la salida predeterminada: puedes cambiarla desde los ajustes de sonido del equipo.
+El botón Permitir salida aparece cuando el navegador ofrece un diálogo de selección.
+Al desconectar la salida seleccionada, el editor vuelve a la salida del sistema.
+
+INSTALACIÓN EN HOSTING
+
+1. Descomprime el ZIP. Encontrarás una carpeta llamada viva-studio.
+2. En el administrador de archivos del hosting o por FTP, crea una carpeta
+   dentro del directorio público de tu dominio. Por ejemplo: public_html/estudio/.
+3. Sube DENTRO de esa carpeta los archivos y subcarpetas que hay en viva-studio,
+   manteniendo sus nombres. index.html debe quedar dentro de estudio/.
+4. Activa el certificado HTTPS de tu dominio en el panel de tu hosting.
+5. Abre https://tudominio.es/estudio/ en el navegador.
+
+También puedes subir el contenido directamente a la raíz de un subdominio.
+El editor funciona tanto en la raíz del dominio como dentro de una subcarpeta.
+No requiere instalar PHP, bases de datos ni Node.js en el hosting.
+El archivo index.html es autónomo. Los módulos editables, el código fuente de los
+codificadores, las pruebas y sus licencias también están incluidos en el paquete.
+
+WORDPRESS
+
+Puedes instalarlo en una carpeta aparte, por ejemplo /estudio/, dentro del mismo
+hosting que tu WordPress. Añade un enlace a esa dirección desde tu menú.
+Este paquete es una aplicación web independiente; no es un plugin de WordPress.
+No pegues el contenido de index.html en el editor de una entrada: sube los archivos.
+
+CÓMO USARLO
+
+Al abrirlo encontrarás un proyecto en blanco con tres pistas vacías. Puedes
+empezar en blanco, importar un audio o explorar la demo de sonidos sintetizados.
+La demo se carga únicamente al pulsar su botón. Si existe una sesión anterior
+autoguardada en este navegador, puedes recuperarla con el botón correspondiente.
+Abrir el editor no reemplaza esa sesión por el proyecto vacío.
+
+- Importar audio: selecciona uno o varios archivos o arrástralos a las pistas.
+- Grabar: selecciona Rec en la pista de destino, coloca el cursor y pulsa el botón
+  rojo. Autoriza el micrófono cuando lo solicite el navegador. Para finalizar,
+  pulsa otra vez el botón rojo o el botón Detener.
+- Editar: arrastra los clips para moverlos y sus extremos para recortarlos.
+  Coloca el cursor dentro del clip y pulsa S para dividirlo.
+- Ordenar pistas: arrastra el asa de puntos junto al número de la pista. Una línea
+  indica si la colocarás encima o debajo de la pista de destino. El mezclador
+  refleja el mismo orden. También puedes enfocar el asa y usar Alt+flecha arriba
+  o Alt+flecha abajo. Se conservan los audios y los ajustes de cada pista.
+- Puntos de edición: haz clic derecho dentro de un clip y elige Añadir punto de
+  edición. Los puntos son límites de segmentos, no automatización de volumen.
+  Añade dos puntos y haz clic derecho entre ellos para seleccionar ese tramo.
+  También puedes marcar un inicio y un final desde el menú.
+- Segmentos: con el tramo seleccionado puedes escucharlo, copiarlo, cortarlo,
+  duplicarlo, silenciarlo, eliminarlo, conservarlo o exportarlo en MP3/WAV.
+  Para pegar, haz clic derecho en la posición de destino de una pista.
+  Separar segmento crea un clip independiente para ajustar volumen y fundidos.
+  El resto del audio conserva su posición. Escape quita la selección.
+  Deshacer y Rehacer permiten revertir las operaciones y el orden de pistas.
+- Mezclar: ajusta volumen, panorama, ecualizador, compresor y fundidos.
+  M silencia una pista; S, en los controles de la pista, la escucha en solo.
+- Guardar proyecto: descarga un archivo .vivastudio que incluye todos sus audios.
+- Abrir: importa de nuevo un proyecto .vivastudio para continuar trabajando.
+- Exportar: descarga la mezcla en MP3 de 128, 192, 256 o 320 kbps, o en WAV.
+- Región: arrastra sobre la regla temporal para seleccionar un fragmento,
+  reproducirlo en bucle o exportarlo por separado.
+
+GUARDADO Y PRIVACIDAD
+
+Los audios se procesan en el navegador del usuario, sin enviarse al servidor.
+El autoguardado se conserva en ese navegador y en esa dirección web mediante
+IndexedDB. No se comparte entre equipos ni entre navegadores. Puede perderse
+si se borran los datos del navegador. Descarga tu proyecto para conservarlo.
+
+El hosting sirve los archivos de la aplicación. Este paquete no incluye cuentas
+de usuario, almacenamiento de proyectos en la nube, MIDI ni plugins VST.
+La memoria disponible del navegador condiciona la duración y el número de audios
+que puedes editar. Los formatos de importación dependen del navegador.
+
+MICRÓFONO Y COMPATIBILIDAD
+
+En el hosting, la grabación necesita HTTPS, permiso de micrófono y un navegador
+con AudioWorklet o MediaRecorder.
+En un archivo local se utiliza la captura nativa MediaRecorder para evitar la
+carga de módulos AudioWorklet desde blob:null. Si esa carga falla en el hosting,
+el editor también cambia automáticamente a la captura nativa. El permiso de
+micrófono sigue siendo necesario. Al finalizar, la toma se convierte para editarla
+y exportarla a MP3. Si falla esa conversión, se descarga una copia del audio
+original para conservar la grabación.
+Si estás usando auriculares con micrófono, elige la entrada correcta en el selector.
+Si grabas sobre música, usa auriculares para que no vuelva a entrar por el micrófono.
+Si cambias de dispositivo o desconectas el micrófono, revisa la entrada seleccionada.
+La aplicación no activa la escucha directa de la entrada para evitar acoples.
+
+Si lo incrustas en un iframe, la página que contiene el iframe debe permitir
+el micrófono. Ejemplo: <iframe src="/estudio/" allow="microphone" ...></iframe>.
+Las políticas de permisos del hosting también deben permitirlo.
+Para empezar, es más sencillo abrir directamente la dirección /estudio/.
+
+SI LA PÁGINA NO CARGA
+
+- Comprueba que el index.html que has abierto es el de la versión 1.2.0.
+- Si reemplazas una versión del hosting, vacía su caché y vuelve a cargar la página.
+- Una política de seguridad personalizada del hosting debe permitir los scripts
+  integrados y los workers blob que usa el editor.
+- Vacía la caché si has reemplazado una versión anterior.
+- Ahora sí puedes abrir index.html con doble clic para utilizar los controles,
+  importar, editar y exportar. La grabación depende de los permisos del navegador.
+- La configuración .htaccess incluida ayuda a Apache a servir el archivo inicial
+  y el tipo MIME de JavaScript. Nginx y otros servidores necesitan su propia
+  configuración; normalmente un hosting estático ya sirve estos tipos correctamente.
+
+VALIDACIÓN
+
+Se han comprobado inicio en blanco, demo explícita, puntos y segmentos, orden de
+pistas en ambos sentidos y sincronización del mezclador, cortes, recortes,
+fundidos, mezcla programada, silencio/solo,
+guardado de proyectos, el flujo de exportación y MP3 reproducibles en las cuatro
+calidades. Se han añadido pruebas para detectar entradas y salidas, cambiar el
+destino de reproducción, liberar los permisos y volver a la salida del sistema
+al desconectar el dispositivo. El HTML final también se ha ejecutado en un entorno
+DOM de prueba con direcciones file://, HTTP y HTTPS para verificar sus controles. La captura se ha probado con muestras simuladas y el procesador de
+grabación. Queda pendiente verificar el micrófono físico y el aspecto visual en
+un navegador real en tu hosting.
+
+CÓDIGO Y LICENCIAS
+
+Se incluye todo el código editable de la aplicación. El HTML ya está preparado
+y no necesita compilación para usarlo. Después de editar los módulos fuente,
+ejecuta npm run build para regenerar index.html. index.template.html es la plantilla
+para modificar la estructura; build-standalone.mjs genera el HTML autónomo.
+La codificación MP3 utiliza lamejs / LAME, distribuido por separado junto a sus
+licencias y al archivo fuente lame.all.js. Conserva estos avisos al redistribuirlo.
+Más información: https://github.com/zhuker/lamejs y https://lame.sourceforge.io/.
+
+La carpeta tests contiene las pruebas automatizadas. No hace falta subirla para
+usar el editor. Para ejecutarlas en desarrollo necesitas Node.js y, para las
+comprobaciones de MP3, ffmpeg y ffprobe; ejecuta npm test en esta carpeta.
