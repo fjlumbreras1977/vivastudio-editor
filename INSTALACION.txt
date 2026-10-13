@@ -1,7 +1,7 @@
 VIVA STUDIO — PAQUETE COMPLETO PARA HOSTING
 Logo y favicon: imagen VIVA aportada por el usuario.
 El logo abre https://fjlumbreras1977.github.io/vivstudio/#home en la misma pestaña.
-Versión 1.11.0
+Versión 1.12.0
 
 La ventana inicial muestra el logo original de VIVA junto a AUDIO STUDIO SUITE.
 
@@ -18,7 +18,15 @@ ABRIR DIRECTAMENTE EN EL ORDENADOR
 
 DETECCIÓN AUTOMÁTICA DE ENTRADAS Y SALIDAS
 
-La barra Entrada / Salida consulta automáticamente los dispositivos disponibles
+Pulsa Configuración, junto a Añadir pista. La ventana reúne la entrada, la
+salida, Detectar, Probar micro, Permitir salida, sus avisos, el medidor en
+directo y la altura general de las pistas. Las selecciones se aplican al
+cambiarlas y se conservan en este navegador. Abrir la ventana no activa el
+micrófono ni interrumpe la reproducción. Al cerrar se libera la prueba global
+del micrófono, también si el permiso llega después de cerrar. La entrada de
+una pista con REC activo se conserva.
+
+Las listas de Entrada / Salida de Configuración consultan automáticamente los dispositivos disponibles
 al abrir el editor y actualiza las listas cuando conectas o desconectas hardware.
 Por defecto, se utilizan la entrada y la salida que tenga elegidas tu sistema.
 El botón Detectar solicita permiso al navegador para mostrar los nombres de los
@@ -70,7 +78,7 @@ autoguardada en este navegador, puedes recuperarla con el botón correspondiente
 Abrir el editor no reemplaza esa sesión por el proyecto vacío.
 
 - Importar audio: selecciona uno o varios archivos o arrástralos a las pistas.
-- Probar micro: selecciona una Entrada y pulsa Probar micro. Habla y comprueba
+- Probar micro: abre Configuración, selecciona Entrada y pulsa Probar micro. Habla y comprueba
   el medidor de entrada y el aviso Señal recibida. Finalizar prueba libera el
   micrófono; la prueba no graba audio ni crea clips. Si cambias de entrada durante
   la prueba, se comprueba el nuevo dispositivo.
@@ -93,7 +101,7 @@ Abrir el editor no reemplaza esa sesión por el proyecto vacío.
   El recorte se ve y se escucha durante el arrastre: onda, puntos y duración
   se actualizan sin esperar a soltar el ratón.
   Coloca el cursor dentro del clip y pulsa S para dividirlo.
-- Altura de pistas: el control Altura general cambia el grosor de todas las
+- Altura de pistas: en Configuración, Altura general cambia el grosor de todas las
   pistas. Arrastra el borde inferior de una pista para ajustar solo esa pista.
   La onda y la línea de volumen se adaptan a su altura; el tamaño queda guardado
   en el proyecto. Con el tirador enfocado, las flechas arriba/abajo también sirven.
@@ -233,6 +241,32 @@ Abrir el editor no reemplaza esa sesión por el proyecto vacío.
   el desplazamiento, y Ctrl/Cmd + rueda conserva el zoom del navegador.
   El zoom funciona con el audio detenido, reproduciéndose o grabándose y queda
   desactivado en la pantalla inicial hasta que elijas cómo comenzar.
+- Efectos de pista: FX está a la izquierda de M. Abre una ventana para activar
+  y combinar Reverb, Teléfono, Cambio de tono y Autotune. El botón se ilumina
+  al activar efectos. OK y Enter confirman; Cancelar o cerrar descarta el borrador.
+  Restablecer permite volver a los cuatro efectos desactivados; se confirma con OK.
+  La apertura o cancelación de la ventana no detiene el sonido. Al aplicar una
+  configuración durante la escucha, se prepara el audio y se continúa desde
+  el punto del cursor. La barra de progreso muestra la preparación de la voz.
+  Estos efectos se aplican a toda la pista, incluidos sus bloques reproducidos
+  con su botón de play, y a la exportación MP3/WAV. Se guardan en el proyecto y
+  en el autoguardado. Deshacer/Rehacer recupera sus configuraciones anteriores.
+  Las grabaciones y las fuentes originales se conservan sin modificar.
+- Reverb: intensidad 0–100 %, duración 0,2–6 segundos y pre-retardo 0–150 ms.
+  La cola natural se escucha y se añade al final de la exportación, incluso
+  en un bloque o región, sin incluir otros audios fuera de la selección.
+- Teléfono: intensidad 0–100 %, corte de graves/agudos en Hz y saturación.
+  Mezcla el sonido original con la voz filtrada de una llamada.
+- Cambio de tono: −24 a +24 semitonos, en pasos de 0,1. Baja o sube la voz sin
+  cambiar el tamaño de los bloques ni la velocidad de reproducción.
+- Autotune: nota raíz, escala cromática, mayor, menor o pentatónica, intensidad,
+  velocidad de corrección 0–500 ms, tolerancia en cents y rango de voz en Hz.
+  Con 0 ms la afinación es inmediata; tiempos más largos la suavizan. Actúa sobre
+  una voz monofónica: para varias voces o instrumentos simultáneos, separa sus
+  pistas. El rango mínimo debe ser menor que el máximo. Puedes combinarlo con
+  el cambio de tono. Se procesa sin cambiar la duración original del audio.
+  La afinación se prepara en segundo plano y reutiliza el audio preparado mientras
+  mantengas los ajustes, para no recalcularlo en cada escucha o exportación.
 - Guardar proyecto: descarga un archivo .vivastudio que incluye todos sus audios.
 - Abrir: importa de nuevo un proyecto .vivastudio para continuar trabajando.
 - Exportar: descarga la mezcla en MP3 de 128, 192, 256 o 320 kbps, o en WAV.
@@ -280,7 +314,7 @@ Para empezar, es más sencillo abrir directamente la dirección /estudio/.
 
 SI LA PÁGINA NO CARGA
 
-- Comprueba que el index.html que has abierto es el de la versión 1.11.0.
+- Comprueba que el index.html que has abierto es el de la versión 1.12.0.
 - Si reemplazas una versión del hosting, vacía su caché y vuelve a cargar la página.
 - Una política de seguridad personalizada del hosting debe permitir los scripts
   integrados y los workers blob que usa el editor.
