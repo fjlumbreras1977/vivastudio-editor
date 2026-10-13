@@ -15,9 +15,9 @@ html=html.replace('<link rel="stylesheet" href="style.css">','<style>\n'+read('s
 html=html.replace('href="favicon.png"','href="data:image/png;base64,'+fs.readFileSync(new URL('favicon.png',import.meta.url)).toString('base64')+'"');
 html=html.replace('href="apple-touch-icon.png"','href="data:image/png;base64,'+fs.readFileSync(new URL('apple-touch-icon.png',import.meta.url)).toString('base64')+'"');
 html=html.replace('src="logo-viva.jpg"','src="data:image/jpeg;base64,'+fs.readFileSync(new URL('logo-viva.jpg',import.meta.url)).toString('base64')+'"');
-html=html.replace('<body>','<body>\n<div id="startupMessage" class="startup-message" role="alert">Iniciando el editor… Si este mensaje permanece, permite JavaScript y abre el HTML en un navegador actualizado.</div>');
+html=html.replace(/<body(?:\s[^>]*)?>/,tag=>tag+'\n<div id="startupMessage" class="startup-message" role="alert">Iniciando el editor… Si este mensaje permanece, permite JavaScript y abre el HTML en un navegador actualizado.</div>');
 html=html.replace('<script type="module" src="app.js"></script>',()=>'<script>\n'+code.replace(/<\/script/gi,'<\\/script')+'\n</script>');
-html=html.replace('<html lang="es">','<html lang="es" data-studio-version="1.6.0">');
+html=html.replace('<html lang="es">','<html lang="es" data-studio-version="1.7.0">');
 fs.writeFileSync(new URL('index.html',import.meta.url),html);
-const pkg=JSON.parse(read('package.json'));pkg.version='1.6.0';pkg.scripts.build='node build-standalone.mjs';fs.writeFileSync(new URL('package.json',import.meta.url),JSON.stringify(pkg,null,2)+'\n');
+const pkg=JSON.parse(read('package.json'));pkg.version='1.7.0';pkg.scripts.build='node build-standalone.mjs';fs.writeFileSync(new URL('package.json',import.meta.url),JSON.stringify(pkg,null,2)+'\n');
 console.log(JSON.stringify({html_bytes:Buffer.byteLength(html),version:pkg.version,modules_required:false,external_assets_required:false}));

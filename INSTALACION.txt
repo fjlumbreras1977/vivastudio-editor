@@ -1,7 +1,7 @@
 VIVA STUDIO — PAQUETE COMPLETO PARA HOSTING
 Logo y favicon: imagen VIVA aportada por el usuario.
 El logo abre https://fjlumbreras1977.github.io/vivstudio/#home en la misma pestaña.
-Versión 1.6.0
+Versión 1.7.0
 
 ABRIR DIRECTAMENTE EN EL ORDENADOR
 
@@ -56,7 +56,12 @@ No pegues el contenido de index.html en el editor de una entrada: sube los archi
 CÓMO USARLO
 
 Al abrirlo encontrarás un proyecto en blanco con Pista 1, Pista 2 y Pista 3
-vacías. Ninguna pista tiene Rec activado y no se abre el micrófono al entrar. Puedes
+vacías. Antes de entrar, elige Proyecto en blanco, Importar audio, Explorar una
+demo o Recuperar sesión anterior. Hasta elegir, todos los controles del editor,
+el mezclador, las pistas, el arrastre y los atajos están desactivados. Importar y
+recuperar habilitan el editor solo después de cargar correctamente el audio o
+la sesión; cancelar el selector o una carga fallida mantiene la pantalla inicial.
+Ninguna pista tiene Rec activado y no se abre el micrófono al entrar. Puedes
 empezar en blanco, importar un audio o explorar la demo de sonidos sintetizados.
 La demo se carga únicamente al pulsar su botón. Si existe una sesión anterior
 autoguardada en este navegador, puedes recuperarla con el botón correspondiente.
@@ -108,6 +113,16 @@ Abrir el editor no reemplaza esa sesión por el proyecto vacío.
   para bajarlo. El cambio se escucha durante la reproducción sin reiniciar el audio.
   Arrastra los puntos para ajustar tramos y añade puntos con el botón derecho.
   Al pasar el ratón, el punto se ilumina, crece ligeramente y muestra su nivel.
+- Atajo P: coloca el puntero sobre el bloque de audio de cualquier pista y pulsa
+  P para crear un punto de volumen en esa posición horizontal. Se abre de inmediato
+  Ajustar volumen, aplicado a ese punto, para fijar, subir o bajar su nivel en dB
+  o %. Cancelar la ventana conserva el punto con su nivel anterior. No hace falta
+  seleccionarlo previamente. Se respeta el ajuste temporal y el nivel actual de
+  la línea para no cambiar de golpe el volumen. Si ya existe un punto allí, se
+  selecciona sin duplicarlo. Puedes deshacer su creación y se guarda con el
+  proyecto. P no actúa al escribir en campos, durante la grabación o carga, en
+  la pantalla inicial ni al combinarla con Ctrl/Cmd/Alt. Funciona mientras
+  escuchas la mezcla, sin detener la reproducción.
 - Cantidades de volumen: clic derecho -> Ajustar volumen en dB / %. Puedes fijar
   un nivel, aumentar o reducir el volumen escribiendo tu propia cantidad. Se aplica
   al punto pulsado o al bloque completo si haces clic fuera de un punto.
@@ -140,6 +155,9 @@ Abrir el editor no reemplaza esa sesión por el proyecto vacío.
   La lectura indica el porcentaje cuando el navegador puede medirlo; la
   descodificación muestra actividad mientras se procesa. Al exportar, la mezcla
   muestra actividad y la codificación MP3 indica su progreso hasta completar.
+- Menú con botón derecho: abrirlo sobre un audio o una pista mantiene la
+  reproducción en marcha, incluida la escucha de un segmento. Puedes consultar
+  las opciones y ajustar los puntos o cantidades de volumen mientras escuchas.
 - Marcadores de corte: el menú de clic derecho ofrece Añadir marcador de corte
   para definir segmentos. Añade dos marcadores y selecciona el tramo entre ellos.
   También puedes marcar un inicio y un final desde el menú.
@@ -149,6 +167,13 @@ Abrir el editor no reemplaza esa sesión por el proyecto vacío.
   Separar segmento crea un clip independiente para ajustar volumen y fundidos.
   El resto del audio conserva su posición. Escape quita la selección.
   Deshacer y Rehacer permiten revertir las operaciones y el orden de pistas.
+- Balance por pista: debajo de la ganancia encontrarás un deslizador L / R.
+  El centro mantiene el sonido equilibrado; a la izquierda se desplaza hacia L
+  y a la derecha hacia R. El indicador muestra Centro o el porcentaje aplicado.
+  Está sincronizado con el panorama del mezclador, se escucha al reproducir y
+  se aplica al exportar. Se guarda en el proyecto y permite Deshacer/Rehacer.
+  En pistas muy finas puedes desplazar el panel de controles para llegar a todos
+  los ajustes sin cambiar su altura.
 - Mezclar: ajusta volumen, panorama, ecualizador, compresor y fundidos.
   M silencia una pista y la muestra gris con su onda en gris claro.
   S escucha una sola pista: la pista con S activa conserva su color y el resto
@@ -201,7 +226,7 @@ Para empezar, es más sencillo abrir directamente la dirección /estudio/.
 
 SI LA PÁGINA NO CARGA
 
-- Comprueba que el index.html que has abierto es el de la versión 1.6.0.
+- Comprueba que el index.html que has abierto es el de la versión 1.7.0.
 - Si reemplazas una versión del hosting, vacía su caché y vuelve a cargar la página.
 - Una política de seguridad personalizada del hosting debe permitir los scripts
   integrados y los workers blob que usa el editor.
@@ -219,6 +244,12 @@ bloque, cantidades personalizadas en dB/%, unión de los dos bloques seleccionad
 con W, copiar/cortar/pegar bloques y fragmentos, progreso de carga/exportación, y
 automatización de volumen en reproducción y exportación,
 conservación de puntos tras cortes/recortes/duplicados, prueba de señal de entrada,
+bloqueo inicial de controles/atajos/arrastre, las cuatro vías de inicio y
+conservación del bloqueo al cancelar/fallar una carga; balance L/R por pista,
+sincronización con el mezclador y conservación tras guardar/abrir; apertura
+del menú de clic derecho y ajustes de volumen sin detener la reproducción;
+atajo P bajo el puntero, independencia de la selección, nivel interpolado,
+bloqueo durante escritura/entrada inicial y ausencia de puntos duplicados;
 vúmetro por pista con REC, permisos, niveles/silencio/cierre del micrófono,
 flechas de orden de pistas y límites de posición, colores elegidos por pista,
 herencia en los clips, compatibilidad con M/S y conservación en los proyectos,
