@@ -1,7 +1,7 @@
 VIVA STUDIO — PAQUETE COMPLETO PARA HOSTING
 Logo y favicon: imagen VIVA aportada por el usuario.
 El logo abre https://fjlumbreras1977.github.io/vivstudio/#home en la misma pestaña.
-Versión 1.4.1
+Versión 1.5.0
 
 ABRIR DIRECTAMENTE EN EL ORDENADOR
 
@@ -100,10 +100,19 @@ Abrir el editor no reemplaza esa sesión por el proyecto vacío.
   Los cambios se conservan al cortar, duplicar, guardar y exportar a MP3/WAV.
 - Unir: haz clic en los dos bloques que quieres unir en una misma pista y pulsa W.
   No hace falta mantener Ctrl al seleccionarlos. Verás ambos bloques resaltados.
-  Si eliges un tercero, quedan seleccionados los dos últimos; hacer clic en un
-  espacio vacío quita la selección. Solo se unen esos dos bloques. Se mantienen
+  Puedes seleccionar más bloques, incluso de otras pistas. Para unir con W,
+  deben estar seleccionados exactamente dos de la misma pista. Hacer clic en
+  un espacio vacío quita la selección. Solo se unen esos dos bloques. Se mantienen
   su posición temporal, sus cambios de volumen, recortes y fundidos; los huecos
   intermedios se conservan como silencio. Deshacer restaura los dos originales.
+- Mover en grupo: haz clic en los bloques que quieras seleccionar, también en
+  pistas distintas. Arrastra uno de los bloques por su cabecera o por la onda
+  fuera de la línea de volumen. Se moverán todos a la vez y mantendrán sus
+  distancias temporales. Puedes desplazarlos a otras pistas sin alterar la
+  separación entre ellas. El grupo se detiene al llegar al inicio de la sesión
+  o a la primera/última pista, para no perder ninguno de sus bloques.
+  La selección se mantiene tras moverlos; un clic en un espacio vacío la quita.
+  Deshacer restaura el movimiento completo con una sola operación.
 - Copiar/cortar/pegar: clic derecho sobre un bloque completo o un fragmento
   seleccionado y elige la operación. Para pegar, pulsa el botón derecho en la
   posición de destino de cualquier pista. Ctrl+C, Ctrl+X y Ctrl+V también funcionan;
@@ -173,7 +182,7 @@ Para empezar, es más sencillo abrir directamente la dirección /estudio/.
 
 SI LA PÁGINA NO CARGA
 
-- Comprueba que el index.html que has abierto es el de la versión 1.4.1.
+- Comprueba que el index.html que has abierto es el de la versión 1.5.0.
 - Si reemplazas una versión del hosting, vacía su caché y vuelve a cargar la página.
 - Una política de seguridad personalizada del hosting debe permitir los scripts
   integrados y los workers blob que usa el editor.
