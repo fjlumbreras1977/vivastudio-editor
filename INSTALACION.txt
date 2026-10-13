@@ -1,7 +1,9 @@
 VIVA STUDIO — PAQUETE COMPLETO PARA HOSTING
 Logo y favicon: imagen VIVA aportada por el usuario.
 El logo abre https://fjlumbreras1977.github.io/vivstudio/#home en la misma pestaña.
-Versión 1.10.0
+Versión 1.11.0
+
+La ventana inicial muestra el logo original de VIVA junto a AUDIO STUDIO SUITE.
 
 ABRIR DIRECTAMENTE EN EL ORDENADOR
 
@@ -211,6 +213,16 @@ Abrir el editor no reemplaza esa sesión por el proyecto vacío.
   S escucha una sola pista: la pista con S activa conserva su color y el resto
   queda gris con la onda en blanco pálido. La S activa queda resaltada. Al salir de Solo vuelven los colores originales,
   salvo las pistas que sigan silenciadas.
+- Play por bloque: el pequeño botón de play de la cabecera escucha únicamente
+  ese bloque, desde su inicio hasta su final, respetando su recorte, puntos de
+  volumen, fundidos, ganancia, balance y efectos de pista. El resto de bloques
+  queda fuera de esta escucha, sin modificar los botones M/S ni la selección.
+  Vuelve a pulsarlo para detenerla, o pulsa el de otro bloque para cambiar.
+  El botón se ilumina mientras suena y se restablece al llegar al final.
+- Desplazamiento horizontal: la barra inferior empieza en el área de audio,
+  después del panel de controles de las pistas. Está sincronizada con la línea
+  de tiempo al moverla, cambiar el zoom o grabar. Los controles permanecen fijos.
+  Con el foco en la barra puedes usar las flechas, Inicio/Fin y Re Pág/Av Pág.
 - Zoom con la rueda: coloca el puntero sobre la regla de tiempo o el área de
   audio de las pistas. Gira la rueda hacia arriba para acercar y hacia abajo
   para alejar, sin pulsar ninguna tecla. El instante bajo el puntero permanece
@@ -268,7 +280,7 @@ Para empezar, es más sencillo abrir directamente la dirección /estudio/.
 
 SI LA PÁGINA NO CARGA
 
-- Comprueba que el index.html que has abierto es el de la versión 1.10.0.
+- Comprueba que el index.html que has abierto es el de la versión 1.11.0.
 - Si reemplazas una versión del hosting, vacía su caché y vuelve a cargar la página.
 - Una política de seguridad personalizada del hosting debe permitir los scripts
   integrados y los workers blob que usa el editor.
