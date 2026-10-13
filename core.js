@@ -19,7 +19,7 @@ export function validateTrackEffects(e){
 }
 export function trackEffectsTail(project,start=0,end=Infinity){let tail=0;for(const track of project.tracks){const reverb=trackEffects(track).reverb;if(audible(track,project)&&reverb.enabled&&reverb.mix>0&&track.clips.some(c=>c.start<end&&c.start+c.duration>start))tail=Math.max(tail,reverb.decay+reverb.preDelay);}return tail;}
 export const makeTrack = (name,index=0) => ({id:id(),name,color:COLORS[index%COLORS.length],volume:0,pan:0,mute:false,solo:false,armed:false,eq:{low:0,mid:0,high:0},compressor:false,effects:makeTrackEffects(),height:108,clips:[]});
-export const makeProject = () => {const tracks=['Pista 1','Pista 2','Pista 3'].map(makeTrack);return {version:1,name:'Mi sesión',tracks,master:0,region:null,markers:[]};};
+export const makeProject = () => {const tracks=['Pista 1','Pista 2','Pista 3','Pista 4'].map(makeTrack);return {version:1,name:'Mi sesión',tracks,master:0,region:null,markers:[]};};
 export const makeClip = (source,name,duration,start=0) => ({id:id(),source,name,start,offset:0,duration,gain:0,fadeIn:0,fadeOut:0,points:[],volumePoints:[{time:0,gain:1},{time:duration,gain:1}]});
 export const projectDuration = p => Math.max(0,...p.tracks.flatMap(t=>t.clips.map(c=>c.start+c.duration)));
 export const findClip = (p,cid) => { for(const track of p.tracks){const clip=track.clips.find(c=>c.id===cid);if(clip)return {track,clip};}return null; };

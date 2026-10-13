@@ -1,9 +1,33 @@
 VIVA STUDIO — PAQUETE COMPLETO PARA HOSTING
 Logo y favicon: imagen VIVA aportada por el usuario.
 El logo abre https://fjlumbreras1977.github.io/vivstudio/#home en la misma pestaña.
-Versión 1.12.0
+Versión 1.13.0
 
 La ventana inicial muestra el logo original de VIVA junto a AUDIO STUDIO SUITE.
+
+NOVEDADES DE ESTA VERSIÓN
+
+- Proyecto en blanco y Nuevo proyecto comienzan con cuatro pistas: Pista 1,
+  Pista 2, Pista 3 y Pista 4. El micrófono permanece cerrado hasta activarlo.
+- Se ha eliminado el panel lateral Propiedades. Los fundidos, nombre, inicio,
+  duración y ganancia siguen disponibles con clic derecho -> Ajustes del bloque.
+- Cada canal del mezclador incluye Graves (200 Hz), Medios (1,5 kHz), Agudos
+  (5,5 kHz), Compresor de voz y Restablecer EQ. Se aplican a su propia pista,
+  permiten deshacer y se conservan en el proyecto y la exportación.
+- El botón FX de pista se queda morado claro con letras blancas cuando se ha
+  confirmado al menos uno de los cuatro efectos. Desactivarlos devuelve el
+  botón a su estado normal. Restablecer EQ no desactiva esos efectos.
+- La línea del cursor termina en la última pista, también al hacer zoom,
+  cambiar alturas, añadir/eliminar pistas o recuperar un proyecto. No atraviesa
+  el espacio vacío inferior ni la barra de desplazamiento.
+- Manual está junto a Configuración. Incluye 22 capítulos, índice, buscador,
+  dos capturas de referencia proporcionadas por el usuario y tres esquemas
+  de los controles actuales, con pasos de edición, mezcla y exportación.
+- Descargar PDF entrega el manual completo de 17 páginas, con índice y
+  marcadores de navegación. También puede imprimirse o descargarse como HTML.
+  El PDF y las imágenes están integrados en index.html: no requieren peticiones
+  a otra web. Se incluyen además manual.html y viva-studio-manual.pdf.
+
 
 ABRIR DIRECTAMENTE EN EL ORDENADOR
 
@@ -152,7 +176,7 @@ Abrir el editor no reemplaza esa sesión por el proyecto vacío.
   Confirma el ajuste con Aceptar o pulsando Enter: ambos aplican la misma
   decisión y cierran la ventana si el valor es válido. Cancelar y el cierre
   conservan el nivel anterior. Los valores inválidos mantienen la ventana abierta.
-  No hay una lista de valores obligatorios. En Propiedades también puedes cambiar
+  No hay una lista de valores obligatorios. En Ajustes del bloque (clic derecho) también puedes cambiar
   la unidad dB/% y escribir el nivel del punto seleccionado o de todo el bloque.
   Los cambios se conservan al cortar, duplicar, guardar y exportar a MP3/WAV.
 - Unir: haz clic en los dos bloques que quieres unir en una misma pista y pulsa W.
@@ -216,7 +240,8 @@ Abrir el editor no reemplaza esa sesión por el proyecto vacío.
   se aplica al exportar. Se guarda en el proyecto y permite Deshacer/Rehacer.
   En pistas muy finas puedes desplazar el panel de controles para llegar a todos
   los ajustes sin cambiar su altura.
-- Mezclar: ajusta volumen, panorama, ecualizador, compresor y fundidos.
+- Mezclar: ajusta volumen, panorama, ecualizador y compresor en cada canal del
+  mezclador. Para fundidos, abre Ajustes del bloque con el botón derecho.
   M silencia una pista y la muestra gris con su onda en gris claro.
   S escucha una sola pista: la pista con S activa conserva su color y el resto
   queda gris con la onda en blanco pálido. La S activa queda resaltada. Al salir de Solo vuelven los colores originales,
@@ -314,7 +339,7 @@ Para empezar, es más sencillo abrir directamente la dirección /estudio/.
 
 SI LA PÁGINA NO CARGA
 
-- Comprueba que el index.html que has abierto es el de la versión 1.12.0.
+- Comprueba que el index.html que has abierto es el de la versión 1.13.0.
 - Si reemplazas una versión del hosting, vacía su caché y vuelve a cargar la página.
 - Una política de seguridad personalizada del hosting debe permitir los scripts
   integrados y los workers blob que usa el editor.
@@ -362,11 +387,22 @@ CÓDIGO Y LICENCIAS
 
 Se incluye todo el código editable de la aplicación. El HTML ya está preparado
 y no necesita compilación para usarlo. Después de editar los módulos fuente,
-ejecuta npm run build para regenerar index.html. index.template.html es la plantilla
+ejecuta npm run build para regenerar index.html. Si modificas manual.content.html,
+regenera primero el PDF con python3 build-manual-pdf.py (requiere reportlab,
+beautifulsoup4 y svglib, además de las fuentes DejaVu Sans completas (o matplotlib como alternativa)). manual.css define
+su vista en pantalla e impresión y manual.js sus controles. El hosting no
+necesita Python ni esas dependencias; se usan solo para recompilar el manual. index.template.html es la plantilla
 para modificar la estructura; build-standalone.mjs genera el HTML autónomo.
 La codificación MP3 utiliza lamejs / LAME, distribuido por separado junto a sus
 licencias y al archivo fuente lame.all.js. Conserva estos avisos al redistribuirlo.
 Más información: https://github.com/zhuker/lamejs y https://lame.sourceforge.io/.
+
+Las comprobaciones de esta entrega incluyen los nuevos controles de EQ del
+mezclador con independencia de la selección, sus cambios en vivo, guardado y
+reapertura; inicio con cuatro pistas; longitud del cursor al cambiar zoom y
+altura; estado de FX morado/blanco; búsqueda sin distinguir acentos y navegación
+del manual; descarga del PDF integrado byte por byte y descarga de la guía HTML.
+El PDF se ha renderizado para revisar su diseño y paginación.
 
 La carpeta tests contiene las pruebas automatizadas. No hace falta subirla para
 usar el editor. Para ejecutarlas en desarrollo necesitas Node.js y, para las
