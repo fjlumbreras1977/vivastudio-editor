@@ -1,7 +1,7 @@
 VIVA STUDIO — PAQUETE COMPLETO PARA HOSTING
 Logo y favicon: imagen VIVA aportada por el usuario.
 El logo abre https://fjlumbreras1977.github.io/vivstudio/#home en la misma pestaña.
-Versión 1.9.0
+Versión 1.9.1
 
 ABRIR DIRECTAMENTE EN EL ORDENADOR
 
@@ -181,12 +181,15 @@ Abrir el editor no reemplaza esa sesión por el proyecto vacío.
   el archivo .vivastudio, para recuperarlas en otra sesión. Crear/abrir/editar
   una nota no detiene la reproducción ni cambia la posición del cursor.
   Los proyectos anteriores siguen abriéndose aunque no incluyan anotaciones.
-- Atajo B: durante la reproducción, pulsa B para crear una banderita en la
-  posición real del motor de audio, sin redondearla a la rejilla temporal ni
-  detener la escucha. La ventana de notas no se abre automáticamente: puedes
+- Atajo B: pulsa B para crear una banderita en la posición de la línea vertical
+  del cursor, tanto durante la reproducción como con el audio detenido o en
+  pausa. También funciona mientras grabas. Puedes situar el cursor en cualquier
+  momento de la línea de tiempo y marcarlo sin iniciar la reproducción.
+  La posición no se redondea a la rejilla temporal y el atajo no detiene ni
+  inicia el sonido. La ventana de notas no se abre automáticamente: puedes
   seguir marcando instantes y después hacer clic en cada banderita para escribir.
   B no genera marcas al escribir en campos, con Ctrl/Cmd/Alt, si mantienes la
-  tecla pulsada, en la pantalla inicial ni cuando la reproducción está detenida.
+  tecla pulsada ni en la pantalla inicial antes de elegir un proyecto.
 - Marcadores de corte: el menú de clic derecho ofrece Añadir marcador de corte
   para definir segmentos. Añade dos marcadores y selecciona el tramo entre ellos.
   También puedes marcar un inicio y un final desde el menú.
@@ -255,7 +258,7 @@ Para empezar, es más sencillo abrir directamente la dirección /estudio/.
 
 SI LA PÁGINA NO CARGA
 
-- Comprueba que el index.html que has abierto es el de la versión 1.9.0.
+- Comprueba que el index.html que has abierto es el de la versión 1.9.1.
 - Si reemplazas una versión del hosting, vacía su caché y vuelve a cargar la página.
 - Una política de seguridad personalizada del hosting debe permitir los scripts
   integrados y los workers blob que usa el editor.
