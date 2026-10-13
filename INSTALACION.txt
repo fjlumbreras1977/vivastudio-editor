@@ -1,7 +1,7 @@
 VIVA STUDIO — PAQUETE COMPLETO PARA HOSTING
 Logo y favicon: imagen VIVA aportada por el usuario.
 El logo abre https://fjlumbreras1977.github.io/vivstudio/#home en la misma pestaña.
-Versión 1.9.1
+Versión 1.10.0
 
 ABRIR DIRECTAMENTE EN EL ORDENADOR
 
@@ -211,6 +211,16 @@ Abrir el editor no reemplaza esa sesión por el proyecto vacío.
   S escucha una sola pista: la pista con S activa conserva su color y el resto
   queda gris con la onda en blanco pálido. La S activa queda resaltada. Al salir de Solo vuelven los colores originales,
   salvo las pistas que sigan silenciadas.
+- Zoom con la rueda: coloca el puntero sobre la regla de tiempo o el área de
+  audio de las pistas. Gira la rueda hacia arriba para acercar y hacia abajo
+  para alejar, sin pulsar ninguna tecla. El instante bajo el puntero permanece
+  en su lugar mientras lo permitan los límites de desplazamiento.
+  La rueda no cambia la posición temporal del cursor ni detiene el sonido.
+  El deslizador y los botones de zoom siguen disponibles. Sobre los controles
+  de una pista la rueda permite desplazarte normalmente; Mayús + rueda conserva
+  el desplazamiento, y Ctrl/Cmd + rueda conserva el zoom del navegador.
+  El zoom funciona con el audio detenido, reproduciéndose o grabándose y queda
+  desactivado en la pantalla inicial hasta que elijas cómo comenzar.
 - Guardar proyecto: descarga un archivo .vivastudio que incluye todos sus audios.
 - Abrir: importa de nuevo un proyecto .vivastudio para continuar trabajando.
 - Exportar: descarga la mezcla en MP3 de 128, 192, 256 o 320 kbps, o en WAV.
@@ -258,7 +268,7 @@ Para empezar, es más sencillo abrir directamente la dirección /estudio/.
 
 SI LA PÁGINA NO CARGA
 
-- Comprueba que el index.html que has abierto es el de la versión 1.9.1.
+- Comprueba que el index.html que has abierto es el de la versión 1.10.0.
 - Si reemplazas una versión del hosting, vacía su caché y vuelve a cargar la página.
 - Una política de seguridad personalizada del hosting debe permitir los scripts
   integrados y los workers blob que usa el editor.
