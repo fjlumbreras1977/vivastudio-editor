@@ -1,7 +1,7 @@
 VIVA STUDIO — PAQUETE COMPLETO PARA HOSTING
 Logo y favicon: imagen VIVA aportada por el usuario.
 El logo abre https://fjlumbreras1977.github.io/vivstudio/#home en la misma pestaña.
-Versión 1.8.0
+Versión 1.9.0
 
 ABRIR DIRECTAMENTE EN EL ORDENADOR
 
@@ -113,6 +113,16 @@ Abrir el editor no reemplaza esa sesión por el proyecto vacío.
   para bajarlo. El cambio se escucha durante la reproducción sin reiniciar el audio.
   Arrastra los puntos para ajustar tramos y añade puntos con el botón derecho.
   Al pasar el ratón, el punto se ilumina, crece ligeramente y muestra su nivel.
+- Curvas de volumen: al pasar el puntero por la línea entre dos puntos blancos
+  aparece un punto amarillo más pequeño en el centro de ese tramo. Arrástralo
+  verticalmente para elegir una transición más suave o más pronunciada. Los
+  extremos mantienen su tiempo y su volumen; el cambio se dibuja y se escucha
+  durante el arrastre. Un doble clic sobre el amarillo vuelve a la línea recta.
+  Con el punto amarillo enfocado también puedes usar las flechas arriba/abajo.
+  Si los extremos tienen el mismo nivel, el tramo permanece plano; la forma se
+  aprecia cuando sus niveles son diferentes. Las curvas se conservan al guardar,
+  duplicar, dividir, recortar o copiar fragmentos, y se aplican al MP3/WAV.
+  Al crear un punto blanco nuevo, la curva anterior conserva su sonido.
 - Atajo P: coloca el puntero sobre el bloque de audio de cualquier pista y pulsa
   P para crear un punto de volumen en esa posición horizontal. Se abre de inmediato
   Ajustar volumen, aplicado a ese punto, para fijar, subir o bajar su nivel en dB
@@ -171,6 +181,12 @@ Abrir el editor no reemplaza esa sesión por el proyecto vacío.
   el archivo .vivastudio, para recuperarlas en otra sesión. Crear/abrir/editar
   una nota no detiene la reproducción ni cambia la posición del cursor.
   Los proyectos anteriores siguen abriéndose aunque no incluyan anotaciones.
+- Atajo B: durante la reproducción, pulsa B para crear una banderita en la
+  posición real del motor de audio, sin redondearla a la rejilla temporal ni
+  detener la escucha. La ventana de notas no se abre automáticamente: puedes
+  seguir marcando instantes y después hacer clic en cada banderita para escribir.
+  B no genera marcas al escribir en campos, con Ctrl/Cmd/Alt, si mantienes la
+  tecla pulsada, en la pantalla inicial ni cuando la reproducción está detenida.
 - Marcadores de corte: el menú de clic derecho ofrece Añadir marcador de corte
   para definir segmentos. Añade dos marcadores y selecciona el tramo entre ellos.
   También puedes marcar un inicio y un final desde el menú.
@@ -239,7 +255,7 @@ Para empezar, es más sencillo abrir directamente la dirección /estudio/.
 
 SI LA PÁGINA NO CARGA
 
-- Comprueba que el index.html que has abierto es el de la versión 1.8.0.
+- Comprueba que el index.html que has abierto es el de la versión 1.9.0.
 - Si reemplazas una versión del hosting, vacía su caché y vuelve a cargar la página.
 - Una política de seguridad personalizada del hosting debe permitir los scripts
   integrados y los workers blob que usa el editor.
@@ -261,6 +277,8 @@ bloqueo inicial de controles/atajos/arrastre, las cuatro vías de inicio y
 conservación del bloqueo al cancelar/fallar una carga; balance L/R por pista,
 sincronización con el mezclador y conservación tras guardar/abrir; apertura
 del menú de clic derecho y ajustes de volumen sin detener la reproducción;
+curvas de volumen con control amarillo, aplicación en audio en vivo/exportación,
+conservación exacta al dividir/recortar/insertar puntos y guardado/reapertura;
 banderitas blancas con notas, posición al hacer clic derecho, lectura/edición,
 eliminación/deshacer, guardado/reapertura y compatibilidad de proyectos antiguos;
 atajo P bajo el puntero, independencia de la selección, nivel interpolado,
