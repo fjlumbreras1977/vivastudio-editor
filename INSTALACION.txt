@@ -1,7 +1,7 @@
 VIVA STUDIO — PAQUETE COMPLETO PARA HOSTING
 Logo y favicon: imagen VIVA aportada por el usuario.
 El logo abre https://fjlumbreras1977.github.io/vivstudio/#home en la misma pestaña.
-Versión 1.5.0
+Versión 1.6.0
 
 ABRIR DIRECTAMENTE EN EL ORDENADOR
 
@@ -67,10 +67,21 @@ Abrir el editor no reemplaza esa sesión por el proyecto vacío.
   el medidor de entrada y el aviso Señal recibida. Finalizar prueba libera el
   micrófono; la prueba no graba audio ni crea clips. Si cambias de entrada durante
   la prueba, se comprueba el nuevo dispositivo.
-- Grabar: selecciona Rec en la pista de destino, coloca el cursor y pulsa el botón
-  rojo. Autoriza el micrófono cuando lo solicite el navegador. Para finalizar,
+- Vúmetro de entrada: activa REC en la pista de destino. Se abre el micrófono y
+  aparece un medidor junto a M, S y REC que responde en tiempo real, incluso antes
+  de grabar. Verde indica entrada, amarillo un nivel alto y rojo cercanía a 0 dBFS.
+  Al pasar el ratón por el medidor se muestra el nivel en dBFS y el micrófono.
+  Este medidor lee la entrada, independientemente del silencio/solo de las pistas.
+  Desactivar REC o pulsar Detener entrada cierra el micrófono. Cambiar de pista
+  mueve el medidor a la nueva pista sin abrir otra entrada. Cambiar Entrada cambia
+  el micrófono que se comprueba. No se crean clips durante esta comprobación.
+- Grabar: selecciona REC, autoriza el micrófono cuando lo solicite el navegador,
+  coloca el cursor y pulsa el botón rojo. Para finalizar,
   pulsa otra vez el botón rojo o el botón Detener. La onda de entrada se dibuja
   en directo en la pista mientras grabas; no necesitas esperar a finalizar.
+  Al terminar, el vúmetro sigue disponible mientras REC esté activado. Al crear
+  un proyecto nuevo, abrir otro o cargar la demo, se cierra la entrada. Los
+  proyectos abiertos requieren activar REC de nuevo para acceder al micrófono.
 - Editar: arrastra los clips para moverlos y sus extremos para recortarlos.
   El recorte se ve y se escucha durante el arrastre: onda, puntos y duración
   se actualizan sin esperar a soltar el ratón.
@@ -79,10 +90,18 @@ Abrir el editor no reemplaza esa sesión por el proyecto vacío.
   pistas. Arrastra el borde inferior de una pista para ajustar solo esa pista.
   La onda y la línea de volumen se adaptan a su altura; el tamaño queda guardado
   en el proyecto. Con el tirador enfocado, las flechas arriba/abajo también sirven.
-- Ordenar pistas: arrastra el asa de puntos junto al número de la pista. Una línea
+- Ordenar pistas: usa las flechas visibles ↑ / ↓ junto al nombre de cada pista
+  para subirla o bajarla una posición. La primera no puede subir y la última no
+  puede bajar; esas flechas se muestran desactivadas. También puedes arrastrar
+  el asa de puntos junto al número de la pista. Una línea
   indica si la colocarás encima o debajo de la pista de destino. El mezclador
   refleja el mismo orden. También puedes enfocar el asa y usar Alt+flecha arriba
   o Alt+flecha abajo. Se conservan los audios y los ajustes de cada pista.
+- Color de pista: pulsa el cuadrado de color junto al nombre de la pista y elige
+  cualquier color. Sus bloques, ondas y canal del mezclador se actualizan juntos.
+  Los clips nuevos o movidos a esa pista adoptan su color. El ajuste se conserva
+  al guardar/abrir el proyecto y se puede deshacer. Silencio/Solo muestran el gris
+  correspondiente sin perder el color elegido; al desactivarlos vuelve ese color.
 - Línea de volumen: cada bloque empieza con una línea blanca punteada en el centro
   de la forma de onda y dos puntos, uno al principio y otro al final. El centro
   equivale a 0 dB / 100 %. Arrastra la línea arriba para subir el volumen o abajo
@@ -182,7 +201,7 @@ Para empezar, es más sencillo abrir directamente la dirección /estudio/.
 
 SI LA PÁGINA NO CARGA
 
-- Comprueba que el index.html que has abierto es el de la versión 1.5.0.
+- Comprueba que el index.html que has abierto es el de la versión 1.6.0.
 - Si reemplazas una versión del hosting, vacía su caché y vuelve a cargar la página.
 - Una política de seguridad personalizada del hosting debe permitir los scripts
   integrados y los workers blob que usa el editor.
@@ -200,6 +219,9 @@ bloque, cantidades personalizadas en dB/%, unión de los dos bloques seleccionad
 con W, copiar/cortar/pegar bloques y fragmentos, progreso de carga/exportación, y
 automatización de volumen en reproducción y exportación,
 conservación de puntos tras cortes/recortes/duplicados, prueba de señal de entrada,
+vúmetro por pista con REC, permisos, niveles/silencio/cierre del micrófono,
+flechas de orden de pistas y límites de posición, colores elegidos por pista,
+herencia en los clips, compatibilidad con M/S y conservación en los proyectos,
 reactivación del audio tras el permiso, captura nativa independiente de la salida,
 onda en directo mientras se graba y conservación de la vista al cambiar el tamaño,
 inicio en blanco, demo explícita, puntos y segmentos, orden de
