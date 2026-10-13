@@ -53,7 +53,7 @@ export function bindManual(){
     const content=document.getElementById('manualDocument').cloneNode(true);
     for(const chapter of content.querySelectorAll('[data-manual-chapter]'))chapter.hidden=false;
     const styles=[...document.querySelectorAll('style')].map(style=>style.textContent).join('\n');
-    const html='<!doctype html><html lang="es"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Manual · VIVA Studio</title><style>'+styles.replace(/<\/style/gi,'<\\/style')+'</style><body class="manual-download"><main class="manual-content">'+content.outerHTML+'</main></body></html>';
+    const html='<!doctype html><html lang="es"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Manual · VIVA AUDIO STUDIO SUITE EDITOR</title><style>'+styles.replace(/<\/style/gi,'<\\/style')+'</style><body class="manual-download"><main class="manual-content">'+content.outerHTML+'</main></body></html>';
     const url=URL.createObjectURL(new Blob([html],{type:'text/html;charset=utf-8'}));
     const anchor=document.createElement('a');anchor.href=url;anchor.download='viva-studio-manual-completo.html';anchor.click();setTimeout(()=>URL.revokeObjectURL(url),30000);
   };

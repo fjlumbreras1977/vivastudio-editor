@@ -1,9 +1,9 @@
-VIVA STUDIO — PAQUETE COMPLETO PARA HOSTING
+VIVA AUDIO STUDIO SUITE EDITOR — PAQUETE COMPLETO PARA HOSTING
 Logo y favicon: imagen VIVA aportada por el usuario.
 El logo abre https://fjlumbreras1977.github.io/vivstudio/#home en la misma pestaña.
-Versión 1.13.0
+Versión 1.13.1
 
-La ventana inicial muestra el logo original de VIVA junto a AUDIO STUDIO SUITE.
+La ventana inicial muestra el logo original de VIVA AUDIO STUDIO SUITE EDITOR.
 
 NOVEDADES DE ESTA VERSIÓN
 
@@ -339,7 +339,7 @@ Para empezar, es más sencillo abrir directamente la dirección /estudio/.
 
 SI LA PÁGINA NO CARGA
 
-- Comprueba que el index.html que has abierto es el de la versión 1.13.0.
+- Comprueba que el index.html que has abierto es el de la versión 1.13.1.
 - Si reemplazas una versión del hosting, vacía su caché y vuelve a cargar la página.
 - Una política de seguridad personalizada del hosting debe permitir los scripts
   integrados y los workers blob que usa el editor.
