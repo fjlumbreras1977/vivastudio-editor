@@ -1,7 +1,7 @@
 VIVA STUDIO — PAQUETE COMPLETO PARA HOSTING
 Logo y favicon: imagen VIVA aportada por el usuario.
 El logo abre https://fjlumbreras1977.github.io/vivstudio/#home en la misma pestaña.
-Versión 1.7.0
+Versión 1.8.0
 
 ABRIR DIRECTAMENTE EN EL ORDENADOR
 
@@ -129,6 +129,9 @@ Abrir el editor no reemplaza esa sesión por el proyecto vacío.
   0 dB / 100 % es el nivel original; 50 % equivale aproximadamente a -6 dB.
   Aumentar un 25 % multiplica el nivel actual por 1,25; reducirlo un 25 % lo
   multiplica por 0,75. Aumentar/reducir en dB suma/resta esa cantidad al nivel actual.
+  Confirma el ajuste con Aceptar o pulsando Enter: ambos aplican la misma
+  decisión y cierran la ventana si el valor es válido. Cancelar y el cierre
+  conservan el nivel anterior. Los valores inválidos mantienen la ventana abierta.
   No hay una lista de valores obligatorios. En Propiedades también puedes cambiar
   la unidad dB/% y escribir el nivel del punto seleccionado o de todo el bloque.
   Los cambios se conservan al cortar, duplicar, guardar y exportar a MP3/WAV.
@@ -158,6 +161,16 @@ Abrir el editor no reemplaza esa sesión por el proyecto vacío.
 - Menú con botón derecho: abrirlo sobre un audio o una pista mantiene la
   reproducción en marcha, incluida la escucha de un segmento. Puedes consultar
   las opciones y ajustar los puntos o cantidades de volumen mientras escuchas.
+- Banderitas de anotación: haz clic derecho sobre la regla de minutos y segundos
+  para crear una bandera blanca en esa posición y abrir su nota. La ventana
+  muestra el tiempo de la banderita y permite escribir o leer anotaciones.
+  Se conserva lo escrito mientras editas, al guardar la anotación y al cerrar
+  la ventana. Haz clic en una banderita para volver a abrirla; el clic derecho
+  sobre una existente también la abre sin duplicarla. Eliminar banderita permite
+  quitarla y Deshacer la recupera. Las notas se guardan en el autoguardado y en
+  el archivo .vivastudio, para recuperarlas en otra sesión. Crear/abrir/editar
+  una nota no detiene la reproducción ni cambia la posición del cursor.
+  Los proyectos anteriores siguen abriéndose aunque no incluyan anotaciones.
 - Marcadores de corte: el menú de clic derecho ofrece Añadir marcador de corte
   para definir segmentos. Añade dos marcadores y selecciona el tramo entre ellos.
   También puedes marcar un inicio y un final desde el menú.
@@ -226,7 +239,7 @@ Para empezar, es más sencillo abrir directamente la dirección /estudio/.
 
 SI LA PÁGINA NO CARGA
 
-- Comprueba que el index.html que has abierto es el de la versión 1.7.0.
+- Comprueba que el index.html que has abierto es el de la versión 1.8.0.
 - Si reemplazas una versión del hosting, vacía su caché y vuelve a cargar la página.
 - Una política de seguridad personalizada del hosting debe permitir los scripts
   integrados y los workers blob que usa el editor.
@@ -248,6 +261,8 @@ bloqueo inicial de controles/atajos/arrastre, las cuatro vías de inicio y
 conservación del bloqueo al cancelar/fallar una carga; balance L/R por pista,
 sincronización con el mezclador y conservación tras guardar/abrir; apertura
 del menú de clic derecho y ajustes de volumen sin detener la reproducción;
+banderitas blancas con notas, posición al hacer clic derecho, lectura/edición,
+eliminación/deshacer, guardado/reapertura y compatibilidad de proyectos antiguos;
 atajo P bajo el puntero, independencia de la selección, nivel interpolado,
 bloqueo durante escritura/entrada inicial y ausencia de puntos duplicados;
 vúmetro por pista con REC, permisos, niveles/silencio/cierre del micrófono,
