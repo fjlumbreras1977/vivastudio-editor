@@ -1,0 +1,32 @@
+VALIDACION WEB 1.17.1 - 14 de octubre de 2026
+
+Corrección del cierre de la portada web a los cinco segundos.
+
+La regla de presentación de los botones de inicio tenía más especificidad que
+la regla de ocultación de la portada: .empty-state>div:not(.empty-icon) frente
+a .web-startup-splash[hidden]. Se han aplicado selectores específicos de la
+portada y, al finalizar, se retira también su elemento del DOM. Las reglas del
+cuadro de inicio ya no pueden mantener visible esa imagen.
+
+El cierre usa un único temporizador de 5000 ms desde el arranque. No espera a
+la recuperación de la sesión, a decode() ni a requestAnimationFrame(). Cambiar
+de pestaña no reinicia el contador. Los temporizadores del navegador están
+sujetos a su ciclo de eventos y a la suspensión de pestañas; se elimina cualquier
+espera adicional impuesta por el editor.
+
+106 pruebas automatizadas del proyecto aprobadas. Comprueban el plazo, un
+arranque pendiente, cancelación, imagen pendiente, pestaña oculta, error de
+imagen, retirada del DOM, limpieza de eventos, foco y bloqueo inicial previo.
+Se conserva la comprobación de imagen integrada byte por byte.
+
+21 comprobaciones del HTML completo en DOM/CSS simulado con jsdom 26.1.0.
+Incluyen el cierre con IndexedDB pendiente e imagen sin terminar de cargar,
+la retirada real del elemento, la ocultación CSS, las opciones de proyecto,
+cuatro pistas y micrófono apagado. No se ha realizado revisión visual en un
+navegador real sobre el hosting.
+
+Manual HTML/PDF actualizado. PDF de 19 páginas: portada, índice y página 4
+renderizados y revisados sin cortes ni solapados. Se mantienen todas las
+funciones del editor, la imagen original y el tamaño limitado al cuadro inicial.
+Esta entrega actualiza los archivos para hosting; no publica la web ni cambia
+los instaladores de escritorio.

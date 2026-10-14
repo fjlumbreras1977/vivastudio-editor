@@ -10,26 +10,35 @@ function clock(){
 }
 function setup(options={}){const c=clock(),closed=[];const splash=createSplashController({...c,...options,onClose:()=>closed.push(c.now())});return {c,splash,closed};}
 
-test('la portada se mantiene 5000 ms desde que está pintada, con el editor listo',()=>{const {c,splash,closed}=setup();splash.ready();c.tick(800);assert.equal(closed.length,0);splash.imageReady();c.tick(4999);assert.equal(closed.length,0);c.tick(1);assert.deepEqual(closed,[5800]);assert.equal(c.count,0);});
-test('si la preparación del editor es lenta, espera después de los 5000 ms',()=>{const {c,splash,closed}=setup();splash.imageReady();c.tick(6000);assert.deepEqual(closed,[]);splash.ready();assert.deepEqual(closed,[6000]);});
-test('el tiempo de una pestaña oculta no cuenta como portada visible',()=>{const {c,splash,closed}=setup();splash.ready();splash.imageReady();c.tick(1000);splash.visibility(false);c.tick(10000);assert.equal(closed.length,0);splash.visibility(true);c.tick(3999);assert.equal(closed.length,0);c.tick(1);assert.deepEqual(closed,[15000]);});
-test('si se abre en segundo plano, empieza a contar al mostrar la pestaña',()=>{const {c,splash,closed}=setup({visible:false});splash.ready();splash.imageReady();c.tick(20000);assert.equal(closed.length,0);splash.visibility(true);c.tick(5000);assert.deepEqual(closed,[25000]);});
-test('cancelar por imagen o arranque fallido permite continuar y limpia el temporizador',()=>{const {c,splash,closed}=setup();splash.imageReady();c.tick(100);splash.cancel();splash.cancel();splash.ready();c.tick(10000);assert.deepEqual(closed,[100]);assert.equal(c.count,0);});
+test('la portada se cierra a los 5000 ms sin esperar al editor',()=>{const {c,splash,closed}=setup();c.tick(4999);assert.equal(splash.closed,false);c.tick(1);assert.deepEqual(closed,[5000]);assert.equal(splash.closed,true);assert.equal(c.count,0);});
+test('la preparación del editor no reinicia ni prolonga el temporizador',()=>{const {c,splash,closed}=setup();c.tick(1000);splash.ready();c.tick(3999);assert.deepEqual(closed,[]);c.tick(1);assert.deepEqual(closed,[5000]);splash.ready();c.tick(6000);assert.deepEqual(closed,[5000]);});
+test('un arranque lento tampoco mantiene la portada más de cinco segundos',()=>{const {c,splash,closed}=setup();c.tick(10000);assert.deepEqual(closed,[5000]);splash.ready();assert.deepEqual(closed,[5000]);});
+test('cancelar por imagen o arranque fallido permite continuar y limpia el temporizador',()=>{const {c,splash,closed}=setup();c.tick(100);splash.cancel();splash.cancel();splash.ready();c.tick(10000);assert.deepEqual(closed,[100]);assert.equal(c.count,0);});
 
 function eventTarget(){const handlers=new Map();return {addEventListener(type,fn){handlers.set(type,fn);},removeEventListener(type,fn){if(handlers.get(type)===fn)handlers.delete(type);},emit:type=>handlers.get(type)?.(),get listeners(){return handlers.size;}};}
-test('integración: bloquea la elección, espera decode y dos fotogramas, y devuelve el foco',async()=>{
-  const c=clock(),raf=new Map();let nextFrame=0,focus=0,decoded=false;const attrs=new Set(),classes=new Set(['web-starting']);
-  const splash={hidden:false},screen={hidden:false,hasAttribute:name=>attrs.has(name),setAttribute:name=>attrs.add(name),removeAttribute:name=>attrs.delete(name)};
-  const image={...eventTarget(),complete:true,naturalWidth:907,decode:async()=>{decoded=true;}};
-  const doc={...eventTarget(),visibilityState:'visible',documentElement:{classList:{remove:name=>classes.delete(name)}},getElementById:id=>({webStartupSplash:splash,webStartupImage:image,startScreen:screen,emptyBlank:{focus:()=>focus++}}[id])};
+function fakePage({imageComplete=true,imageWidth=907,originalInert=false}={}){
+  const c=clock();let focus=0;const attrs=new Set(originalInert?['inert']:[]),classes=new Set(['web-starting']);
+  const splash={hidden:false,isConnected:true,remove(){this.isConnected=false;}},screen={hidden:false,hasAttribute:name=>attrs.has(name),setAttribute:name=>attrs.add(name),removeAttribute:name=>attrs.delete(name)};
+  const image={...eventTarget(),complete:imageComplete,naturalWidth:imageWidth,decode(){throw Error('No debe esperar a decode');}};
+  const doc={visibilityState:'visible',documentElement:{classList:{remove:name=>classes.delete(name)}},getElementById:id=>({webStartupSplash:splash.isConnected?splash:null,webStartupImage:image,startScreen:screen,emptyBlank:{focus:()=>focus++}}[id])};
   const win=eventTarget(),previous={};
-  for(const [key,value] of Object.entries({document:doc,window:win,performance:{now:c.now},setTimeout:c.setTimer,clearTimeout:c.clearTimer,requestAnimationFrame:fn=>{const id=++nextFrame;raf.set(id,fn);return id;},cancelAnimationFrame:id=>raf.delete(id)})){previous[key]=Object.getOwnPropertyDescriptor(globalThis,key);Object.defineProperty(globalThis,key,{configurable:true,writable:true,value});}
-  try{
-    const controller=initWebStartupSplash();controller.ready();assert.ok(attrs.has('inert'));assert.equal(splash.hidden,false);await Promise.resolve();assert.ok(decoded);
-    c.tick(1000);assert.equal(splash.hidden,false);
-    const frame=()=>{const entries=[...raf];raf.clear();entries.forEach(([,fn])=>fn());};frame();c.tick(20);assert.equal(splash.hidden,false);frame();c.tick(4999);assert.equal(splash.hidden,false);c.tick(1);
-    assert.equal(splash.hidden,true);assert.equal(attrs.has('inert'),false);assert.equal(classes.has('web-starting'),false);assert.equal(focus,1);assert.equal(doc.listeners,0);assert.equal(image.listeners,0);assert.equal(win.listeners,0);assert.equal(c.count,0);finishWebStartupSplash();
-  }finally{for(const [key,descriptor] of Object.entries(previous)){if(descriptor)Object.defineProperty(globalThis,key,descriptor);else delete globalThis[key];}}
+  for(const [key,value] of Object.entries({document:doc,window:win,setTimeout:c.setTimer,clearTimeout:c.clearTimer,requestAnimationFrame(){throw Error('No debe esperar a un fotograma');}})){previous[key]=Object.getOwnPropertyDescriptor(globalThis,key);Object.defineProperty(globalThis,key,{configurable:true,writable:true,value});}
+  return {c,splash,screen,image,doc,win,attrs,classes,get focus(){return focus;},restore(){finishWebStartupSplash();for(const [key,descriptor] of Object.entries(previous)){if(descriptor)Object.defineProperty(globalThis,key,descriptor);else delete globalThis[key];}}};
+}
+test('integración: retira la imagen y devuelve las opciones y el foco a los cinco segundos',()=>{
+  const page=fakePage();try{
+    initWebStartupSplash();assert.ok(page.attrs.has('inert'));page.c.tick(4999);assert.equal(page.splash.isConnected,true);page.c.tick(1);
+    assert.equal(page.splash.hidden,true);assert.equal(page.splash.isConnected,false);assert.equal(page.attrs.has('inert'),false);assert.equal(page.classes.has('web-starting'),false);assert.equal(page.focus,1);assert.equal(page.image.listeners,0);assert.equal(page.win.listeners,0);assert.equal(page.c.count,0);
+  }finally{page.restore();}
+});
+test('una imagen pendiente y una pestaña oculta no bloquean la retirada de la portada',()=>{
+  const page=fakePage({imageComplete:false,imageWidth:0});try{initWebStartupSplash();page.doc.visibilityState='hidden';page.c.tick(5000);assert.equal(page.splash.isConnected,false);assert.equal(page.attrs.has('inert'),false);assert.equal(page.focus,0);}finally{page.restore();}
+});
+test('un error de imagen retira la portada sin esperar el temporizador',()=>{
+  const page=fakePage({imageComplete:false});try{initWebStartupSplash();page.image.emit('error');assert.equal(page.splash.isConnected,false);assert.equal(page.attrs.has('inert'),false);assert.equal(page.c.count,0);}finally{page.restore();}
+});
+test('al retirarse conserva un bloqueo previo del cuadro de inicio',()=>{
+  const page=fakePage({originalInert:true});try{initWebStartupSplash();page.c.tick(5000);assert.equal(page.splash.isConnected,false);assert.equal(page.attrs.has('inert'),true);}finally{page.restore();}
 });
 
 test('el HTML entregado contiene la imagen seleccionada byte por byte y no necesita un recurso remoto',()=>{
@@ -53,6 +62,7 @@ test('la portada queda dentro del cuadro de inicio y no oculta el editor alreded
   assert.ok(rule.includes('position:absolute'));assert.ok(rule.includes('inset:0'));
   assert.ok(css.includes('#startScreen .empty-state{position:relative'));
   assert.ok(css.includes('html.web-starting #emptyState>:not(#webStartupSplash){visibility:hidden}'));
+  assert.ok(css.includes('#webStartupSplash[hidden]{display:none}'));
   assert.ok(!css.includes('html.web-starting body>'));
   assert.ok(!rule.includes('position:fixed'));
 });

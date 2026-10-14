@@ -69,8 +69,8 @@
 .fx-preview{padding:12px 14px;border:1px solid #6e5884;border-radius:8px;background:#32263e;margin:0 0 18px}.fx-preview>div{display:flex;gap:8px;flex-wrap:wrap}.fx-preview button{font-size:12px;border-color:#7a6295;color:#fff}.fx-preview #fxPreviewPlay{background:#b393df;color:#fff;border-color:#b393df}.fx-preview button.active{background:#4d3c5e;border-color:#c7a7eb}.fx-preview p{font-size:11px;line-height:1.6;color:#d1bddf;margin:9px 0 0}
 
 /* La portada cubre solo la tarjeta de inicio; el editor permanece visible alrededor. */
-.web-startup-splash{position:absolute;inset:0;z-index:10;display:grid;place-items:center;background:#101417;border-radius:inherit;overflow:hidden;cursor:default}
-.web-startup-splash[hidden]{display:none}
+#webStartupSplash.web-startup-splash{position:absolute;inset:0;z-index:10;display:grid;place-items:center;background:#101417;border-radius:inherit;overflow:hidden;cursor:default}
+#webStartupSplash[hidden]{display:none}
 .web-startup-splash img{display:block;width:100%;height:100%;object-fit:contain;user-select:none;-webkit-user-drag:none}
 html.web-starting #emptyState>:not(#webStartupSplash){visibility:hidden}
 
