@@ -1,9 +1,28 @@
 VIVA AUDIO STUDIO SUITE EDITOR — PAQUETE COMPLETO PARA HOSTING
 Logo y favicon: imagen VIVA aportada por el usuario.
 El logo abre https://fjlumbreras1977.github.io/vivstudio/#home en la misma pestaña.
-Versión 1.13.1
+Versión 1.14.0
 
 La ventana inicial muestra el logo original de VIVA AUDIO STUDIO SUITE EDITOR.
+
+ESCUCHA DE EFECTOS EN DIRECTO
+
+- Abre FX mientras suena la mezcla, o usa Reproducir/Pausar dentro de la ventana.
+- Activa efectos y ajusta sus valores: se escuchan antes de pulsar OK.
+- Reverb y Teléfono se actualizan con los nodos nativos, sin volver a preparar
+  el audio ni reiniciar las otras pistas. Las transiciones se suavizan.
+- Cambio de tono y Autotune pueden procesarse continuamente con AudioWorklet.
+  Su ventana de audio añade unos 46 ms a 44,1 kHz; la programación del audio
+  compensa el desfase. La latencia total depende del navegador y del hardware.
+- Si AudioWorklet no está disponible o se bloquea, se prepara el último ajuste
+  en segundo plano después de dejar de mover el control. Durante la preparación
+  se mantiene la escucha anterior; al terminar se cambia solo la pista afectada.
+- Comparar sin FX permite escuchar sin los cuatro efectos; EQ, compresor,
+  volumen y balance se conservan. El estado de comparación no se guarda.
+- OK/Enter confirman el borrador; Cancelar, Escape y el cierre recuperan los
+  valores anteriores. Solo el ajuste confirmado se guarda y se exporta.
+- La captura del micrófono sigue siendo original: esta escucha se aplica a los
+  bloques reproducidos, y no activa monitorización directa del micrófono.
 
 NOVEDADES DE ESTA VERSIÓN
 
@@ -23,7 +42,7 @@ NOVEDADES DE ESTA VERSIÓN
 - Manual está junto a Configuración. Incluye 22 capítulos, índice, buscador,
   dos capturas de referencia proporcionadas por el usuario y tres esquemas
   de los controles actuales, con pasos de edición, mezcla y exportación.
-- Descargar PDF entrega el manual completo de 17 páginas, con índice y
+- Descargar PDF entrega el manual completo de 18 páginas, con índice y
   marcadores de navegación. También puede imprimirse o descargarse como HTML.
   El PDF y las imágenes están integrados en index.html: no requieren peticiones
   a otra web. Se incluyen además manual.html y viva-studio-manual.pdf.
@@ -268,11 +287,12 @@ Abrir el editor no reemplaza esa sesión por el proyecto vacío.
   desactivado en la pantalla inicial hasta que elijas cómo comenzar.
 - Efectos de pista: FX está a la izquierda de M. Abre una ventana para activar
   y combinar Reverb, Teléfono, Cambio de tono y Autotune. El botón se ilumina
-  al activar efectos. OK y Enter confirman; Cancelar o cerrar descarta el borrador.
+  al activar efectos. Los controles se escuchan antes de confirmar. OK y Enter guardan; Cancelar
+  o cerrar recuperan el ajuste anterior sin confirmar el borrador.
   Restablecer permite volver a los cuatro efectos desactivados; se confirma con OK.
-  La apertura o cancelación de la ventana no detiene el sonido. Al aplicar una
-  configuración durante la escucha, se prepara el audio y se continúa desde
-  el punto del cursor. La barra de progreso muestra la preparación de la voz.
+  La apertura, los cambios y la cancelación mantienen la línea de tiempo y las
+  demás pistas en marcha. Los efectos nativos se ajustan directamente; la voz
+  usa AudioWorklet cuando está disponible, con una alternativa en segundo plano.
   Estos efectos se aplican a toda la pista, incluidos sus bloques reproducidos
   con su botón de play, y a la exportación MP3/WAV. Se guardan en el proyecto y
   en el autoguardado. Deshacer/Rehacer recupera sus configuraciones anteriores.
@@ -339,7 +359,7 @@ Para empezar, es más sencillo abrir directamente la dirección /estudio/.
 
 SI LA PÁGINA NO CARGA
 
-- Comprueba que el index.html que has abierto es el de la versión 1.13.1.
+- Comprueba que el index.html que has abierto es el de la versión 1.14.0.
 - Si reemplazas una versión del hosting, vacía su caché y vuelve a cargar la página.
 - Una política de seguridad personalizada del hosting debe permitir los scripts
   integrados y los workers blob que usa el editor.
@@ -407,3 +427,14 @@ El PDF se ha renderizado para revisar su diseño y paginación.
 La carpeta tests contiene las pruebas automatizadas. No hace falta subirla para
 usar el editor. Para ejecutarlas en desarrollo necesitas Node.js y, para las
 comprobaciones de MP3, ffmpeg y ffprobe; ejecuta npm test en esta carpeta.
+
+VALIDACIÓN DE LA ESCUCHA DE FX
+
+87 pruebas automatizadas del motor aprobadas, incluidas frecuencia real de
+voz en streaming, afinación por escala, audio estéreo y mono, bloques de tamaño
+variable, fuentes originales intactas, memoria circular acotada, cambio nativo
+de parámetros, persistencia del cursor y de las otras pistas, cancelación de
+preparaciones antiguas y registro del procesador AudioWorklet integrado.
+La ventana se ha comprobado con procesamiento continuo y con la alternativa
+sin AudioWorklet: borrador, comparación, validación, OK/Enter, Cancelar/Escape,
+restablecer, reproducción/pausa y MP3 generado con el codificador real.

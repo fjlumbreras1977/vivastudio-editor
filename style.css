@@ -65,3 +65,5 @@
 /* Full application name, with a compact two-line header on smaller screens. */
 .brand-type{width:184px;gap:4px}.brand-type b{font-size:13px;line-height:1.3;letter-spacing:.7px;white-space:normal}.brand-type small{font-size:10px;letter-spacing:2px;color:#b6cbd3}.start-brand strong{max-width:330px;font-size:16px;line-height:1.4}.manual-header .eyebrow{letter-spacing:1px}
 @media(max-width:680px){.brand-type{width:137px;gap:3px}.brand-type b{font-size:10px;letter-spacing:.4px}.brand-type small{font-size:8px;letter-spacing:1.5px}.start-brand strong{max-width:190px;font-size:13px}}
+
+.fx-preview{padding:12px 14px;border:1px solid #6e5884;border-radius:8px;background:#32263e;margin:0 0 18px}.fx-preview>div{display:flex;gap:8px;flex-wrap:wrap}.fx-preview button{font-size:12px;border-color:#7a6295;color:#fff}.fx-preview #fxPreviewPlay{background:#b393df;color:#fff;border-color:#b393df}.fx-preview button.active{background:#4d3c5e;border-color:#c7a7eb}.fx-preview p{font-size:11px;line-height:1.6;color:#d1bddf;margin:9px 0 0}

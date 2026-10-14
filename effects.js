@@ -67,3 +67,29 @@ export function createNativeTrackEffects(context,input,track){
   }
   return {output,nodes};
 }
+// Mutable wet/dry paths preserve scheduled sources while knobs are adjusted.
+export function createLiveNativeTrackEffects(context,input,track){
+  const nodes=[],timers=new Set();let disposed=false,impulsePath=null,lastDecay=null,lastDrive=null;
+  const gain=()=>{const node=context.createGain();nodes.push(node);return node;};
+  const phoneDry=gain(),phoneWet=gain(),phoneSum=gain(),hp=context.createBiquadFilter(),lp=context.createBiquadFilter(),shape=context.createWaveShaper();nodes.push(hp,lp,shape);
+  hp.type='highpass';lp.type='lowpass';hp.Q.value=lp.Q.value=Math.SQRT1_2;shape.oversample='2x';
+  input.connect(phoneDry);phoneDry.connect(phoneSum);input.connect(hp);hp.connect(lp);lp.connect(shape);shape.connect(phoneWet);phoneWet.connect(phoneSum);
+  const reverbDry=gain(),reverbWet=gain(),sum=gain(),delay=context.createDelay(.2);nodes.push(delay);
+  phoneSum.connect(reverbDry);reverbDry.connect(sum);phoneSum.connect(delay);reverbWet.connect(sum);
+  const set=(param,value,immediate)=>{if(immediate)param.value=value;else param.setTargetAtTime(value,context.currentTime,.015);};
+  const retire=path=>{if(!path)return;try{delay.disconnect(path.convolver);}catch{}for(const node of [path.convolver,path.fade]){try{node.disconnect();}catch{}const i=nodes.indexOf(node);if(i>=0)nodes.splice(i,1);}};
+  const update=(effects,immediate=false)=>{
+    if(disposed)return;
+    const phone=effects.phone,reverb=effects.reverb,pMix=phone.enabled?phone.mix:0,rMix=reverb.enabled?reverb.mix:0;
+    set(phoneDry.gain,1-pMix,immediate);set(phoneWet.gain,pMix,immediate);set(hp.frequency,phone.lowCut,immediate);set(lp.frequency,phone.highCut,immediate);
+    if(phone.drive!==lastDrive){const curve=new Float32Array(4096),k=1+phone.drive*9;for(let i=0;i<curve.length;i++){const x=i/(curve.length-1)*2-1;curve[i]=phone.drive>0?Math.tanh(k*x)/Math.tanh(k):x;}shape.curve=curve;lastDrive=phone.drive;}
+    set(reverbDry.gain,1-rMix,immediate);set(reverbWet.gain,rMix,immediate);set(delay.delayTime,reverb.preDelay,immediate);
+    if(rMix>0&&lastDecay!==reverb.decay){
+      const convolver=context.createConvolver(),fade=gain(),old=impulsePath;nodes.push(convolver);convolver.normalize=true;convolver.buffer=makeReverbImpulse(context,reverb.decay);
+      delay.connect(convolver);convolver.connect(fade);fade.connect(reverbWet);fade.gain.value=old&&!immediate?0:1;impulsePath={convolver,fade};lastDecay=reverb.decay;
+      if(old){set(old.fade.gain,0,false);set(fade.gain,1,false);const timer=setTimeout(()=>{timers.delete(timer);retire(old);},80);timers.add(timer);}
+    }
+  };
+  update(trackEffects(track),true);
+  return {output:sum,nodes,update,dispose(){disposed=true;for(const timer of timers)clearTimeout(timer);timers.clear();for(const node of nodes)try{node.disconnect();}catch{}nodes.length=0;impulsePath=null;}};
+}

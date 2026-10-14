@@ -41,7 +41,7 @@ export function detectVoicePitch(samples,sampleRate,center,minHz=60,maxHz=1000){
   const period=selected+(Math.abs(bottom)>1e-12?(right-left)/bottom:0),frequency=sampleRate/period;
   return frequency>=minHz*.95&&frequency<=maxHz*1.05?{frequency,confidence:1-b}:null;
 }
-function createFFT(size){
+export function createFFT(size){
   const bits=Math.log2(size),reverse=new Uint32Array(size);
   for(let i=0;i<size;i++){let n=i,r=0;for(let b=0;b<bits;b++){r=(r<<1)|(n&1);n>>>=1;}reverse[i]=r;}
   return (real,imag,inverse=false)=>{

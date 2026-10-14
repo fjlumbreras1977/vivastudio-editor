@@ -1,25 +1,26 @@
 import {SAMPLE_RATE,dbGain,audible,projectDuration,envelope,volumeEnvelope,volumeNodes,fades,clamp,findClip,trackEffectsTail,cloneProject} from './core.js';
-import {TrackEffectsProcessor,createNativeTrackEffects} from './effects.js';
+import {TrackEffectsProcessor,createNativeTrackEffects,createLiveNativeTrackEffects} from './effects.js';
+const voiceKey=track=>JSON.stringify({pitch:track.effects?.pitch,autotune:track.effects?.autotune});
 export class AudioEngine {
-  constructor(sources){this.sources=sources;this.context=null;this.nodes=[];this.chains=new Map();this.master=null;this.masterAnalyser=null;this.startTime=0;this.position=0;this.running=false;this._serial=0;this.outputId='';this.outputDestination=null;this.outputElement=null;this.effectsProcessor=new TrackEffectsProcessor();this.preparedSources=new Map();this.preparing=false;this.outputEnd=0;}
+  constructor(sources){this.sources=sources;this.context=null;this.nodes=[];this.chains=new Map();this.master=null;this.masterAnalyser=null;this.startTime=0;this.position=0;this.running=false;this._serial=0;this.outputId='';this.outputDestination=null;this.outputElement=null;this.effectsProcessor=new TrackEffectsProcessor();this.preparedSources=new Map();this.preparing=false;this.outputEnd=0;this.playbackEnd=0;this.allowTail=true;this.liveWorkletPromise=null;this.previewProcessor=new TrackEffectsProcessor();this.previewSerial=0;this.retired=new Set();this.previewBaseline=null;}
   async init(resume=true){if(!this.context){const AC=globalThis.AudioContext||globalThis.webkitAudioContext;if(!AC)throw Error('Este navegador no ofrece edición de audio. Prueba con Chrome, Edge o Firefox.');this.context=new AC({sampleRate:SAMPLE_RATE});}if(resume&&['suspended','interrupted'].includes(this.context.state))await this.context.resume();return this.context;}
   get canSelectOutput(){const AC=globalThis.AudioContext||globalThis.webkitAudioContext;return typeof this.context?.setSinkId==='function'||typeof AC?.prototype?.setSinkId==='function'||(typeof globalThis.HTMLMediaElement?.prototype?.setSinkId==='function'&&typeof this.context?.createMediaStreamDestination==='function');}
   async setOutput(deviceId=''){const ctx=await this.init(false);if(typeof ctx.setSinkId==='function'){await ctx.setSinkId(deviceId);this.outputId=deviceId;return;}if(typeof globalThis.HTMLMediaElement?.prototype?.setSinkId==='function'&&typeof ctx.createMediaStreamDestination==='function'){if(!this.outputElement){this.outputElement=document.createElement('audio');this.outputElement.autoplay=true;this.outputDestination=ctx.createMediaStreamDestination();this.outputElement.srcObject=this.outputDestination.stream;}await this.outputElement.setSinkId(deviceId);this.outputId=deviceId;if(this.masterAnalyser){this.masterAnalyser.disconnect();this.masterAnalyser.connect(this.outputDestination);}if(this.running)await this.outputElement.play();return;}if(deviceId)throw Error('Este navegador reproduce por la salida predeterminada del sistema. Cambia la salida desde la configuración de sonido del ordenador.');this.outputId='';}
-  createChain(ctx,track,destination,meters=false){
+  createChain(ctx,track,destination,meters=false,options={}){
     const input=ctx.createGain(),gain=ctx.createGain();input.gain.value=1;gain.gain.value=dbGain(track.volume);
     const pan=ctx.createStereoPanner();pan.pan.value=track.pan;
     const low=ctx.createBiquadFilter();low.type='lowshelf';low.frequency.value=200;low.gain.value=track.eq.low;
     const mid=ctx.createBiquadFilter();mid.type='peaking';mid.frequency.value=1500;mid.Q.value=.7;mid.gain.value=track.eq.mid;
     const high=ctx.createBiquadFilter();high.type='highshelf';high.frequency.value=5500;high.gain.value=track.eq.high;
-    input.connect(low);low.connect(mid);mid.connect(high);let last=high,comp=null;
+    let voice=null;if(options.voice){voice=new AudioWorkletNode(ctx,'viva-live-effects',{numberOfInputs:1,numberOfOutputs:1,outputChannelCount:[2],channelCount:2,channelCountMode:'explicit',processorOptions:{settings:{pitch:track.effects.pitch,autotune:track.effects.autotune}}});input.connect(voice);voice.connect(low);}else input.connect(low);low.connect(mid);mid.connect(high);let last=high,comp=null;
     if(track.compressor){comp=ctx.createDynamicsCompressor();comp.threshold.value=-20;comp.knee.value=15;comp.ratio.value=3;comp.attack.value=.008;comp.release.value=.18;high.connect(comp);last=comp;}
-    const effects=createNativeTrackEffects(ctx,last,track);effects.output.connect(pan);pan.connect(gain);last=gain;
-    let analyser=null;if(meters){analyser=ctx.createAnalyser();analyser.fftSize=256;gain.connect(analyser);last=analyser;}last.connect(destination);
-    return {input,gain,pan,low,mid,high,comp,analyser,nodes:[input,gain,pan,low,mid,high,comp,analyser,...effects.nodes].filter(Boolean)};
+    const effects=options.liveNative?createLiveNativeTrackEffects(ctx,last,track):createNativeTrackEffects(ctx,last,track);effects.output.connect(pan);pan.connect(gain);last=gain;
+    let analyser=null;if(meters){analyser=ctx.createAnalyser();analyser.fftSize=256;gain.connect(analyser);last=analyser;}const transition=ctx.createGain();transition.gain.value=1;last.connect(transition);transition.connect(destination);
+    return {input,gain,pan,low,mid,high,comp,analyser,transition,voice,voiceKey:voiceKey(track),nativeEffects:options.liveNative?effects:null,nodes:[input,gain,pan,low,mid,high,comp,analyser,transition,voice,...effects.nodes].filter(Boolean)};
   }
   prepareEffects(project,context){return this.effectsProcessor.prepare(project,this.sources,context,(value,label)=>this.onEffectsProgress?.(value,label));}
   cancelEffects(){const active=this.effectsProcessor.jobs.size>0;this.effectsProcessor.cancel();if(active)this.onEffectsCancelled?.();}
-  clearEffectCache(){this.effectsProcessor.clear();this.preparedSources.clear();}
+  clearEffectCache(){this.effectsProcessor.clear();this.previewProcessor.clear();this.previewBaseline=null;this.preparedSources.clear();}
   automateGain(param,clip,a,b,clock){
     const elapsed=a-clip.start,g=dbGain(clip.gain),nodes=volumeNodes(clip);
     param.setValueAtTime(g*envelope(clip,elapsed,nodes),clock);
@@ -33,25 +34,78 @@ export class AudioEngine {
     }
     if(!breakpoints.includes(b-clip.start))param.linearRampToValueAtTime(g*envelope(clip,b-clip.start,nodes),clock+b-a);
   }
-  schedule(ctx,project,start,end,base,master,meters=false,prepared=new Map()){const sourceNodes=[],chains=new Map();for(const track of project.tracks){const chain=this.createChain(ctx,track,master,meters);chains.set(track.id,chain);if(!audible(track,project)){chain.gain.gain.value=0;if(!meters)continue;}for(const clip of track.clips){const a=Math.max(start,clip.start),b=Math.min(end,clip.start+clip.duration);if(b<=a)continue;const buffer=prepared.get(track.id+':'+clip.source)||this.sources.get(clip.source);if(!buffer)continue;const src=ctx.createBufferSource();src.buffer=buffer;const cg=ctx.createGain();src.connect(cg);cg.connect(chain.input);const t=base+a-start,elapsed=a-clip.start;src.clipId=clip.id;cg.clipId=clip.id;cg.isClipGain=true;cg.rangeEnd=b;this.automateGain(cg.gain,clip,a,b,t);src.start(t,clip.offset+elapsed,b-a);sourceNodes.push(src,cg);}}return {sourceNodes,chains};}
-  async play(project,position=0,end=projectDuration(project),tail=trackEffectsTail(project,position,end)){
+  scheduleClip(ctx,clip,track,chain,start,end,base,prepared=new Map()){
+    const a=Math.max(start,clip.start),b=Math.min(end,clip.start+clip.duration),latency=chain.voice?2048/ctx.sampleRate:0,desired=base+a-start,clock=latency?Math.max(ctx.currentTime||0,desired-latency):desired,elapsedLead=Math.max(0,clock+latency-desired),actual=a+elapsedLead;
+    if(b<=actual)return [];
+    const buffer=chain.voice?this.sources.get(clip.source):prepared.get(track.id+':'+clip.source)||this.sources.get(clip.source);if(!buffer)return [];
+    const source=ctx.createBufferSource(),gain=ctx.createGain();source.buffer=buffer;source.clipId=gain.clipId=clip.id;source.trackId=gain.trackId=track.id;gain.isClipGain=true;gain.rangeEnd=b;
+    source.connect(gain);gain.connect(chain.input);this.automateGain(gain.gain,clip,actual,b,clock);source.start(clock,clip.offset+actual-clip.start,b-actual);return [source,gain];
+  }
+  schedule(ctx,project,start,end,base,master,meters=false,prepared=new Map(),options={}){
+    const sourceNodes=[],chains=new Map();for(const track of project.tracks){const chain=this.createChain(ctx,track,master,meters,track.id===options.liveTrackId?{liveNative:true,voice:options.voice}:{});chains.set(track.id,chain);
+      if(!audible(track,project)){chain.gain.gain.value=0;if(!meters)continue;}
+      for(const clip of track.clips)sourceNodes.push(...this.scheduleClip(ctx,clip,track,chain,start,end,base,prepared));
+    }return {sourceNodes,chains};
+  }
+  ensureLiveEffects(){
+    if(this.liveWorkletPromise)return this.liveWorkletPromise;
+    if(typeof globalThis.AudioWorkletNode!=='function'||!this.context?.audioWorklet?.addModule)return Promise.resolve(false);
+    this.liveWorkletPromise=Promise.resolve().then(()=>this.context.audioWorklet.addModule(new URL('./effects-worklet.js',import.meta.url))).then(()=>true,()=>false);return this.liveWorkletPromise;
+  }
+  disposeChain(chain){chain.voice?.port.postMessage({type:'stop'});chain.nativeEffects?.dispose();for(const node of chain.nodes)try{node.disconnect();}catch{}}
+  cancelPreview(){this.previewSerial++;this.previewProcessor.cancel();}
+  beginTrackEffectsPreview(trackId){const chain=this.chains.get(trackId);this.previewBaseline=chain?{trackId,key:chain.voiceKey,prepared:new Map([...this.preparedSources].filter(([key])=>key.startsWith(trackId+':')))}:null;}
+  restoreTrackEffectsPreview(project,trackId){
+    this.cancelPreview();const baseline=this.previewBaseline;this.previewBaseline=null;const track=project.tracks.find(t=>t.id===trackId),chain=this.chains.get(trackId);
+    if(this.running&&track&&chain&&!chain.voice&&baseline?.trackId===trackId&&baseline.key===voiceKey(track)&&chain.voiceKey!==baseline.key){this.replaceLiveTrack(project,trackId,{prepared:baseline.prepared});this.outputEnd=this.playbackEnd+(this.allowTail?trackEffectsTail(project,this.position,this.playbackEnd):0);return Promise.resolve('restored');}
+    return this.previewTrackEffects(project,trackId);
+  }
+
+  replaceLiveTrack(project,trackId,{voice=false,prepared=this.preparedSources,key=null}={}){
+    const track=project.tracks.find(t=>t.id===trackId),old=this.chains.get(trackId);if(!this.running||!track||!old)return;
+    prepared=new Map(prepared);const ctx=this.context,chain=this.createChain(ctx,track,this.master,true,{liveNative:true,voice}),start=Math.max(this.position,this.time+.01),base=this.startTime+start-this.position,latency=voice?2048/ctx.sampleRate:0;
+    if(!audible(track,project))chain.gain.gain.value=0;if(key!==null)chain.voiceKey=key;
+    const blend=Math.max(base,ctx.currentTime+.01+latency),fade=.02;chain.transition.gain.value=0;chain.transition.gain.setValueAtTime(0,blend);chain.transition.gain.linearRampToValueAtTime(1,blend+fade);
+    old.transition.gain.setValueAtTime(1,blend);old.transition.gain.linearRampToValueAtTime(0,blend+fade);
+    const oldNodes=this.nodes.filter(node=>node.trackId===trackId);this.nodes=this.nodes.filter(node=>node.trackId!==trackId);
+    for(const clip of track.clips)this.nodes.push(...this.scheduleClip(ctx,clip,track,chain,start,this.playbackEnd,base,prepared));
+    this.chains.set(trackId,chain);for(const [id,buffer] of [...this.preparedSources])if(id.startsWith(trackId+':'))this.preparedSources.delete(id);
+    if(!voice)for(const [id,buffer] of prepared)if(id.startsWith(trackId+':'))this.preparedSources.set(id,buffer);
+    for(const node of oldNodes)try{node.stop?.(blend+fade+.01);}catch{}
+    const retired={timer:null,dispose:()=>{clearTimeout(retired.timer);for(const node of oldNodes)try{node.stop?.();node.disconnect();}catch{}this.disposeChain(old);this.retired.delete(retired);}};this.retired.add(retired);retired.timer=setTimeout(retired.dispose,Math.ceil((blend+fade+.015-ctx.currentTime)*1000));
+  }
+  async previewTrackEffects(project,trackId){
+    const serial=++this.previewSerial;this.previewProcessor.cancel();const snapshot=cloneProject(project),track=snapshot.tracks.find(t=>t.id===trackId);if(!this.running||!track)return 'idle';
+    let chain=this.chains.get(trackId);if(!chain)return 'idle';const key=voiceKey(track);
+    this.outputEnd=this.playbackEnd+(this.allowTail?trackEffectsTail(snapshot,this.position,this.playbackEnd):0);
+    if(!chain.nativeEffects){this.replaceLiveTrack(snapshot,trackId,{key:chain.voiceKey});chain=this.chains.get(trackId);}else chain.nativeEffects.update(track.effects);
+    if(chain.voice){chain.voice.port.postMessage({type:'settings',settings:{pitch:track.effects.pitch,autotune:track.effects.autotune}});chain.voiceKey=key;return 'live';}
+    if(key===chain.voiceKey)return 'native';
+    if((!track.effects.pitch.enabled||track.effects.pitch.semitones===0)&&(!track.effects.autotune.enabled||track.effects.autotune.amount===0)){this.replaceLiveTrack(snapshot,trackId,{prepared:new Map()});return 'native';}
+    const live=await this.ensureLiveEffects();if(serial!==this.previewSerial||!this.running)return 'cancelled';
+    if(live){try{this.replaceLiveTrack(snapshot,trackId,{voice:true});return 'live';}catch(error){this.onLiveEffectsError?.(error);}}
+    await new Promise(resolve=>setTimeout(resolve,120));if(serial!==this.previewSerial||!this.running)return 'cancelled';
+    const prepared=await this.previewProcessor.prepare({...snapshot,tracks:[track]},this.sources,this.context,(value)=>this.onPreviewProgress?.(value));
+    if(serial!==this.previewSerial||!this.running)return 'cancelled';this.replaceLiveTrack(snapshot,trackId,{prepared});return 'prepared';
+  }
+  async play(project,position=0,end=projectDuration(project),tail=undefined,options={}){
     const serial=++this._serial;this.preparing=true;
     try{
       await this.init();if(this.outputElement)await this.outputElement.play();if(serial!==this._serial)return false;
-      const snapshot=cloneProject(project),prepared=await this.prepareEffects(snapshot,this.context);if(serial!==this._serial)return false;
-      this.stop(false);const ctx=this.context;this.position=position;this.startTime=ctx.currentTime+.035;this.outputEnd=end+tail;this.preparedSources=prepared;
+      const snapshot=cloneProject(project);let voice=false;const liveTrack=snapshot.tracks.find(t=>t.id===options.liveTrackId);if(liveTrack)voice=await this.ensureLiveEffects();if(serial!==this._serial)return false;const prepareProject=cloneProject(snapshot);if(voice){const track=prepareProject.tracks.find(t=>t.id===options.liveTrackId);track.effects.pitch.enabled=false;track.effects.autotune.enabled=false;}const prepared=await this.prepareEffects(prepareProject,this.context);if(serial!==this._serial)return false;
+      this.stop(false);const ctx=this.context;this.position=position;this.startTime=ctx.currentTime+.035;this.allowTail=tail===undefined||tail>0;this.playbackEnd=end;this.outputEnd=end+(tail??trackEffectsTail(snapshot,position,end));this.preparedSources=prepared;
       this.master=ctx.createGain();this.master.gain.value=dbGain(snapshot.master);this.masterAnalyser=ctx.createAnalyser();this.masterAnalyser.fftSize=256;
       this.master.connect(this.masterAnalyser);this.masterAnalyser.connect(this.outputDestination||ctx.destination);
-      const {sourceNodes,chains}=this.schedule(ctx,snapshot,position,Math.max(position,end),this.startTime,this.master,true,prepared);
+      const {sourceNodes,chains}=this.schedule(ctx,snapshot,position,Math.max(position,end),this.startTime,this.master,true,prepared,{...options,voice});
       this.nodes=sourceNodes;this.chains=chains;this.running=true;return true;
     }catch(error){if(serial!==this._serial)return false;throw error;}
     finally{if(serial===this._serial)this.preparing=false;}
   }
   get time(){return this.running?Math.max(this.position,this.position+this.context.currentTime-this.startTime):this.position;}
-  stop(invalidate=true){if(invalidate){this._serial++;this.preparing=false;this.cancelEffects();}if(this.running)this.position=this.time;for(const node of this.nodes){try{if(node.stop)node.stop();node.disconnect();}catch{}}for(const chain of this.chains.values())for(const n of chain.nodes){try{n.disconnect();}catch{}}this.master?.disconnect();this.masterAnalyser?.disconnect();this.nodes=[];this.chains.clear();this.running=false;}
+  stop(invalidate=true){this.previewBaseline=null;this.cancelPreview();for(const retired of [...this.retired])retired.dispose();if(invalidate){this._serial++;this.preparing=false;this.cancelEffects();}if(this.running)this.position=this.time;for(const node of this.nodes){try{if(node.stop)node.stop();node.disconnect();}catch{}}for(const chain of this.chains.values())this.disposeChain(chain);this.master?.disconnect();this.masterAnalyser?.disconnect();this.nodes=[];this.chains.clear();this.running=false;}
   updateTrack(track,project){const c=this.chains.get(track.id);if(!c)return;const time=this.context.currentTime;c.gain.gain.setTargetAtTime(audible(track,project)?dbGain(track.volume):0,time,.015);c.pan.pan.setTargetAtTime(track.pan,time,.015);c.low.gain.setTargetAtTime(track.eq.low,time,.02);c.mid.gain.setTargetAtTime(track.eq.mid,time,.02);c.high.gain.setTargetAtTime(track.eq.high,time,.02);}
   updateClip(clip){if(!this.running)return;const current=this.time,clock=this.context.currentTime;for(const node of this.nodes){if(!node.isClipGain||node.clipId!==clip.id||node.rangeEnd<=current)continue;node.gain.cancelScheduledValues(clock);const a=Math.max(current,clip.start),b=Math.min(node.rangeEnd,clip.start+clip.duration);if(b>a)this.automateGain(node.gain,clip,a,b,Math.max(clock,this.startTime+a-this.position));}}
-  updateClipTrim(project,clip,end=projectDuration(project)){if(!this.running)return;const found=findClip(project,clip.id),chain=found&&this.chains.get(found.track.id),buffer=found&&(this.preparedSources.get(found.track.id+':'+clip.source)||this.sources.get(clip.source));if(!chain||!buffer)return;for(const node of this.nodes)if(node.clipId===clip.id){try{node.stop?.();node.disconnect();}catch{}}this.nodes=this.nodes.filter(node=>node.clipId!==clip.id);const current=this.time,a=Math.max(current,clip.start),b=Math.min(end,clip.start+clip.duration);if(b<=a)return;const ctx=this.context,source=ctx.createBufferSource(),gain=ctx.createGain(),clock=Math.max(ctx.currentTime,this.startTime+a-this.position);source.buffer=buffer;source.clipId=clip.id;gain.clipId=clip.id;gain.isClipGain=true;gain.rangeEnd=b;source.connect(gain);gain.connect(chain.input);this.automateGain(gain.gain,clip,a,b,clock);source.start(clock,clip.offset+a-clip.start,b-a);this.nodes.push(source,gain);}
+  updateClipTrim(project,clip,end=projectDuration(project)){if(!this.running)return;const found=findClip(project,clip.id),chain=found&&this.chains.get(found.track.id);if(!chain)return;for(const node of this.nodes)if(node.clipId===clip.id){try{node.stop?.();node.disconnect();}catch{}}this.nodes=this.nodes.filter(node=>node.clipId!==clip.id);const current=this.time;this.nodes.push(...this.scheduleClip(this.context,clip,found.track,chain,current,end,Math.max(this.context.currentTime,this.startTime+current-this.position),this.preparedSources));}
   updateMaster(db){this.master?.gain.setTargetAtTime(dbGain(db),this.context.currentTime,.015);}
   async render(project,start,end){
     const tail=trackEffectsTail(project,start,end),duration=end-start;if(!(duration>0))throw Error('La sesión no contiene audio para exportar.');
