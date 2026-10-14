@@ -5,9 +5,10 @@ export const clamp = (n,a,b) => Math.max(a,Math.min(b,n));
 export const dbGain = db => db <= -60 ? 0 : Math.pow(10,db/20);
 export const formatTime = (seconds,ms=false) => { const n=Math.max(0,Math.round(seconds*1000)); return `${String(Math.floor(n/60000)).padStart(2,'0')}:${String(Math.floor(n/1000)%60).padStart(2,'0')}${ms?'.'+String(n%1000).padStart(3,'0'):''}`; };
 export const makeVintageEffects=()=>({enabled:false,model:'classic',input:0,lowCut:0,lowFrequency:80,lowBoost:2,midFrequency:1200,midGain:0,bandwidth:.7,highFrequency:6000,highBoost:1,warmth:.3,saturation:.18,brilliance:0,output:-3,mix:1});
-export const makeTrackEffects=()=>({reverb:{enabled:false,mix:.25,decay:1.8,preDelay:.02},phone:{enabled:false,mix:1,lowCut:300,highCut:3400,drive:.25},pitch:{enabled:false,semitones:0},autotune:{enabled:false,root:0,scale:'chromatic',amount:1,speed:40,tolerance:10,minHz:60,maxHz:1000},vintage:makeVintageEffects()});
-export const trackEffects=track=>track.effects?{...track.effects,vintage:track.effects.vintage||makeVintageEffects()}:makeTrackEffects();
-export const hasTrackEffects=track=>{const effects=trackEffects(track);return ['reverb','phone','pitch','autotune','vintage'].some(key=>effects[key]?.enabled);};
+export const makeBinauralEffects=()=>({enabled:false,azimuth:30,elevation:0,distance:1,mix:1,output:0});
+export const makeTrackEffects=()=>({reverb:{enabled:false,mix:.25,decay:1.8,preDelay:.02},phone:{enabled:false,mix:1,lowCut:300,highCut:3400,drive:.25},pitch:{enabled:false,semitones:0},autotune:{enabled:false,root:0,scale:'chromatic',amount:1,speed:40,tolerance:10,minHz:60,maxHz:1000},vintage:makeVintageEffects(),binaural:makeBinauralEffects()});
+export const trackEffects=track=>track.effects?{...track.effects,vintage:track.effects.vintage||makeVintageEffects(),binaural:track.effects.binaural||makeBinauralEffects()}:makeTrackEffects();
+export const hasTrackEffects=track=>{const effects=trackEffects(track);return ['reverb','phone','pitch','autotune','vintage','binaural'].some(key=>effects[key]?.enabled);};
 export function validateTrackEffects(e){
   const finite=(v,a,b)=>Number.isFinite(v)&&v>=a&&v<=b;
   if(!e||typeof e!=='object'||!['reverb','phone','pitch','autotune'].every(key=>e[key]&&typeof e[key].enabled==='boolean'))throw Error('Configuración de efectos inválida.');
@@ -18,9 +19,11 @@ export function validateTrackEffects(e){
   if(!Number.isInteger(a.root)||!finite(a.root,0,11)||!['chromatic','major','minor','majorPentatonic','minorPentatonic'].includes(a.scale)||!finite(a.amount,0,1)||!finite(a.speed,0,500)||!finite(a.tolerance,0,100)||!finite(a.minHz,40,500)||!finite(a.maxHz,80,2000)||a.minHz>=a.maxHz)throw Error('Configuración de Autotune inválida.');
   const v=e.vintage;
   if(v!==undefined&&(!v||typeof v.enabled!=='boolean'||!['classic','warm','dirty'].includes(v.model)||!finite(v.input,-18,18)||!finite(v.lowCut,0,18)||!finite(v.lowFrequency,30,300)||!finite(v.lowBoost,0,18)||!finite(v.midFrequency,200,6000)||!finite(v.midGain,-18,18)||!finite(v.bandwidth,.2,3)||!finite(v.highFrequency,2000,15000)||!finite(v.highBoost,0,18)||!finite(v.warmth,0,1)||!finite(v.saturation,0,1)||!finite(v.brilliance,0,1)||!finite(v.output,-24,12)||!finite(v.mix,0,1)))throw Error('Configuración de Pultronic · EQ vintage inválida.');
+  const b=e.binaural;
+  if(b!==undefined&&(!b||typeof b.enabled!=='boolean'||!finite(b.azimuth,-180,180)||!finite(b.elevation,-90,90)||!finite(b.distance,.2,20)||!finite(b.mix,0,1)||!finite(b.output,-24,12)))throw Error('Configuración de Binaural 3D inválida.');
   return e;
 }
-export function trackEffectsTail(project,start=0,end=Infinity){let tail=0;for(const track of project.tracks){const reverb=trackEffects(track).reverb;if(audible(track,project)&&reverb.enabled&&reverb.mix>0&&track.clips.some(c=>c.start<end&&c.start+c.duration>start))tail=Math.max(tail,reverb.decay+reverb.preDelay);}return tail;}
+export function trackEffectsTail(project,start=0,end=Infinity){let tail=0;for(const track of project.tracks){if(!audible(track,project)||!track.clips.some(c=>c.start<end&&c.start+c.duration>start))continue;const {reverb,binaural}=trackEffects(track),r=reverb.enabled&&reverb.mix>0?reverb.decay+reverb.preDelay:0,b=binaural.enabled&&binaural.mix>0?.1:0;tail=Math.max(tail,r+b);}return tail;}
 export const makeTrack = (name,index=0) => ({id:id(),name,color:COLORS[index%COLORS.length],volume:0,pan:0,mute:false,solo:false,armed:false,eq:{low:0,mid:0,high:0},compressor:false,effects:makeTrackEffects(),height:108,clips:[]});
 export const makeProject = () => {const tracks=['Pista 1','Pista 2','Pista 3','Pista 4'].map(makeTrack);return {version:1,name:'Mi sesión',tracks,master:0,region:null,markers:[]};};
 export const makeClip = (source,name,duration,start=0) => ({id:id(),source,name,start,offset:0,duration,gain:0,fadeIn:0,fadeOut:0,points:[],volumePoints:[{time:0,gain:1},{time:duration,gain:1}]});

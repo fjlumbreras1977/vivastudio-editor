@@ -1,4 +1,4 @@
-import {trackEffects,makeVintageEffects,dbGain} from './core.js';
+import {trackEffects,makeVintageEffects,makeBinauralEffects,dbGain} from './core.js';
 export class TrackEffectsProcessor{
   constructor(workerFactory=()=>new Worker(new URL('./effects-worker.js',import.meta.url))){this.workerFactory=workerFactory;this.cache=new WeakMap();this.entries=new Set();this.jobs=new Set();this.clock=0;}
   cancel(){for(const job of [...this.jobs])job.cancel();}
@@ -66,7 +66,32 @@ export function createNativeTrackEffects(context,input,track){
     dry.gain.value=1-settings.reverb.mix;wet.gain.value=settings.reverb.mix;delay.delayTime.value=settings.reverb.preDelay;reverb.normalize=true;reverb.buffer=makeReverbImpulse(context,settings.reverb.decay);
     output.connect(dry);dry.connect(sum);output.connect(delay);delay.connect(reverb);reverb.connect(wet);wet.connect(sum);output=sum;nodes.push(dry,wet,sum,delay,reverb);
   }
+  if(settings.binaural.enabled&&settings.binaural.mix>0){const binaural=createBinauralTrackEffects(context,output,settings.binaural);output=binaural.output;nodes.push(...binaural.nodes);}
   return {output,nodes};
+}
+// Posición relativa al oyente: frente = -Z, derecha = +X, arriba = +Y.
+export function binauralPosition({azimuth,elevation,distance}){
+  const a=azimuth*Math.PI/180,e=elevation*Math.PI/180,horizontal=distance*Math.cos(e);
+  return {x:horizontal*Math.sin(a),y:distance*Math.sin(e),z:-horizontal*Math.cos(a)};
+}
+export function createBinauralTrackEffects(context,input,initial=makeBinauralEffects()){
+  const dry=context.createGain(),wet=context.createGain(),sum=context.createGain(),nodes=[dry,wet,sum];let spatial=null;
+  input.connect(dry);dry.connect(sum);wet.connect(sum);
+  const set=(param,value,immediate)=>{if(immediate)param.value=value;else param.setTargetAtTime(value,context.currentTime,.025);};
+  function update(settings=makeBinauralEffects(),immediate=false){
+    const mix=settings.enabled?settings.mix:0;let created=false;
+    if(mix>0&&!spatial){
+      if(typeof context.createPanner!=='function')throw Error('Este navegador no permite Binaural 3D. Prueba con Chrome, Edge o Firefox actualizado.');
+      const p=context.createPanner();
+      try{p.panningModel='HRTF';p.distanceModel='inverse';p.refDistance=1;p.maxDistance=20;p.rolloffFactor=.5;p.coneInnerAngle=p.coneOuterAngle=360;p.channelCount=1;p.channelCountMode='explicit';input.connect(p);p.connect(wet);}
+      catch(error){p.disconnect();throw Error('No se pudo activar Binaural 3D: '+error.message);}
+      spatial=p;nodes.push(p);created=true;
+    }
+    if(spatial){const {x,y,z}=binauralPosition(settings);if(spatial.positionX&&spatial.positionY&&spatial.positionZ){set(spatial.positionX,x,immediate||created);set(spatial.positionY,y,immediate||created);set(spatial.positionZ,z,immediate||created);}else spatial.setPosition(x,y,z);}
+    set(dry.gain,1-mix,immediate);set(wet.gain,mix*dbGain(settings.output),immediate);
+  }
+  update(initial,true);
+  return {output:sum,nodes,update};
 }
 // Original VIVA tone circuit; no G-Sonique VST code or impulse responses.
 export function makeVintageCurve(saturation,model='classic'){
@@ -110,12 +135,14 @@ export function createLiveNativeTrackEffects(context,input,track){
   const vintage=createVintageTrackEffects(context,phoneSum,trackEffects(track).vintage);nodes.push(...vintage.nodes);
   const reverbDry=gain(),reverbWet=gain(),sum=gain(),delay=context.createDelay(.2);nodes.push(delay);
   vintage.output.connect(reverbDry);reverbDry.connect(sum);vintage.output.connect(delay);reverbWet.connect(sum);
+  const binaural=createBinauralTrackEffects(context,sum,trackEffects(track).binaural);nodes.push(...binaural.nodes);
   const set=(param,value,immediate)=>{if(immediate)param.value=value;else param.setTargetAtTime(value,context.currentTime,.015);};
   const retire=path=>{if(!path)return;try{delay.disconnect(path.convolver);}catch{}for(const node of [path.convolver,path.fade]){try{node.disconnect();}catch{}const i=nodes.indexOf(node);if(i>=0)nodes.splice(i,1);}};
   const update=(effects,immediate=false)=>{
     if(disposed)return;
     const phone=effects.phone,reverb=effects.reverb,pMix=phone.enabled?phone.mix:0,rMix=reverb.enabled?reverb.mix:0;
     vintage.update(effects.vintage||makeVintageEffects(),immediate);
+    binaural.update(effects.binaural||makeBinauralEffects(),immediate);for(const node of binaural.nodes)if(!nodes.includes(node))nodes.push(node);
     set(phoneDry.gain,1-pMix,immediate);set(phoneWet.gain,pMix,immediate);set(hp.frequency,phone.lowCut,immediate);set(lp.frequency,phone.highCut,immediate);
     if(phone.drive!==lastDrive){const curve=new Float32Array(4096),k=1+phone.drive*9;for(let i=0;i<curve.length;i++){const x=i/(curve.length-1)*2-1;curve[i]=phone.drive>0?Math.tanh(k*x)/Math.tanh(k):x;}shape.curve=curve;lastDrive=phone.drive;}
     set(reverbDry.gain,1-rMix,immediate);set(reverbWet.gain,rMix,immediate);set(delay.delayTime,reverb.preDelay,immediate);
@@ -126,5 +153,5 @@ export function createLiveNativeTrackEffects(context,input,track){
     }
   };
   update(trackEffects(track),true);
-  return {output:sum,nodes,update,dispose(){disposed=true;for(const timer of timers)clearTimeout(timer);timers.clear();for(const node of nodes)try{node.disconnect();}catch{}nodes.length=0;impulsePath=null;}};
+  return {output:binaural.output,nodes,update,dispose(){disposed=true;for(const timer of timers)clearTimeout(timer);timers.clear();for(const node of nodes)try{node.disconnect();}catch{}nodes.length=0;impulsePath=null;}};
 }

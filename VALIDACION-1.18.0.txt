@@ -1,0 +1,41 @@
+VALIDACION WEB 1.18.0 - 14 de octubre de 2026
+
+Nuevo efecto Binaural 3D por pista en FX. Desactivado inicialmente.
+Posición alrededor (-180 a +180 grados), Altura (-90 a +90 grados), Distancia
+(0,2 a 20 m), Intensidad (0 a 100 %) y Salida (-24 a +12 dB). Cinco posiciones
+iniciales: delante, izquierda, derecha, detrás y por encima.
+
+La parte espacializada usa un PannerNode HRTF nativo con fuente mono, salida
+estéreo y atenuación de distancia inversa. La ruta original conserva su estéreo
+con Intensidad 0 %. Los parámetros se suavizan en la ruta de reproducción
+existente; no se reemplazan las fuentes al ajustar. La misma configuración se
+programa en OfflineAudioContext para exportar estéreo MP3 y WAV. Se añade una
+cola de 100 ms al final de la respuesta binaural, también después de la reverb.
+El balance y el volumen de la pista continúan aplicándose después del efecto.
+
+115 pruebas del proyecto aprobadas. Nueve pruebas nuevas comprueban valores,
+compatibilidad con sesiones anteriores, persistencia en .vivastudio, geometría
+tridimensional, ruta HRTF, bypass, cambios suaves, error en entornos sin Panner,
+limpieza de nodos creados durante la escucha, conservación del cursor y fuentes,
+programación del HRTF en exportación estéreo y cola según pista/rango/mezcla.
+Los nodos de audio de estas pruebas son simulados: no validan una escucha real
+ni la calidad perceptual de los filtros HRTF proporcionados por cada navegador.
+
+Tras reconstruir el HTML autónomo se aprobaron también 20 comprobaciones
+centradas en el binaural, el arranque y el paquete autónomo.
+
+22 comprobaciones adicionales del HTML completo con jsdom 26.1.0: retirada de
+la portada a los cinco segundos, apertura de FX, activación, campos numéricos
+y deslizadores sincronizados, cambios en borrador, parámetros entregados a la
+previsualización, bypass, Cancelar, posición inicial, valores inválidos, Enter,
+OK, indicador FX, reapertura, Restablecer, manual y controles con IDs únicos.
+DOM/CSS simulado; no se ha realizado revisión visual ni escucha en un navegador
+real. La escucha con auriculares sobre el hosting queda pendiente.
+
+Manual HTML/PDF actualizado: 19 páginas. Portada, índice y páginas 11 y 12
+renderizadas y revisadas. El efecto y sus parámetros aparecen en el capítulo FX.
+La imagen original de arranque y todas las funciones existentes se conservan.
+Esta entrega es el paquete completo para hosting. No se ha publicado la web ni
+se han modificado los instaladores de escritorio.
+
+Referencia técnica: https://www.w3.org/TR/webaudio/#PannerNode

@@ -1,7 +1,7 @@
 VIVA AUDIO STUDIO SUITE EDITOR — PAQUETE COMPLETO PARA HOSTING
 Logo y favicon: imagen VIVA aportada por el usuario.
 El logo abre https://fjlumbreras1977.github.io/vivstudio/#home en la misma pestaña.
-Versión 1.17.1
+Versión 1.18.0
 
 La ventana inicial muestra el logo original de VIVA AUDIO STUDIO SUITE EDITOR.
 
@@ -359,7 +359,7 @@ Para empezar, es más sencillo abrir directamente la dirección /estudio/.
 
 SI LA PÁGINA NO CARGA
 
-- Comprueba que el index.html que has abierto es el de la versión 1.17.1.
+- Comprueba que el index.html que has abierto es el de la versión 1.18.0.
 - Si reemplazas una versión del hosting, vacía su caché y vuelve a cargar la página.
 - Una política de seguridad personalizada del hosting debe permitir los scripts
   integrados y los workers blob que usa el editor.
@@ -466,7 +466,7 @@ al reproducir la pista y al escuchar un bloque aislado. Los proyectos anteriores
 siguen abriéndose con el nuevo efecto desactivado. No se distribuye el VST
 comercial de G-Sonique ni se afirma reproducir exactamente su algoritmo.
 
-La validación de esta actualización se detalla en VALIDACION-1.17.1.txt.
+La validación de esta actualización se detalla en VALIDACION-1.18.0.txt.
 
 CONTROL AMARILLO EN DOS DIRECCIONES
 
@@ -478,3 +478,24 @@ Doble clic recupera la recta; Deshacer revierte el arrastre completo.
 La forma queda incluida en el autoguardado, el proyecto y la exportación.
 Los cortes y recortes conservan matemáticamente la parte de la curva original.
 Las curvas de proyectos anteriores siguen funcionando.
+
+BINAURAL 3D
+
+El efecto está en FX de cada pista. Se inicia apagado y permite colocar una
+fuente virtual con Posición alrededor (-180 a +180 grados), Altura (-90 a +90),
+Distancia (0,2 a 20 m), Intensidad (0 a 100 %) y Salida (-24 a +12 dB).
+Las posiciones iniciales son Delante, Izquierda, Derecha, Detrás y Por encima.
+Se ajusta mientras escuchas; OK o Enter confirma y Cancelar restaura los valores
+guardados. Comparar sin FX conserva el EQ, el balance y el volumen de la pista.
+
+Utiliza auriculares estéreo. A intensidad 100 % la pista se reúne en una fuente
+única; una intensidad menor conserva parte del estéreo original. Deja el balance
+centrado al comenzar y ajusta después la mezcla. La distancia atenúa el sonido
+a partir de un metro. La percepción espacial depende del oyente y los auriculares.
+
+Se utiliza PannerNode con HRTF del navegador, en la escucha y en la exportación
+estéreo MP3/WAV. No requiere plugins externos. Los parámetros se incluyen en el
+proyecto .vivastudio y los proyectos anteriores conservan el efecto apagado.
+La cola de exportación incluye 100 ms para el final de la respuesta binaural.
+Referencia técnica: https://www.w3.org/TR/webaudio/#PannerNode
+La validación se detalla en VALIDACION-1.18.0.txt.
