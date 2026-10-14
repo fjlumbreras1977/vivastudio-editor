@@ -1,0 +1,33 @@
+VALIDACIÓN WEB 1.16.0 — 14 de octubre de 2026
+
+103 pruebas automatizadas del proyecto aprobadas. Se conservan las funciones
+de 1.15.0: portada de 2,5 segundos y Pultronic · EQ vintage propio.
+
+El punto amarillo controla una curva Bézier bidimensional. Su eje horizontal
+regula la posición temporal del control, y el vertical su ganancia. Los extremos
+blancos permanecen en su posición y nivel. También se puede arquear una línea
+con extremos iguales. El control sigue alcanzable mientras el ratón está
+dentro del bloque. Flechas en cuatro direcciones, Mayús para precisión y doble
+clic para restaurar la recta. Un arrastre crea una sola operación de deshacer.
+
+La reproducción y la exportación programan muestras de la misma curva real,
+incluso cuando ambos extremos tienen el mismo volumen. El arrastre actualiza
+la automatización existente sin reemplazar las fuentes de audio.
+
+Las pruebas comprueban continuidad y extremos, cambios en ambos ejes, cortes,
+recortes y copia de fragmentos que conservan la curva original, añadir/quitar
+un punto sin alterar su forma, duplicación independiente, cambios globales de
+volumen, guardado/reapertura y rechazo de datos inválidos. Las curvas antiguas
+de los proyectos existentes siguen abriéndose sin cambiar su sonido.
+
+13 comprobaciones adicionales del HTML completo en jsdom: movimiento diagonal
+y en ambas direcciones, actualización antes de soltar, línea válida, extremos
+conservados, un solo deshacer, control alcanzable, cancelación, flecha izquierda
+y doble clic. Entorno DOM simulado sin navegador real ni renderizado de canvas.
+La revisión en un navegador real sobre el hosting sigue pendiente.
+
+Manual PDF actualizado a 1.16.0: portada, índice y páginas afectadas renderizadas
+y revisadas. El manual integrado incluye el nuevo arrastre y los atajos.
+
+La actualización se entrega para hosting; no se ha publicado ni se han modificado
+los instaladores Windows, Mac o Linux. La portada usa la imagen original.

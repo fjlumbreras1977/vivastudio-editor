@@ -1,4 +1,4 @@
-import {trackEffects} from './core.js';
+import {trackEffects,makeVintageEffects,dbGain} from './core.js';
 export class TrackEffectsProcessor{
   constructor(workerFactory=()=>new Worker(new URL('./effects-worker.js',import.meta.url))){this.workerFactory=workerFactory;this.cache=new WeakMap();this.entries=new Set();this.jobs=new Set();this.clock=0;}
   cancel(){for(const job of [...this.jobs])job.cancel();}
@@ -60,12 +60,45 @@ export function createNativeTrackEffects(context,input,track){
     for(let i=0;i<curve.length;i++){const x=i/(curve.length-1)*2-1,k=1+drive*9;curve[i]=drive>0?Math.tanh(k*x)/Math.tanh(k):x;}shape.curve=curve;shape.oversample='2x';
     output.connect(dry);dry.connect(sum);output.connect(hp);hp.connect(lp);lp.connect(shape);shape.connect(wet);wet.connect(sum);output=sum;nodes.push(dry,wet,sum,hp,lp,shape);
   }
+  if(settings.vintage.enabled&&settings.vintage.mix>0){const vintage=createVintageTrackEffects(context,output,settings.vintage);output=vintage.output;nodes.push(...vintage.nodes);}
   if(settings.reverb.enabled&&settings.reverb.mix>0){
     const dry=context.createGain(),wet=context.createGain(),sum=context.createGain(),delay=context.createDelay(.2),reverb=context.createConvolver();
     dry.gain.value=1-settings.reverb.mix;wet.gain.value=settings.reverb.mix;delay.delayTime.value=settings.reverb.preDelay;reverb.normalize=true;reverb.buffer=makeReverbImpulse(context,settings.reverb.decay);
     output.connect(dry);dry.connect(sum);output.connect(delay);delay.connect(reverb);reverb.connect(wet);wet.connect(sum);output=sum;nodes.push(dry,wet,sum,delay,reverb);
   }
   return {output,nodes};
+}
+// Original VIVA tone circuit; no G-Sonique VST code or impulse responses.
+export function makeVintageCurve(saturation,model='classic'){
+  const curve=new Float32Array(4097),drive=1+saturation*({classic:7,warm:5,dirty:13}[model]||7),bias=saturation*({classic:.035,warm:.14,dirty:.23}[model]||0);
+  const zero=Math.tanh(drive*bias),norm=Math.max(Math.abs(Math.tanh(drive*(1+bias))-zero),Math.abs(Math.tanh(drive*(-1+bias))-zero));
+  for(let i=0;i<curve.length;i++){const x=i/(curve.length-1)*2-1;curve[i]=saturation>0?(Math.tanh(drive*(x+bias))-zero)/norm:x;}
+  return curve;
+}
+export function createVintageTrackEffects(context,input,initial){
+  const nodes=[];
+  const gain=()=>{const n=context.createGain();nodes.push(n);return n;};
+  const filter=type=>{const n=context.createBiquadFilter();n.type=type;nodes.push(n);return n;};
+  const dry=gain(),wet=gain(),sum=gain(),pre=gain(),post=gain();
+  const cut=filter('lowshelf'),bass=filter('peaking'),mid=filter('peaking'),treble=filter('highshelf'),warm=filter('lowshelf'),brilliant=filter('highshelf'),rolloff=filter('lowpass');
+  const shape=context.createWaveShaper();shape.oversample='2x';nodes.push(shape);
+  const dc=filter('highpass');dc.frequency.value=15;dc.Q.value=Math.SQRT1_2;rolloff.Q.value=Math.SQRT1_2;bass.Q.value=.55;
+  input.connect(dry);dry.connect(sum);let last=input;
+  for(const node of [pre,cut,bass,mid,treble,warm,brilliant,rolloff,shape,dc,post,wet]){last.connect(node);last=node;}wet.connect(sum);
+  let lastShape=null;
+  const set=(param,value,immediate)=>{if(immediate)param.value=value;else param.setTargetAtTime(value,context.currentTime,.02);};
+  function update(settings=makeVintageEffects(),immediate=false){
+    const v=settings,neutral=[v.input,v.lowCut,v.lowBoost,v.midGain,v.highBoost,v.warmth,v.saturation,v.brilliance,v.output].every(n=>n===0),mix=v.enabled&&!neutral?v.mix:0;
+    set(dry.gain,1-mix,immediate);set(wet.gain,mix,immediate);set(pre.gain,dbGain(v.input),immediate);set(post.gain,dbGain(v.output),immediate);
+    const hz=n=>Math.min(n,context.sampleRate*.45);
+    set(cut.frequency,hz(v.lowFrequency*.8),immediate);set(cut.gain,-v.lowCut,immediate);set(bass.frequency,hz(v.lowFrequency),immediate);set(bass.gain,v.lowBoost,immediate);
+    set(mid.frequency,hz(v.midFrequency),immediate);set(mid.gain,v.midGain,immediate);set(mid.Q,v.bandwidth,immediate);
+    set(treble.frequency,hz(v.highFrequency),immediate);set(treble.gain,v.highBoost,immediate);set(warm.frequency,hz(180),immediate);set(warm.gain,v.warmth*3,immediate);
+    set(brilliant.frequency,hz(6500),immediate);set(brilliant.gain,v.brilliance*6-v.warmth*4,immediate);set(rolloff.frequency,hz(20000-v.warmth*12000),immediate);
+    const key=v.model+':'+v.saturation;if(key!==lastShape){shape.curve=makeVintageCurve(v.saturation,v.model);lastShape=key;}
+  }
+  update(initial||makeVintageEffects(),true);
+  return {output:sum,nodes,update};
 }
 // Mutable wet/dry paths preserve scheduled sources while knobs are adjusted.
 export function createLiveNativeTrackEffects(context,input,track){
@@ -74,13 +107,15 @@ export function createLiveNativeTrackEffects(context,input,track){
   const phoneDry=gain(),phoneWet=gain(),phoneSum=gain(),hp=context.createBiquadFilter(),lp=context.createBiquadFilter(),shape=context.createWaveShaper();nodes.push(hp,lp,shape);
   hp.type='highpass';lp.type='lowpass';hp.Q.value=lp.Q.value=Math.SQRT1_2;shape.oversample='2x';
   input.connect(phoneDry);phoneDry.connect(phoneSum);input.connect(hp);hp.connect(lp);lp.connect(shape);shape.connect(phoneWet);phoneWet.connect(phoneSum);
+  const vintage=createVintageTrackEffects(context,phoneSum,trackEffects(track).vintage);nodes.push(...vintage.nodes);
   const reverbDry=gain(),reverbWet=gain(),sum=gain(),delay=context.createDelay(.2);nodes.push(delay);
-  phoneSum.connect(reverbDry);reverbDry.connect(sum);phoneSum.connect(delay);reverbWet.connect(sum);
+  vintage.output.connect(reverbDry);reverbDry.connect(sum);vintage.output.connect(delay);reverbWet.connect(sum);
   const set=(param,value,immediate)=>{if(immediate)param.value=value;else param.setTargetAtTime(value,context.currentTime,.015);};
   const retire=path=>{if(!path)return;try{delay.disconnect(path.convolver);}catch{}for(const node of [path.convolver,path.fade]){try{node.disconnect();}catch{}const i=nodes.indexOf(node);if(i>=0)nodes.splice(i,1);}};
   const update=(effects,immediate=false)=>{
     if(disposed)return;
     const phone=effects.phone,reverb=effects.reverb,pMix=phone.enabled?phone.mix:0,rMix=reverb.enabled?reverb.mix:0;
+    vintage.update(effects.vintage||makeVintageEffects(),immediate);
     set(phoneDry.gain,1-pMix,immediate);set(phoneWet.gain,pMix,immediate);set(hp.frequency,phone.lowCut,immediate);set(lp.frequency,phone.highCut,immediate);
     if(phone.drive!==lastDrive){const curve=new Float32Array(4096),k=1+phone.drive*9;for(let i=0;i<curve.length;i++){const x=i/(curve.length-1)*2-1;curve[i]=phone.drive>0?Math.tanh(k*x)/Math.tanh(k):x;}shape.curve=curve;lastDrive=phone.drive;}
     set(reverbDry.gain,1-rMix,immediate);set(reverbWet.gain,rMix,immediate);set(delay.delayTime,reverb.preDelay,immediate);

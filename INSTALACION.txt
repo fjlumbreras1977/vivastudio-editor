@@ -1,7 +1,7 @@
 VIVA AUDIO STUDIO SUITE EDITOR — PAQUETE COMPLETO PARA HOSTING
 Logo y favicon: imagen VIVA aportada por el usuario.
 El logo abre https://fjlumbreras1977.github.io/vivstudio/#home en la misma pestaña.
-Versión 1.14.0
+Versión 1.16.0
 
 La ventana inicial muestra el logo original de VIVA AUDIO STUDIO SUITE EDITOR.
 
@@ -17,7 +17,7 @@ ESCUCHA DE EFECTOS EN DIRECTO
 - Si AudioWorklet no está disponible o se bloquea, se prepara el último ajuste
   en segundo plano después de dejar de mover el control. Durante la preparación
   se mantiene la escucha anterior; al terminar se cambia solo la pista afectada.
-- Comparar sin FX permite escuchar sin los cuatro efectos; EQ, compresor,
+- Comparar sin FX permite escuchar sin los efectos de pista; EQ, compresor,
   volumen y balance se conservan. El estado de comparación no se guarda.
 - OK/Enter confirman el borrador; Cancelar, Escape y el cierre recuperan los
   valores anteriores. Solo el ajuste confirmado se guarda y se exporta.
@@ -34,7 +34,7 @@ NOVEDADES DE ESTA VERSIÓN
   (5,5 kHz), Compresor de voz y Restablecer EQ. Se aplican a su propia pista,
   permiten deshacer y se conservan en el proyecto y la exportación.
 - El botón FX de pista se queda morado claro con letras blancas cuando se ha
-  confirmado al menos uno de los cuatro efectos. Desactivarlos devuelve el
+  confirmado al menos uno de los efectos de pista. Desactivarlos devuelve el
   botón a su estado normal. Restablecer EQ no desactiva esos efectos.
 - La línea del cursor termina en la última pista, también al hacer zoom,
   cambiar alturas, añadir/eliminar pistas o recuperar un proyecto. No atraviesa
@@ -286,10 +286,10 @@ Abrir el editor no reemplaza esa sesión por el proyecto vacío.
   El zoom funciona con el audio detenido, reproduciéndose o grabándose y queda
   desactivado en la pantalla inicial hasta que elijas cómo comenzar.
 - Efectos de pista: FX está a la izquierda de M. Abre una ventana para activar
-  y combinar Reverb, Teléfono, Cambio de tono y Autotune. El botón se ilumina
+  y combinar Reverb, Teléfono, Cambio de tono, Autotune y Pultronic · EQ vintage. El botón se ilumina
   al activar efectos. Los controles se escuchan antes de confirmar. OK y Enter guardan; Cancelar
   o cerrar recuperan el ajuste anterior sin confirmar el borrador.
-  Restablecer permite volver a los cuatro efectos desactivados; se confirma con OK.
+  Restablecer permite volver a los efectos de pista desactivados; se confirma con OK.
   La apertura, los cambios y la cancelación mantienen la línea de tiempo y las
   demás pistas en marcha. Los efectos nativos se ajustan directamente; la voz
   usa AudioWorklet cuando está disponible, con una alternativa en segundo plano.
@@ -359,7 +359,7 @@ Para empezar, es más sencillo abrir directamente la dirección /estudio/.
 
 SI LA PÁGINA NO CARGA
 
-- Comprueba que el index.html que has abierto es el de la versión 1.14.0.
+- Comprueba que el index.html que has abierto es el de la versión 1.16.0.
 - Si reemplazas una versión del hosting, vacía su caché y vuelve a cargar la página.
 - Una política de seguridad personalizada del hosting debe permitir los scripts
   integrados y los workers blob que usa el editor.
@@ -438,3 +438,41 @@ preparaciones antiguas y registro del procesador AudioWorklet integrado.
 La ventana se ha comprobado con procesamiento continuo y con la alternativa
 sin AudioWorklet: borrador, comparación, validación, OK/Enter, Cancelar/Escape,
 restablecer, reproducción/pausa y MP3 generado con el codificador real.
+
+PORTADA DE INICIO WEB
+
+Al abrir o recargar el editor aparece la imagen portada-vass.jpg completa,
+sin recortarla, durante un mínimo de 2,5 segundos visibles. Después se muestra
+la elección de Proyecto en blanco, Importar audio, Explorar demo o Recuperar
+sesión anterior. Las funciones siguen bloqueadas hasta elegir una sesión y
+el micrófono permanece apagado. El editor se prepara durante la portada.
+Si ese arranque tarda más, la portada espera a que termine; si falla la imagen,
+el acceso al editor continúa. Cambiar a otra pestaña pausa el tiempo visible.
+La portada está integrada en index.html: no depende de peticiones a otro sitio.
+El archivo portada-vass.jpg también se incluye para trabajar con la plantilla.
+La versión instalada conserva su portada de cinco segundos.
+
+PULTRONIC · EQ VINTAGE
+
+En FX encontrarás un ecualizador propio de VIVA inspirado en la ecualización
+de válvulas vintage. Incluye entrada/salida, recorte y refuerzo de graves,
+medios paramétricos con Q, agudos, calidez, saturación, brillo, mezcla, tres
+caracteres y cinco ajustes iniciales. Actívalo y reproduce para escuchar los
+cambios en tiempo real. OK o Enter confirman; Cancelar recupera los anteriores.
+Los parámetros se guardan en los proyectos y se aplican al exportar MP3/WAV,
+al reproducir la pista y al escuchar un bloque aislado. Los proyectos anteriores
+siguen abriéndose con el nuevo efecto desactivado. No se distribuye el VST
+comercial de G-Sonique ni se afirma reproducir exactamente su algoritmo.
+
+La validación de esta actualización se detalla en VALIDACION-1.16.0.txt.
+
+CONTROL AMARILLO EN DOS DIRECCIONES
+
+Arrastra el control amarillo horizontal, vertical o diagonalmente dentro del
+tramo. Ajusta la curva en tiempo real sin mover los puntos blancos. El control
+permanece visible mientras el ratón esté en el bloque, incluso si se separa
+de la línea. Las cuatro flechas permiten ajustes y Mayús reduce el paso.
+Doble clic recupera la recta; Deshacer revierte el arrastre completo.
+La forma queda incluida en el autoguardado, el proyecto y la exportación.
+Los cortes y recortes conservan matemáticamente la parte de la curva original.
+Las curvas de proyectos anteriores siguen funcionando.

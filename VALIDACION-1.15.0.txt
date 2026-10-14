@@ -1,0 +1,30 @@
+VALIDACIÓN WEB 1.15.0 — 14 de octubre de 2026
+
+99 pruebas automatizadas del proyecto aprobadas. Incluyen portada de 2500 ms
+visibles, pausa del contador al ocultar la pestaña, recuperación ante error de
+imagen, cierre de arranque lento, imagen integrada byte por byte y efecto
+vintage independiente por pista, validación de parámetros y proyectos anteriores.
+
+Procesado offline adicional con web-audio-engine 0.13.4: diez comprobaciones
+con audio real generado. Se midieron cambios en graves, medios, agudos y salida,
+reducción de agudos por calidez, aparición de armónicos por saturación, bypass
+exacto al 0 %, silencio sin ruido/cruce de canales y efecto en la exportación
+del motor con la misma duración. Las fuentes de audio permanecen intactas.
+
+Comprobación del HTML completo en DOM simulado con jsdom 26.1.0: portada,
+bloqueo inicial, demo, REC desactivado, preset, cambios personalizados, OK,
+Enter, cancelación, indicador FX y búsqueda del manual. No se utilizó canvas
+real ni un navegador gráfico. No se ha revisado la web visualmente ni probado
+el micrófono físico en esta actualización. Las comprobaciones anteriores de
+grabación, MP3 y otros efectos siguen incluidas en la suite aprobada.
+
+Manual PDF actualizado y renderizado: portada, índice y páginas afectadas por
+la portada inicial y el efecto vintage revisados sin texto cortado ni solapado.
+
+Pultronic · EQ vintage es un circuito propio de VIVA, con filtros Web Audio y
+saturación suave sobremuestreada. No incluye archivos del VST de G-Sonique,
+ni afirma reproducir exactamente su modelado de válvulas. La versión web
+utiliza la imagen seleccionada original, sin ninguna alteración generativa.
+
+La actualización se entrega para hosting y no se ha publicado en la web.
+Los instaladores Windows, Mac y Linux permanecen en su versión anterior.

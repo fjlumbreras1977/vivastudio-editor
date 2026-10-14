@@ -29,7 +29,7 @@ export class AudioEngine {
     for(const point of [...new Set(breakpoints)]){
       while(index+1<nodes.length&&last>=nodes[index+1].time-1e-9)index++;
       const curve=nodes[index]?.curve||0,fading=point<=fi||last>=clip.duration-fo,varying=Math.abs(envelope(clip,point,nodes)-envelope(clip,last,nodes))>.000001,volumeVaries=Math.abs(volumeEnvelope(clip,point,nodes)-volumeEnvelope(clip,last,nodes))>.000001;
-      const steps=volumeVaries&&Math.abs(curve)>1e-8?Math.ceil(64+Math.abs(curve)*8):fading&&varying&&volumeVaries?32:1;
+      const steps=nodes[index]?.bend?192:volumeVaries&&Math.abs(curve)>1e-8?Math.ceil(64+Math.abs(curve)*8):fading&&varying&&volumeVaries?32:1;
       for(let i=1;i<=steps;i++){const at=last+(point-last)*i/steps;param.linearRampToValueAtTime(g*envelope(clip,at,nodes),clock+at-elapsed);}last=point;
     }
     if(!breakpoints.includes(b-clip.start))param.linearRampToValueAtTime(g*envelope(clip,b-clip.start,nodes),clock+b-a);
