@@ -1,7 +1,7 @@
 VIVA AUDIO STUDIO SUITE EDITOR — PAQUETE COMPLETO PARA HOSTING
 Logo y favicon: imagen VIVA aportada por el usuario.
 El logo abre https://fjlumbreras1977.github.io/vivstudio/#home en la misma pestaña.
-Versión 1.16.0
+Versión 1.17.0
 
 La ventana inicial muestra el logo original de VIVA AUDIO STUDIO SUITE EDITOR.
 
@@ -359,7 +359,7 @@ Para empezar, es más sencillo abrir directamente la dirección /estudio/.
 
 SI LA PÁGINA NO CARGA
 
-- Comprueba que el index.html que has abierto es el de la versión 1.16.0.
+- Comprueba que el index.html que has abierto es el de la versión 1.17.0.
 - Si reemplazas una versión del hosting, vacía su caché y vuelve a cargar la página.
 - Una política de seguridad personalizada del hosting debe permitir los scripts
   integrados y los workers blob que usa el editor.
@@ -442,9 +442,10 @@ restablecer, reproducción/pausa y MP3 generado con el codificador real.
 PORTADA DE INICIO WEB
 
 Al abrir o recargar el editor aparece la imagen portada-vass.jpg completa,
-sin recortarla, durante un mínimo de 2,5 segundos visibles. Después se muestra
-la elección de Proyecto en blanco, Importar audio, Explorar demo o Recuperar
-sesión anterior. Las funciones siguen bloqueadas hasta elegir una sesión y
+sin recortarla, dentro del cuadro de inicio durante cinco segundos visibles.
+La portada ocupa únicamente ese recuadro y el editor queda visible alrededor.
+Después desaparece la portada y aparecen las opciones de Proyecto en blanco,
+Importar audio, Explorar demo o Recuperar sesión anterior. Las funciones siguen bloqueadas hasta elegir una sesión y
 el micrófono permanece apagado. El editor se prepara durante la portada.
 Si ese arranque tarda más, la portada espera a que termine; si falla la imagen,
 el acceso al editor continúa. Cambiar a otra pestaña pausa el tiempo visible.
@@ -464,7 +465,7 @@ al reproducir la pista y al escuchar un bloque aislado. Los proyectos anteriores
 siguen abriéndose con el nuevo efecto desactivado. No se distribuye el VST
 comercial de G-Sonique ni se afirma reproducir exactamente su algoritmo.
 
-La validación de esta actualización se detalla en VALIDACION-1.16.0.txt.
+La validación de esta actualización se detalla en VALIDACION-1.17.0.txt.
 
 CONTROL AMARILLO EN DOS DIRECCIONES
 

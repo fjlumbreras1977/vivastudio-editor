@@ -68,11 +68,10 @@
 
 .fx-preview{padding:12px 14px;border:1px solid #6e5884;border-radius:8px;background:#32263e;margin:0 0 18px}.fx-preview>div{display:flex;gap:8px;flex-wrap:wrap}.fx-preview button{font-size:12px;border-color:#7a6295;color:#fff}.fx-preview #fxPreviewPlay{background:#b393df;color:#fff;border-color:#b393df}.fx-preview button.active{background:#4d3c5e;border-color:#c7a7eb}.fx-preview p{font-size:11px;line-height:1.6;color:#d1bddf;margin:9px 0 0}
 
-/* Portada web: imagen completa y controles ocultos durante el arranque. */
-.web-startup-splash{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;background:#101417;overflow:hidden;cursor:default}
+/* La portada cubre solo la tarjeta de inicio; el editor permanece visible alrededor. */
+.web-startup-splash{position:absolute;inset:0;z-index:10;display:grid;place-items:center;background:#101417;border-radius:inherit;overflow:hidden;cursor:default}
 .web-startup-splash[hidden]{display:none}
-.web-startup-splash img{display:block;width:100%;height:100%;max-width:100vw;max-height:100dvh;object-fit:contain;user-select:none;-webkit-user-drag:none}
-html.web-starting{overflow:hidden}
-html.web-starting body>:not(#webStartupSplash):not(script):not(style):not(noscript){visibility:hidden!important}
+.web-startup-splash img{display:block;width:100%;height:100%;object-fit:contain;user-select:none;-webkit-user-drag:none}
+html.web-starting #emptyState>:not(#webStartupSplash){visibility:hidden}
 
 .fx-vintage{grid-column:1/-1;border-color:#86734e!important;background:linear-gradient(135deg,#2c2921,#1c2529)!important}.fx-vintage legend{color:#e5cc94}.fx-vintage-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 22px}.fx-vintage-note{font-size:11px;color:#c6bca6;line-height:1.6;margin:2px 0 15px}.fx-vintage .fx-control>select{width:100%;margin-top:7px;min-height:32px}.fx-vintage input[type=range]{accent-color:#d7ba7d}@media(max-width:620px){.fx-vintage-grid{grid-template-columns:1fr}}

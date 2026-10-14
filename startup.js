@@ -1,5 +1,5 @@
 // Cuenta tiempo visible; el editor puede prepararse mientras aparece la portada.
-export function createSplashController({duration=2500,now=()=>performance.now(),setTimer=setTimeout,clearTimer=clearTimeout,onClose=()=>{},visible=true}={}){
+export function createSplashController({duration=5000,now=()=>performance.now(),setTimer=setTimeout,clearTimer=clearTimeout,onClose=()=>{},visible=true}={}){
   let imageReady=false,editorReady=false,closed=false,elapsed=0,started=null,timer=null;
   function pause(){if(started!==null){elapsed+=Math.max(0,now()-started);started=null;}if(timer!==null){clearTimer(timer);timer=null;}}
   function close(){if(closed)return;closed=true;pause();onClose();}

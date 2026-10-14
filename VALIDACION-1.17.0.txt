@@ -1,0 +1,31 @@
+VALIDACION WEB 1.17.0 - 14 de octubre de 2026
+
+La portada web esta dentro de la tarjeta de inicio. Su posicion absoluta toma
+como referencia esa tarjeta; la imagen no ocupa el navegador. El editor queda
+visible alrededor, bajo el fondo habitual del cuadro de inicio. La imagen
+original se muestra completa, sin recortarla, y no se ha modificado.
+
+La portada dura cinco segundos visibles desde que la imagen esta preparada y
+ha tenido dos fotogramas para pintarse. Despues se muestran las opciones de
+proyecto en la misma tarjeta. Se conserva la espera de un arranque lento,
+la pausa del contador en una pestaña oculta y el acceso cuando falla la imagen.
+El micrófono permanece apagado y el editor sigue bloqueado hasta elegir sesión.
+
+104 pruebas automatizadas del proyecto aprobadas. Incluyen tiempos de 5000 ms,
+arranque lento, pestaña oculta, cancelación, carga de imagen, limpieza de eventos,
+imagen integrada byte por byte y ubicación de la portada dentro de la tarjeta.
+
+15 comprobaciones adicionales del HTML completo con jsdom 26.1.0: anclaje de
+la portada a la tarjeta, editor visible, opciones ocultas y bloqueadas, imagen
+completa, arranque preparado, estado a 4999 y 5000 ms, opciones disponibles,
+foco, bloqueo hasta elegir sesión, cuatro pistas iniciales, micrófono apagado
+y acceso cuando falla la imagen. Entorno DOM/CSS simulado; no sustituye una
+revisión visual en un navegador real. Esa revisión sobre el hosting está pendiente.
+
+Manual HTML/PDF actualizado. PDF de 19 páginas: portada, índice y página 4
+renderizados y revisados sin texto cortado ni solapado. El PDF actualizado y
+la imagen original se integran en el HTML autónomo y se incluyen en el ZIP.
+
+Se conservan el control amarillo en dos ejes y Pultronic · EQ vintage propio.
+Esta actualización corresponde a la web para hosting. No se ha publicado ni
+se han modificado los instaladores Windows, Mac o Linux.
