@@ -1,0 +1,29 @@
+VIVA AUDIO STUDIO SUITE EDITOR · ONLINE 1.20.0
+
+Novedades:
+- El mensaje y la barra de carga de audio están en una ventana emergente.
+- La ventana muestra el archivo y su número dentro del lote. Permanece abierta
+  durante lectura/descodificación y se cierra al terminar, también con errores.
+- Exportar permite elegir MP3, WAV, FLAC y OGG Vorbis. Solo aparecen los ajustes
+  del formato elegido. FLAC permite 16/24 bits; OGG, calidad VBR de 0 a 10.
+- Los codificadores y los binarios WASM se incluyen dentro del HTML autónomo.
+  La conversión se realiza localmente, sin servicios externos ni CDN.
+- Manual HTML/PDF actualizado y licencias de los nuevos componentes incluidas.
+
+Verificación:
+- 142 pruebas unitarias aprobadas, incluidas codificaciones reales MP3, FLAC y
+  OGG y descodificación independiente con FFmpeg/FFprobe.
+- FLAC de 16/24 bits coincide muestra a muestra con el PCM cuantizado y tiene
+  duración y MD5 correctos. OGG de calidades 0/5/10 conserva estéreo y duración.
+- 112 comprobaciones DOM sobre el HTML final: carga correcta, errores,
+  importación inicial, lote con fallo parcial, cierre automático, selector y
+  ajustes de formatos, selección, puntos, desplazamiento y solapamientos.
+  Son pruebas con DOM/audio/geometría simulados, no un navegador real.
+- 16 comprobaciones nativas adicionales sobre el mismo editor integrado en
+  app.asar de escritorio: carga real y descargas MP3/WAV/FLAC/OGG, sin peticiones
+  externas ni errores de JavaScript/CSP. Cinco archivos comprobados con FFprobe.
+- Manual PDF de 20 páginas renderizado y revisado; capítulo de exportación
+  revisado a mayor resolución. El PDF coincide con el integrado en los HTML.
+- El JavaScript compilado es válido y no requiere módulos o archivos externos.
+
+Uso: sustituir el paquete del hosting y recargar para evitar una copia en caché.

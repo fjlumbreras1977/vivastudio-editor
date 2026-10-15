@@ -1,0 +1,34 @@
+{
+  "version": "1.20.0",
+  "model": "DOM, audio y carga simulados; no es una prueba de navegador real",
+  "results": [
+    {
+      "url": "https://example.test/estudio/",
+      "checks": [
+        "la importación inicial abre una ventana emergente y retira el progreso fijo",
+        "el mensaje identifica el archivo y Escape no oculta una carga en curso",
+        "un error cierra la ventana y permite volver a importar desde el inicio",
+        "la carga correcta cierra la ventana automáticamente y deja la onda disponible",
+        "una selección de varios archivos usa una ventana hasta terminar todo el lote, incluso con un fallo parcial",
+        "el selector ofrece MP3, WAV, FLAC y OGG Vorbis",
+        "cada formato muestra únicamente sus ajustes de calidad y mantiene disponibles las cuatro opciones de contenido",
+        "la ventana recuerda el formato elegido y actualiza la profundidad FLAC"
+      ],
+      "errors": []
+    },
+    {
+      "url": "file:///C:/VIVA/index.html",
+      "checks": [
+        "la importación inicial abre una ventana emergente y retira el progreso fijo",
+        "el mensaje identifica el archivo y Escape no oculta una carga en curso",
+        "un error cierra la ventana y permite volver a importar desde el inicio",
+        "la carga correcta cierra la ventana automáticamente y deja la onda disponible",
+        "una selección de varios archivos usa una ventana hasta terminar todo el lote, incluso con un fallo parcial",
+        "el selector ofrece MP3, WAV, FLAC y OGG Vorbis",
+        "cada formato muestra únicamente sus ajustes de calidad y mantiene disponibles las cuatro opciones de contenido",
+        "la ventana recuerda el formato elegido y actualiza la profundidad FLAC"
+      ],
+      "errors": []
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+[
+  {
+    "name": "prueba-mp3.mp3",
+    "bytes": 48901,
+    "codec": "mp3",
+    "duration": "2.037542",
+    "channels": 2,
+    "sampleRate": 44100,
+    "bits": null
+  },
+  {
+    "name": "prueba-wav.wav",
+    "bytes": 352844,
+    "codec": "pcm_s16le",
+    "duration": "2.000000",
+    "channels": 2,
+    "sampleRate": 44100,
+    "bits": null
+  },
+  {
+    "name": "prueba-flac.flac",
+    "bytes": 220093,
+    "codec": "flac",
+    "duration": "2.000000",
+    "channels": 2,
+    "sampleRate": 44100,
+    "bits": "24"
+  },
+  {
+    "name": "prueba-ogg.ogg",
+    "bytes": 12510,
+    "codec": "vorbis",
+    "duration": "2.000000",
+    "channels": 2,
+    "sampleRate": 44100,
+    "bits": null
+  },
+  {
+    "name": "prueba-flac16.flac",
+    "bytes": 68725,
+    "codec": "flac",
+    "duration": "2.000000",
+    "channels": 2,
+    "sampleRate": 44100,
+    "bits": "16"
+  }
+]

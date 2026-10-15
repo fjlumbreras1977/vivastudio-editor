@@ -1,0 +1,42 @@
+{
+  "version": "1.20.0",
+  "model": "DOM, audio y geometría simulados; no es una prueba de navegador real",
+  "results": [
+    {
+      "url": "https://example.test/estudio/",
+      "checks": [
+        "audios simultáneos en pistas distintas no producen avisos",
+        "el desplazamiento solo vertical muestra destino, onda y solapamiento antes de soltar",
+        "al soltar se confirma una sola copia del bloque en la pista destino",
+        "la coincidencia total sigue siendo visible y se distinguen los tramos con tres audios",
+        "Escape restaura posición, pista y avisos y retira la previsualización",
+        "el recorte actualiza el aviso en tiempo real antes de soltar",
+        "cancelar el recorte recupera el tramo de solapamiento",
+        "el arrastre de varios bloques conserva la separación entre pistas y retira avisos resueltos",
+        "Deshacer recupera posiciones y avisos",
+        "las zonas con mano se cierran solo durante la pulsación izquierda",
+        "perder el foco cancela el gesto sin dejar la mano o el bloque atascados",
+        "los indicadores dejan accesibles la onda, los puntos y los controles"
+      ],
+      "errors": []
+    },
+    {
+      "url": "file:///C:/VIVA/index.html",
+      "checks": [
+        "audios simultáneos en pistas distintas no producen avisos",
+        "el desplazamiento solo vertical muestra destino, onda y solapamiento antes de soltar",
+        "al soltar se confirma una sola copia del bloque en la pista destino",
+        "la coincidencia total sigue siendo visible y se distinguen los tramos con tres audios",
+        "Escape restaura posición, pista y avisos y retira la previsualización",
+        "el recorte actualiza el aviso en tiempo real antes de soltar",
+        "cancelar el recorte recupera el tramo de solapamiento",
+        "el arrastre de varios bloques conserva la separación entre pistas y retira avisos resueltos",
+        "Deshacer recupera posiciones y avisos",
+        "las zonas con mano se cierran solo durante la pulsación izquierda",
+        "perder el foco cancela el gesto sin dejar la mano o el bloque atascados",
+        "los indicadores dejan accesibles la onda, los puntos y los controles"
+      ],
+      "errors": []
+    }
+  ]
+}

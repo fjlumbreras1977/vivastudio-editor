@@ -1,0 +1,68 @@
+{
+  "version": "1.20.0",
+  "model": "DOM, audio y geometría simulados; no es una prueba de navegador real",
+  "results": [
+    {
+      "url": "https://example.test/estudio/",
+      "checks": [
+        "quitar selección permanece desactivado antes de iniciar proyecto",
+        "clics normales entre pistas nunca acumulan selecciones",
+        "la selección exclusiva se mantiene tras varios clics y cambios de pista",
+        "Ctrl añade un bloque y el borde, la marca y el contador reflejan el grupo",
+        "Ctrl, Cmd y Mayús permiten añadir y quitar miembros de forma explícita",
+        "arrastrar un miembro mueve el grupo y cancelar conserva la selección",
+        "un clic sin arrastre en un miembro deja solo ese bloque activo",
+        "Quitar selección y Escape retiran todos los bloques marcados",
+        "editar volumen en otra pista no añade su bloque a una selección previa",
+        "marcar un fragmento selecciona solo su bloque y muestra I y F",
+        "el menú permite borrar el inicio sin eliminar audio ni cambiar volumen",
+        "Deshacer restaura el punto y el fragmento seleccionado",
+        "clic derecho en F elimina únicamente el punto final",
+        "Supr con el foco en I borra el límite y no dispara la eliminación de audio",
+        "Retroceso sobre F tampoco elimina el bloque",
+        "la opción de borrar el final funciona desde cualquier zona del fragmento",
+        "quitar solo la selección conserva los cortes y retira las etiquetas I/F",
+        "copiar un fragmento y pegarlo en otra pista conserva su duración y selecciona solo la copia",
+        "el límite de inicio se puede quitar aunque coincida con el inicio físico del bloque",
+        "el límite de final físico se borra sin recortar ni borrar el bloque",
+        "borrar un punto con el menú no detiene la reproducción activa",
+        "también se eliminan los marcadores de corte sin un fragmento seleccionado",
+        "Deshacer un límite restaura una única selección de fragmento aunque antes hubiera un grupo en otras pistas",
+        "cambiar de bloque retira la selección anterior y sus etiquetas de límites",
+        "clic en vacío limpia la selección y la ejecución completa no genera errores"
+      ],
+      "errors": []
+    },
+    {
+      "url": "file:///C:/VIVA/index.html",
+      "checks": [
+        "quitar selección permanece desactivado antes de iniciar proyecto",
+        "clics normales entre pistas nunca acumulan selecciones",
+        "la selección exclusiva se mantiene tras varios clics y cambios de pista",
+        "Ctrl añade un bloque y el borde, la marca y el contador reflejan el grupo",
+        "Ctrl, Cmd y Mayús permiten añadir y quitar miembros de forma explícita",
+        "arrastrar un miembro mueve el grupo y cancelar conserva la selección",
+        "un clic sin arrastre en un miembro deja solo ese bloque activo",
+        "Quitar selección y Escape retiran todos los bloques marcados",
+        "editar volumen en otra pista no añade su bloque a una selección previa",
+        "marcar un fragmento selecciona solo su bloque y muestra I y F",
+        "el menú permite borrar el inicio sin eliminar audio ni cambiar volumen",
+        "Deshacer restaura el punto y el fragmento seleccionado",
+        "clic derecho en F elimina únicamente el punto final",
+        "Supr con el foco en I borra el límite y no dispara la eliminación de audio",
+        "Retroceso sobre F tampoco elimina el bloque",
+        "la opción de borrar el final funciona desde cualquier zona del fragmento",
+        "quitar solo la selección conserva los cortes y retira las etiquetas I/F",
+        "copiar un fragmento y pegarlo en otra pista conserva su duración y selecciona solo la copia",
+        "el límite de inicio se puede quitar aunque coincida con el inicio físico del bloque",
+        "el límite de final físico se borra sin recortar ni borrar el bloque",
+        "borrar un punto con el menú no detiene la reproducción activa",
+        "también se eliminan los marcadores de corte sin un fragmento seleccionado",
+        "Deshacer un límite restaura una única selección de fragmento aunque antes hubiera un grupo en otras pistas",
+        "cambiar de bloque retira la selección anterior y sus etiquetas de límites",
+        "clic en vacío limpia la selección y la ejecución completa no genera errores"
+      ],
+      "errors": []
+    }
+  ]
+}

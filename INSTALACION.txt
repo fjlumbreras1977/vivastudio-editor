@@ -1,7 +1,7 @@
 VIVA AUDIO STUDIO SUITE EDITOR — PAQUETE COMPLETO PARA HOSTING
 Logo y favicon: imagen VIVA aportada por el usuario.
 El logo abre https://fjlumbreras1977.github.io/vivstudio/#home en la misma pestaña.
-Versión 1.19.1
+Versión 1.20.0
 
 La ventana inicial muestra el logo original de VIVA AUDIO STUDIO SUITE EDITOR.
 
@@ -24,7 +24,7 @@ ESCUCHA DE EFECTOS EN DIRECTO
 - La captura del micrófono sigue siendo original: esta escucha se aplica a los
   bloques reproducidos, y no activa monitorización directa del micrófono.
 
-SELECCIÓN Y PUNTOS DE EDICIÓN (1.19.1)
+SELECCIÓN Y PUNTOS DE EDICIÓN (1.20.0)
 
 - Un clic selecciona un bloque; Ctrl/Cmd o Mayús + clic añade o quita bloques.
 - Arrastrar un miembro de un grupo conserva el grupo. Un clic sin arrastrar
@@ -522,7 +522,7 @@ CORRECCIÓN 1.18.1 · SEGUIMIENTO DE LA REPRODUCCIÓN
   sin caché si el navegador continúa mostrando la versión anterior.
 
 
-NOVEDADES 1.19.1 · SOLAPAMIENTOS Y ARRASTRE VISUAL
+NOVEDADES 1.20.0 · SOLAPAMIENTOS Y ARRASTRE VISUAL
 - Las zonas con dos o más audios en una misma pista muestran rayas ámbar y
   el número de bloques, incluso si uno está totalmente cubierto por otro.
 - El aviso de la cabecera y el título del bloque incluyen nombres y tiempos.
@@ -533,3 +533,11 @@ NOVEDADES 1.19.1 · SOLAPAMIENTOS Y ARRASTRE VISUAL
   salvo que también se mueva el ratón horizontalmente.
 - La mano se cierra durante la pulsación izquierda. Escape cancela el gesto.
 - El manual y su PDF incluyen estas indicaciones.
+
+NOVEDADES 1.20.0
+
+Carga de audio en ventana emergente con mensaje, archivo y barra de progreso.
+Se cierra automáticamente cuando termina el lote o falla la carga.
+Exportar permite elegir MP3, WAV, FLAC (16/24 bits) y OGG Vorbis (VBR 0-10).
+Los codificadores y sus licencias se incluyen; la exportación funciona localmente
+y no necesita servicios de conversión ni conexiones externas.

@@ -1,0 +1,60 @@
+{
+  "version": "1.3.0",
+  "editorVersion": "1.20.0",
+  "target": "/workspace/scratch/17ae699a8a23/import-desktop-build-1.3.0/VIVA Audio Studio Suite Editor-linux-x64/resources/app.asar/main.cjs",
+  "checks": [
+    "se solicita pantalla completa",
+    "portada de cinco segundos",
+    "la ventana de carga aparece mientras se prepara el audio",
+    "Escape no oculta una carga en curso",
+    "la ventana desaparece al completar la carga y se muestra la onda",
+    "el usuario puede elegir los cuatro formatos",
+    "se muestran los ajustes de mp3",
+    "descarga mp3 completa y con extensión correcta",
+    "se muestran los ajustes de wav",
+    "descarga wav completa y con extensión correcta",
+    "se muestran los ajustes de flac",
+    "descarga flac completa y con extensión correcta",
+    "se muestran los ajustes de ogg",
+    "descarga ogg completa y con extensión correcta",
+    "también se exporta FLAC de 16 bits",
+    "no hay peticiones a servicios externos ni errores CSP/JavaScript"
+  ],
+  "errors": [],
+  "downloads": [
+    {
+      "name": "prueba-mp3.mp3",
+      "path": "/workspace/scratch/17ae699a8a23/import-native-packaged-qa/prueba-mp3.mp3",
+      "state": "completed",
+      "bytes": 48901
+    },
+    {
+      "name": "prueba-wav.wav",
+      "path": "/workspace/scratch/17ae699a8a23/import-native-packaged-qa/prueba-wav.wav",
+      "state": "completed",
+      "bytes": 352844
+    },
+    {
+      "name": "prueba-flac.flac",
+      "path": "/workspace/scratch/17ae699a8a23/import-native-packaged-qa/prueba-flac.flac",
+      "state": "completed",
+      "bytes": 220093
+    },
+    {
+      "name": "prueba-ogg.ogg",
+      "path": "/workspace/scratch/17ae699a8a23/import-native-packaged-qa/prueba-ogg.ogg",
+      "state": "completed",
+      "bytes": 12510
+    },
+    {
+      "name": "prueba-flac16.flac",
+      "path": "/workspace/scratch/17ae699a8a23/import-native-packaged-qa/prueba-flac16.flac",
+      "state": "completed",
+      "bytes": 68725
+    }
+  ],
+  "requests": [],
+  "coverDuration": 5001,
+  "expectedQuit": true,
+  "model": "Electron/Linux con Ozone headless y perfil temporal"
+}

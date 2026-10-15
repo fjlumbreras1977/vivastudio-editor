@@ -120,3 +120,21 @@ html.web-starting #emptyState>:not(#webStartupSplash){visibility:hidden}
 .gray-track .clip.selected .clip-label{background:#454d4d}
 
 .edit-points{display:contents}
+
+/* Carga de audios: ventana temporal y accesible. */
+#importProgressDialog{width:min(480px,calc(100vw - 32px));padding:26px;border:1px solid #506a65;border-radius:14px;background:#202a2d;color:#e7f2ee;box-shadow:0 24px 90px #0009}
+#importProgressDialog::backdrop{background:#08100eca;backdrop-filter:blur(3px)}
+.import-progress-heading{display:flex;align-items:center;gap:14px;margin-bottom:23px}
+.import-progress-icon{display:grid;place-items:center;width:44px;height:44px;border-radius:12px;color:#a6edc8;background:#385447;flex-shrink:0}
+.import-progress-icon svg{width:24px;height:24px}
+#importProgressDialog h2{font-size:21px;line-height:1.25;margin:6px 0 0}
+#importProgressLabel{font-size:13px;line-height:1.5;color:#c3d4cc;overflow-wrap:anywhere;min-height:40px;margin:0 0 14px}
+#importProgressBar{display:block;width:100%;height:9px;accent-color:#9ae2bc;border:0;border-radius:6px;overflow:hidden}
+#importProgressBar::-webkit-progress-bar{background:#131d1a;border-radius:6px}
+#importProgressBar::-webkit-progress-value{background:#9ae2bc;border-radius:6px}
+#importProgressBar:indeterminate{background:linear-gradient(90deg,#192b22,#9ae2bc,#192b22);background-size:200% 100%;animation:import-progress-pulse 1.5s linear infinite}
+@keyframes import-progress-pulse{to{background-position:-200% 0}}
+.import-progress-footer{display:flex;justify-content:space-between;gap:16px;margin-top:12px;color:#9eb7aa;font-size:11px;line-height:1.4}
+#importProgressValue{color:#c0f1d4;font-variant-numeric:tabular-nums;flex-shrink:0}
+#exportDialog [hidden]{display:none!important}.export-format-hint{font-size:12px;line-height:1.5;color:#abc5b7;margin:0 0 16px}
+@media(prefers-reduced-motion:reduce){#importProgressBar:indeterminate{animation:none}}
