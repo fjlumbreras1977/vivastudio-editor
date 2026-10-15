@@ -1,0 +1,37 @@
+VIVA AUDIO STUDIO SUITE EDITOR · 1.19.0
+15 de octubre de 2026
+
+NOVEDADES
+Tramos con dos o más bloques en una misma pista marcados con rayas ámbar y
+cantidad de audios. Se detectan coincidencias parciales y totales, con aviso
+en la cabecera y nombres/tiempos al pasar el puntero por el bloque o el aviso.
+La señal de audio no cambia: es información visual, sin añadir fundidos.
+
+La mano se cierra durante la pulsación izquierda en zonas con cursor de mano.
+Al arrastrar se muestra una previsualización con onda y color de destino; el
+origen queda atenuado y se resaltan las pistas receptoras. Se puede cambiar
+de pista con movimiento solo vertical. Los grupos conservan su distribución.
+Escape, cancelación y pérdida de foco restauran la posición sin dejar restos
+de previsualización. El recorte mantiene su cursor de ajuste y su edición
+continua. Los indicadores se actualizan antes de soltar el ratón.
+
+PRUEBAS
+132 pruebas automáticas aprobadas: funciones previas, movimientos, solapes,
+intervalos triples, coincidencia total, extremos que solo se tocan y separación
+entre pistas. 24 comprobaciones de integración del HTML completo en DOM
+simulado verifican el movimiento vertical, la previsualización, el destino,
+los solapes, los recortes antes de soltar, la cancelación y Deshacer.
+Otras 22 comprueban el seguimiento de la reproducción incorporado en 1.18.1.
+No se registraron errores JavaScript en esas comprobaciones.
+La integración usa jsdom, geometría y reloj de audio simulados; no sustituye
+una prueba visual en navegador real. No hay navegador de pruebas disponible.
+
+MANUAL
+Manual HTML y PDF actualizados a 1.19.0. PDF de 19 páginas renderizado y revisado;
+las nuevas instrucciones se encuentran en la página 7. El PDF está también
+integrado en el HTML autónomo para poder descargarlo desde el editor.
+
+ENTREGA
+ZIP completo para subir al hosting. Conserva el rebobinado y seguimiento
+automático del cursor, los efectos, las sesiones y las demás funciones.
+No se ha publicado en el servidor remoto ni modificado los instaladores.

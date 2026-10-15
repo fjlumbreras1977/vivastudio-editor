@@ -55,7 +55,7 @@ def decorate(c,doc):
     c.saveState()
     if doc.page>1:
         c.setStrokeColor(colors.HexColor('#c7d9dd'));c.line(MARGIN,PAGE_H-33,PAGE_W-MARGIN,PAGE_H-33)
-        c.setFont('Manual',8);c.setFillColor(MUTED);c.drawString(MARGIN,PAGE_H-25,'VIVA AUDIO STUDIO SUITE EDITOR | Manual 1.18.0')
+        c.setFont('Manual',8);c.setFillColor(MUTED);c.drawString(MARGIN,PAGE_H-25,'VIVA AUDIO STUDIO SUITE EDITOR | Manual 1.19.0')
     c.setFont('Manual',8);c.setFillColor(MUTED);c.drawString(MARGIN,24,'Edición, grabación y mezcla de audio');c.drawRightString(PAGE_W-MARGIN,24,str(doc.page))
     c.restoreState()
 class ManualDoc(BaseDocTemplate):
@@ -67,7 +67,7 @@ class ManualDoc(BaseDocTemplate):
 soup=BeautifulSoup((ROOT/'manual.content.html').read_text(),'html.parser')
 doc=ManualDoc(str(ROOT/'viva-studio-manual.pdf'),pagesize=A4,rightMargin=MARGIN,leftMargin=MARGIN,topMargin=51,bottomMargin=43,title='Manual de VIVA AUDIO STUDIO SUITE EDITOR',author='VIVA AUDIO STUDIO SUITE EDITOR')
 doc.addPageTemplates(PageTemplate(id='manual',frames=[Frame(MARGIN,43,WIDTH,PAGE_H-94,leftPadding=0,rightPadding=0,topPadding=0,bottomPadding=0)],onPage=decorate))
-story=[Spacer(1,60),Image(str(ROOT/'logo-viva.jpg'),width=84,height=84,hAlign='LEFT'),Spacer(1,30),Paragraph('VIVA AUDIO STUDIO SUITE EDITOR · VERSIÓN 1.18.0',styles['kicker']),Paragraph('Manual de<br/>VIVA AUDIO<br/>STUDIO SUITE EDITOR',styles['cover']),Paragraph('De la primera toma a una mezcla terminada.',styles['lead']),Paragraph('Una guía de edición, grabación, automatización, mezcla y exportación. Incluye el recorrido inicial, los efectos de pista y una referencia de atajos.',styles['body']),Spacer(1,25),Paragraph('Proyectos nuevos con cuatro pistas · EQ en el mezclador · FX morado cuando hay efectos aplicados',styles['tip']),Spacer(1,25),paragraph(soup.select_one('.manual-lead')),PageBreak(),Paragraph('Índice',styles['heading'])]
+story=[Spacer(1,60),Image(str(ROOT/'logo-viva.jpg'),width=84,height=84,hAlign='LEFT'),Spacer(1,30),Paragraph('VIVA AUDIO STUDIO SUITE EDITOR · VERSIÓN 1.19.0',styles['kicker']),Paragraph('Manual de<br/>VIVA AUDIO<br/>STUDIO SUITE EDITOR',styles['cover']),Paragraph('De la primera toma a una mezcla terminada.',styles['lead']),Paragraph('Una guía de edición, grabación, automatización, mezcla y exportación. Incluye el recorrido inicial, los efectos de pista y una referencia de atajos.',styles['body']),Spacer(1,25),Paragraph('Proyectos nuevos con cuatro pistas · EQ en el mezclador · FX morado cuando hay efectos aplicados',styles['tip']),Spacer(1,25),paragraph(soup.select_one('.manual-lead')),PageBreak(),Paragraph('Índice',styles['heading'])]
 toc=TableOfContents();toc.levelStyles=[styles['toc']];story.extend([toc,PageBreak()])
 for article in soup.select('[data-manual-chapter]'):
     if article['id']=='manual-reference':story.append(PageBreak())

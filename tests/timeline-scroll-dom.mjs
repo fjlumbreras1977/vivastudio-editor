@@ -6,6 +6,7 @@ import assert from 'node:assert/strict';
 const require=createRequire(process.env.VIVA_DOM_RUNTIME||import.meta.url);
 const {JSDOM,VirtualConsole}=require('jsdom');
 const html=fs.readFileSync(new URL('../index.html',import.meta.url),'utf8');
+const VERSION=JSON.parse(fs.readFileSync(new URL('../package.json',import.meta.url),'utf8')).version;
 const results=[];
 for(const url of ['https://example.test/estudio/','file:///C:/VIVA/index.html']){
   let viewport=900,controls=228,mainLeft=0,barLeft=0;
@@ -48,7 +49,7 @@ for(const url of ['https://example.test/estudio/','file:///C:/VIVA/index.html'])
   const pointer=(type,x)=>{const event=new w.MouseEvent(type,{button:0,clientX:x,bubbles:true,cancelable:true});Object.defineProperty(event,'pointerId',{value:1});d.querySelector('#rulerTicks').dispatchEvent(event);};
   try{
     await settle();await d.querySelector('#emptyDemo').onclick();await settle();
-    assert.equal(d.documentElement.dataset.studioVersion,'1.18.1');assert.equal(d.querySelectorAll('.clip').length,3);
+    assert.equal(d.documentElement.dataset.studioVersion,VERSION);assert.equal(d.querySelectorAll('.clip').length,3);
     scale(200);scroll.scrollTop=123;scroll.scrollLeft=4000;scroll.dispatchEvent(new w.Event('scroll'));
     d.querySelector('#rewindBtn').click();assert.equal(scroll.scrollLeft,0);visible();record('rebobinar en pausa devuelve la barra y el cursor al inicio');
     await play();let previous=0;
@@ -71,5 +72,5 @@ for(const url of ['https://example.test/estudio/','file:///C:/VIVA/index.html'])
     assert.deepEqual(errors,[]);results.push({url,checks,errors});
   }finally{for(const timer of timers)clearTimeout(timer);dom.window.close();}
 }
-if(process.env.VIVA_DOM_REPORT)fs.writeFileSync(process.env.VIVA_DOM_REPORT,JSON.stringify({version:'1.18.1',model:'DOM y AudioContext simulados; no es una prueba de navegador real',results},null,2)+'\n');
+if(process.env.VIVA_DOM_REPORT)fs.writeFileSync(process.env.VIVA_DOM_REPORT,JSON.stringify({version:VERSION,model:'DOM y AudioContext simulados; no es una prueba de navegador real',results},null,2)+'\n');
 console.log(JSON.stringify({addresses:results.length,checks:results.reduce((n,result)=>n+result.checks.length,0),errors:results.flatMap(result=>result.errors)}));

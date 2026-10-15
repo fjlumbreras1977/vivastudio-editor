@@ -1,7 +1,7 @@
 VIVA AUDIO STUDIO SUITE EDITOR — PAQUETE COMPLETO PARA HOSTING
 Logo y favicon: imagen VIVA aportada por el usuario.
 El logo abre https://fjlumbreras1977.github.io/vivstudio/#home en la misma pestaña.
-Versión 1.18.1
+Versión 1.19.0
 
 La ventana inicial muestra el logo original de VIVA AUDIO STUDIO SUITE EDITOR.
 
@@ -510,3 +510,16 @@ CORRECCIÓN 1.18.1 · SEGUIMIENTO DE LA REPRODUCCIÓN
 - Con el audio detenido se puede desplazar la vista libremente.
 - Sustituye los archivos de la versión online por los del paquete y recarga
   sin caché si el navegador continúa mostrando la versión anterior.
+
+
+NOVEDADES 1.19.0 · SOLAPAMIENTOS Y ARRASTRE VISUAL
+- Las zonas con dos o más audios en una misma pista muestran rayas ámbar y
+  el número de bloques, incluso si uno está totalmente cubierto por otro.
+- El aviso de la cabecera y el título del bloque incluyen nombres y tiempos.
+- Al mover o recortar, los avisos se actualizan antes de soltar el ratón.
+- Una previsualización con la onda muestra dónde se soltará el bloque y la
+  pista de destino se resalta. Se puede cambiar de pista moviendo solo en
+  vertical. Los grupos conservan sus distancias y el tiempo se mantiene
+  salvo que también se mueva el ratón horizontalmente.
+- La mano se cierra durante la pulsación izquierda. Escape cancela el gesto.
+- El manual y su PDF incluyen estas indicaciones.

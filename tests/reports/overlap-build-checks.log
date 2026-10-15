@@ -1,0 +1,23 @@
+✔ blocks on different tracks move together without changing relative timing or audio edits (3.097793ms)
+✔ a group stops at time zero and keeps every block in a valid track (0.462267ms)
+✔ vertical group moves preserve track separation and safely transfer clips between occupied tracks (0.436068ms)
+✔ moving down clamps the whole group together instead of dropping any selected block (0.269727ms)
+✔ group positions and track membership survive project saving (4.094576ms)
+✔ marca únicamente el intervalo compartido por dos bloques (1.609527ms)
+✔ detecta un bloque totalmente oculto dentro de otro (0.168975ms)
+✔ detecta dos o más bloques que coinciden completamente (0.206692ms)
+✔ los bloques consecutivos y los pequeños errores de coma flotante no generan avisos (0.159441ms)
+✔ muestra el número y los bloques correctos en las distintas zonas de una superposición triple (0.153401ms)
+✔ dos zonas contiguas con participantes distintos conservan sus nombres (0.148654ms)
+✔ audios de pistas diferentes no se consideran superpuestos entre sí (0.209456ms)
+✔ el destino provisional de un arrastre actualiza ambas pistas sin cambiar el proyecto (0.244448ms)
+✔ ignora entradas incompletas y no depende del offset de la fuente (0.396698ms)
+✔ delivered HTML includes unchanged classic JavaScript and needs no external runtime assets (29.037623ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 128.483313

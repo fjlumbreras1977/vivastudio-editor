@@ -68,6 +68,28 @@
 
 .fx-preview{padding:12px 14px;border:1px solid #6e5884;border-radius:8px;background:#32263e;margin:0 0 18px}.fx-preview>div{display:flex;gap:8px;flex-wrap:wrap}.fx-preview button{font-size:12px;border-color:#7a6295;color:#fff}.fx-preview #fxPreviewPlay{background:#b393df;color:#fff;border-color:#b393df}.fx-preview button.active{background:#4d3c5e;border-color:#c7a7eb}.fx-preview p{font-size:11px;line-height:1.6;color:#d1bddf;margin:9px 0 0}
 
+/* Solapamientos y previsualización de los bloques durante el arrastre. */
+.overlap-layer{position:absolute;inset:0;pointer-events:none;z-index:4}
+.audio-overlap{position:absolute;top:9px;bottom:11px;box-sizing:border-box;border:1px dashed #ffcb7a;border-top:3px solid #ffcb7a;background:repeating-linear-gradient(135deg,#ffba501c 0,#ffba501c 5px,transparent 5px,transparent 11px);pointer-events:none}
+.audio-overlap-label{position:absolute;bottom:2px;left:3px;max-width:calc(100% - 6px);overflow:hidden;white-space:nowrap;border-radius:3px;padding:2px 5px;background:#392818ed;color:#ffda9e;font:600 9px/1.2 system-ui,sans-serif}
+.narrow-overlap .audio-overlap-label{display:none}
+.track-overlap-warning{display:inline-flex;align-items:center;justify-content:center;flex:0 0 17px;width:17px;height:19px;border:1px solid #bd8a42;border-radius:4px;background:#4b341c;color:#ffda93;font-size:11px;cursor:help}
+.track-overlap-warning[hidden]{display:none}
+.track-overlap-warning:focus-visible{outline:2px solid #ffda93;outline-offset:2px}
+.clip.has-overlap{outline:1px solid #ffcb7a;outline-offset:-3px}
+.clip.has-overlap .clip-label::after{content:'⚠';margin-left:auto;flex:0 0 auto;color:#ffda93;font-size:11px}
+.audio-drag-layer{position:absolute;inset:0;z-index:4;pointer-events:none}
+.audio-drag-ghost{position:absolute;left:0;top:0;box-sizing:border-box;min-width:4px;border:2px solid var(--color);border-radius:5px;background:color-mix(in srgb,var(--color) 25%,#14201e);box-shadow:0 5px 14px #0007,0 0 0 1px #e0ffef88;overflow:hidden;opacity:.94;pointer-events:none;will-change:transform}
+.audio-drag-ghost.has-overlap{border-color:#ffcb7a}
+.audio-drag-overlaps{position:absolute;inset:0;pointer-events:none}
+.audio-drag-overlaps i{position:absolute;top:25px;bottom:0;border:1px dashed #ffcb7a;background:repeating-linear-gradient(135deg,#ffba5030 0,#ffba5030 5px,transparent 5px,transparent 11px)}
+.audio-drag-name{display:block;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;padding:3px 6px;font:600 10px/17px system-ui,sans-serif;color:#effff6;background:#13231bb3}
+.audio-drag-ghost canvas{position:absolute;top:25px;left:0;width:100%;height:calc(100% - 27px);pointer-events:none}
+.clip.drag-origin{opacity:.23!important;filter:saturate(.4)}
+.track-row.clip-drop-target .lane{box-shadow:inset 0 0 0 2px #9de4bc;background-color:#29433850}
+.track-row.clip-drop-target .track-controls{box-shadow:inset 3px 0 #9de4bc,3px 0 8px #0002}
+html.hand-pressed,html.hand-pressed *{cursor:grabbing!important}
+
 /* La portada cubre solo la tarjeta de inicio; el editor permanece visible alrededor. */
 #webStartupSplash.web-startup-splash{position:absolute;inset:0;z-index:10;display:grid;place-items:center;background:#101417;border-radius:inherit;overflow:hidden;cursor:default}
 #webStartupSplash[hidden]{display:none}
