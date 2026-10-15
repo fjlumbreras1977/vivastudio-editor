@@ -1,7 +1,7 @@
 VIVA AUDIO STUDIO SUITE EDITOR — PAQUETE COMPLETO PARA HOSTING
 Logo y favicon: imagen VIVA aportada por el usuario.
 El logo abre https://fjlumbreras1977.github.io/vivstudio/#home en la misma pestaña.
-Versión 1.19.0
+Versión 1.19.1
 
 La ventana inicial muestra el logo original de VIVA AUDIO STUDIO SUITE EDITOR.
 
@@ -23,6 +23,16 @@ ESCUCHA DE EFECTOS EN DIRECTO
   valores anteriores. Solo el ajuste confirmado se guarda y se exporta.
 - La captura del micrófono sigue siendo original: esta escucha se aplica a los
   bloques reproducidos, y no activa monitorización directa del micrófono.
+
+SELECCIÓN Y PUNTOS DE EDICIÓN (1.19.1)
+
+- Un clic selecciona un bloque; Ctrl/Cmd o Mayús + clic añade o quita bloques.
+- Arrastrar un miembro de un grupo conserva el grupo. Un clic sin arrastrar
+  deja seleccionado solo ese bloque. Escape y Quitar selección limpian todo.
+- Los límites de fragmento se muestran con I y F. Clic derecho permite borrar
+  cada límite; un punto enfocado se elimina con Supr/Retroceso. El audio y la
+  automatización de volumen se conservan. Deshacer recupera la selección.
+- El manual HTML y PDF explica los gestos y las opciones nuevas.
 
 NOVEDADES DE ESTA VERSIÓN
 
@@ -512,7 +522,7 @@ CORRECCIÓN 1.18.1 · SEGUIMIENTO DE LA REPRODUCCIÓN
   sin caché si el navegador continúa mostrando la versión anterior.
 
 
-NOVEDADES 1.19.0 · SOLAPAMIENTOS Y ARRASTRE VISUAL
+NOVEDADES 1.19.1 · SOLAPAMIENTOS Y ARRASTRE VISUAL
 - Las zonas con dos o más audios en una misma pista muestran rayas ámbar y
   el número de bloques, incluso si uno está totalmente cubierto por otro.
 - El aviso de la cabecera y el título del bloque incluyen nombres y tiempos.

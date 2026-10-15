@@ -1,0 +1,30 @@
+VIVA AUDIO STUDIO SUITE EDITOR · ONLINE 1.19.1
+
+Cambios:
+- Los límites I/F del fragmento y los marcadores de edición pueden eliminarse
+  desde su menú o con Supr/Retroceso cuando tienen el foco.
+- También se pueden quitar los límites situados en los extremos del bloque.
+- Borrar un límite retira la selección del fragmento, conserva el audio y la
+  automatización de volumen, y permite recuperar el estado con Deshacer.
+- Clic normal: selección exclusiva. Ctrl/Cmd o Mayús + clic: añadir/quitar.
+- Arrastrar un bloque ya incluido mueve el grupo; soltar sin arrastre selecciona
+  solo ese bloque. Escape/Quitar selección/vacío limpian la selección.
+- Borde, marca y contador reflejan la selección. Cambiar de bloque o editar
+  volumen no incorpora bloques adicionales. Deshacer restaura una sola
+  selección cuando recupera los límites de un fragmento.
+- Manual HTML y PDF actualizado, con el mismo PDF incluido en el HTML autónomo.
+
+Verificación:
+- 136 pruebas unitarias aprobadas, 0 fallos.
+- 50 comprobaciones de límites, selección, portapapeles y Deshacer.
+- 24 comprobaciones de arrastre, solapamientos y recorte en directo.
+- 22 comprobaciones de seguimiento del cursor y desplazamiento horizontal.
+- Integración sobre el HTML compilado en rutas HTTPS y file://, con jsdom,
+  audio, reloj y geometría simulados. No es una prueba de navegador real.
+- Manual PDF de 20 páginas renderizado y revisado; capítulo modificado
+  revisado a mayor resolución.
+- El JavaScript del HTML coincide con studio.bundle.js y no requiere módulos
+  ni archivos externos para abrir el editor.
+- Logo y portada originales conservados. La versión de escritorio no cambia.
+
+Uso: sustituir los archivos del paquete en el hosting y recargar la página.

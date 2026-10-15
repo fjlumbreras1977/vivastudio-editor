@@ -1,5 +1,5 @@
 import fs from 'node:fs';
-const VERSION='1.19.0';
+const VERSION='1.19.1';
 const read=name=>fs.readFileSync(new URL(name,import.meta.url),'utf8');
 const strip=s=>s.replace(/^import [^\n]*\n/gm,'').replace(/^export /gm,'');
 const manualCode=strip(read('manual.js')).replace("const MANUAL_PDF_BASE64='';",()=>"const MANUAL_PDF_BASE64="+JSON.stringify(fs.readFileSync(new URL('viva-studio-manual.pdf',import.meta.url)).toString('base64'))+";");

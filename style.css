@@ -99,3 +99,24 @@ html.web-starting #emptyState>:not(#webStartupSplash){visibility:hidden}
 .fx-vintage{grid-column:1/-1;border-color:#86734e!important;background:linear-gradient(135deg,#2c2921,#1c2529)!important}.fx-vintage legend{color:#e5cc94}.fx-vintage-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 22px}.fx-vintage-note{font-size:11px;color:#c6bca6;line-height:1.6;margin:2px 0 15px}.fx-vintage .fx-control>select{width:100%;margin-top:7px;min-height:32px}.fx-vintage input[type=range]{accent-color:#d7ba7d}@media(max-width:620px){.fx-vintage-grid{grid-template-columns:1fr}}
 
 .fx-binaural{grid-column:1/-1;border-color:#668b9b!important;background:linear-gradient(135deg,#21323b,#1c2529)!important}.fx-binaural legend{color:#b9e3f3}.fx-binaural-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 22px}.fx-binaural-note{font-size:11px;color:#bbd2dc;line-height:1.6;margin:2px 0 15px}.fx-binaural .fx-control>select{width:100%;margin-top:7px;min-height:32px}.fx-binaural input[type=range]{accent-color:#8acbe0}@media(max-width:620px){.fx-binaural-grid{grid-template-columns:1fr}}
+
+/* Selección explícita y límites de edición del fragmento. */
+.clip.selected{border-color:#c1ffe0;box-shadow:inset 0 0 0 1px #c1ffe0,0 0 0 2px #c1ffe099;z-index:3}
+.clip.selected .clip-label{background:color-mix(in srgb,var(--color) 36%,#142a26)}
+.clip-selection-badge{margin-left:auto;flex:0 0 auto;background:#c1ffe0;color:#102d22;border-radius:3px;min-width:15px;height:15px;line-height:15px;text-align:center;font-size:11px}
+.clip-selection-badge[hidden]{display:none}
+.clip-range{background:repeating-linear-gradient(135deg,#f3cb6b22 0 5px,#f3cb6b33 5px 10px);border-left:2px solid #ffe0a0;border-right:2px solid #ffe0a0}
+.edit-point{width:13px;z-index:7}
+.edit-point:before{left:6px;border-left:1px dashed #ffe0a0}
+.edit-point:after{display:none}
+.edit-point>span{position:absolute;top:0;left:1px;width:11px;height:12px;line-height:12px;background:#e4c56b;color:#292416;border-radius:2px;font-size:8px;font-weight:800;pointer-events:none}
+.edit-point.segment-boundary>span{background:#ffe0a0}
+.edit-point:hover>span,.edit-point:focus-visible>span{background:#fff2ce;box-shadow:0 0 0 2px #e4c56b66}
+.edit-point.edge-start{transform:none}
+.edit-point.edge-start:before{left:0}
+.edit-point.edge-end{transform:translateX(-100%)}
+.edit-point.edge-end:before{left:auto;right:0}
+.edit-point.edge-end>span{left:auto;right:1px}
+.gray-track .clip.selected .clip-label{background:#454d4d}
+
+.edit-points{display:contents}

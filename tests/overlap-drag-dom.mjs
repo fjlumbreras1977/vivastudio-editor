@@ -57,9 +57,9 @@ for(const url of ['https://example.test/estudio/','file:///C:/VIVA/index.html'])
     return {left:0,top:0,width:0,height:0,bottom:0};
   };
   const getClip=id=>d.querySelector(`.clip[data-clip="${id}"]`);
-  const event=(target,type,x,y,button=0)=>{const e=new w.MouseEvent(type,{button,clientX:x,clientY:y,bubbles:true,cancelable:true});Object.defineProperty(e,'pointerId',{value:1});target.dispatchEvent(e);};
+  const event=(target,type,x,y,button=0,options={})=>{const e=new w.MouseEvent(type,{button,clientX:x,clientY:y,bubbles:true,cancelable:true,...options});Object.defineProperty(e,'pointerId',{value:1});target.dispatchEvent(e);};
   const clearSelection=()=>rows()[0].querySelector('.lane').dispatchEvent(new w.MouseEvent('click',{bubbles:true,clientX:controls,clientY:130}));
-  const down=(id,part=null)=>{const clip=getClip(id),target=part?clip.querySelector(part):clip,r=clip.getBoundingClientRect(),x=r.left+10,y=r.top+20;event(target,'pointerdown',x,y);return {clip,target,x,y};};
+  const down=(id,part=null,options={})=>{const clip=getClip(id),target=part?clip.querySelector(part):clip,r=clip.getBoundingClientRect(),x=r.left+10,y=r.top+20;event(target,'pointerdown',x,y,0,options);return {clip,target,x,y};};
   const move=(drag,rowIndex,delta=0)=>event(drag.clip,'pointermove',drag.x+delta,100+rowIndex*108+25);
   const up=drag=>event(drag.clip,'pointerup',drag.x,drag.y);
   const zones=row=>row.querySelectorAll('.audio-overlap');
@@ -91,7 +91,7 @@ for(const url of ['https://example.test/estudio/','file:///C:/VIVA/index.html'])
     event(drag.clip,'pointermove',drag.x-10*36,drag.y);
     assert.equal(getClip(a).style.width,'72px');assert.equal(zones(rows()[1]).length,0);record('el recorte actualiza el aviso en tiempo real antes de soltar');
     event(drag.clip,'pointercancel',drag.x,drag.y);assert.equal(getClip(a).style.width,'432px');assert.equal(zones(rows()[1]).length,1);record('cancelar el recorte recupera el tramo de solapamiento');
-    clearSelection();drag=down(a);up(drag);drag=down(c);move(drag,3);
+    clearSelection();drag=down(a);up(drag);drag=down(c,null,{ctrlKey:true});up(drag);drag=down(c);move(drag,3);
     assert.equal(d.querySelectorAll('.audio-drag-ghost').length,2);assert.equal(d.querySelectorAll('.clip-drop-target').length,2);up(drag);
     assert.equal(getClip(a).closest('.track-row'),rows()[2]);assert.equal(getClip(c).closest('.track-row'),rows()[3]);assert.equal(d.querySelectorAll('.audio-overlap').length,0);record('el arrastre de varios bloques conserva la separación entre pistas y retira avisos resueltos');
     d.querySelector('#undoBtn').click();assert.equal(getClip(a).closest('.track-row'),rows()[1]);assert.equal(zones(rows()[1]).length,1);record('Deshacer recupera posiciones y avisos');
