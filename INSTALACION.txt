@@ -1,7 +1,7 @@
 VIVA AUDIO STUDIO SUITE EDITOR — PAQUETE COMPLETO PARA HOSTING
 Logo y favicon: imagen VIVA aportada por el usuario.
 El logo abre https://fjlumbreras1977.github.io/vivstudio/#home en la misma pestaña.
-Versión 1.18.0
+Versión 1.18.1
 
 La ventana inicial muestra el logo original de VIVA AUDIO STUDIO SUITE EDITOR.
 
@@ -499,3 +499,14 @@ proyecto .vivastudio y los proyectos anteriores conservan el efecto apagado.
 La cola de exportación incluye 100 ms para el final de la respuesta binaural.
 Referencia técnica: https://www.w3.org/TR/webaudio/#PannerNode
 La validación se detalla en VALIDACION-1.18.0.txt.
+
+
+CORRECCIÓN 1.18.1 · SEGUIMIENTO DE LA REPRODUCCIÓN
+- Rebobinar y la tecla Inicio llevan también la vista y la barra horizontal al
+  principio, tanto en pausa como durante la reproducción.
+- Al reproducir, la vista sigue el cursor automáticamente para mantenerlo visible
+  en el área de ondas, después de los controles fijos. Funciona con zoom,
+  bucles, escucha de bloques y grabación. El desplazamiento vertical se conserva.
+- Con el audio detenido se puede desplazar la vista libremente.
+- Sustituye los archivos de la versión online por los del paquete y recarga
+  sin caché si el navegador continúa mostrando la versión anterior.

@@ -1,0 +1,40 @@
+{
+  "version": "1.18.1",
+  "model": "DOM y AudioContext simulados; no es una prueba de navegador real",
+  "results": [
+    {
+      "url": "https://example.test/estudio/",
+      "checks": [
+        "rebobinar en pausa devuelve la barra y el cursor al inicio",
+        "seguimiento continuo durante 90 fotogramas con zoom 200",
+        "el cursor se recupera si se desplaza manualmente la vista mientras suena",
+        "rebobinar durante la reproducción conserva el estado y muestra el comienzo",
+        "el cursor permanece visible al reducir y ampliar el zoom",
+        "el seguimiento se adapta a una ventana estrecha",
+        "en pausa se permite desplazar la vista libremente",
+        "un bucle devuelve la vista a su comienzo",
+        "la escucha aislada de un bloque lejano también sigue el cursor",
+        "al finalizar el audio la línea continúa visible",
+        "la tecla Inicio sincroniza el rebobinado"
+      ],
+      "errors": []
+    },
+    {
+      "url": "file:///C:/VIVA/index.html",
+      "checks": [
+        "rebobinar en pausa devuelve la barra y el cursor al inicio",
+        "seguimiento continuo durante 90 fotogramas con zoom 200",
+        "el cursor se recupera si se desplaza manualmente la vista mientras suena",
+        "rebobinar durante la reproducción conserva el estado y muestra el comienzo",
+        "el cursor permanece visible al reducir y ampliar el zoom",
+        "el seguimiento se adapta a una ventana estrecha",
+        "en pausa se permite desplazar la vista libremente",
+        "un bucle devuelve la vista a su comienzo",
+        "la escucha aislada de un bloque lejano también sigue el cursor",
+        "al finalizar el audio la línea continúa visible",
+        "la tecla Inicio sincroniza el rebobinado"
+      ],
+      "errors": []
+    }
+  ]
+}

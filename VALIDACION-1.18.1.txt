@@ -1,0 +1,31 @@
+VIVA AUDIO STUDIO SUITE EDITOR · 1.18.1
+15 de octubre de 2026
+
+CORRECCIÓN
+Rebobinar y la tecla Inicio sincronizan cursor, vista y barra horizontal.
+La reproducción sigue el cursor de forma continua cuando se aproxima a los
+bordes del área de ondas. Se descuentan los controles fijos de las pistas.
+Se conserva el desplazamiento vertical y se respeta la navegación libre en pausa.
+El seguimiento también se aplica a bucles, escucha aislada y grabación; se ha
+unificado el mecanismo anterior, que solo desplazaba la vista al grabar.
+
+VALIDACIÓN
+123 pruebas automáticas aprobadas (115 anteriores y 8 de desplazamiento).
+22 comprobaciones de integración del HTML completo con DOM y reloj de audio
+simulados, bajo direcciones HTTPS y file. Incluyen los botones reales,
+rebobinado en pausa y reproducción, 90 fotogramas a zoom 200, cambios de zoom,
+ventanas estrechas, navegación en pausa, bucles, escucha aislada, fin de audio
+y tecla Inicio. No se registraron errores de JavaScript en esas comprobaciones.
+El HTML final incluye el código clásico compilado y todos sus recursos.
+Los informes y el código de las pruebas se incluyen en tests.
+
+LÍMITES
+La integración usa jsdom y AudioContext simulado; no es una prueba visual de
+navegador ni una escucha real. No hay navegador de pruebas disponible en este
+entorno. Conviene comprobar el paquete en el navegador habitual tras subirlo.
+
+ENTREGA
+ZIP completo para sustituir la versión online en el hosting. No se ha publicado
+ni modificado el servidor remoto. El manual y su PDF conservan la edición 1.18.0;
+esta actualización corrige el desplazamiento sin cambiar sus controles.
+Las versiones de escritorio no se han modificado en esta entrega.
