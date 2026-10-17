@@ -1,7 +1,7 @@
 VIVA AUDIO STUDIO SUITE EDITOR — PAQUETE COMPLETO PARA HOSTING
 Logo y favicon: imagen VIVA aportada por el usuario.
 El logo abre https://fjlumbreras1977.github.io/vivstudio/#home en la misma pestaña.
-Versión 1.20.0
+Versión 1.20.1
 
 La ventana inicial muestra el logo original de VIVA AUDIO STUDIO SUITE EDITOR.
 
@@ -541,3 +541,8 @@ Se cierra automáticamente cuando termina el lote o falla la carga.
 Exportar permite elegir MP3, WAV, FLAC (16/24 bits) y OGG Vorbis (VBR 0-10).
 Los codificadores y sus licencias se incluyen; la exportación funciona localmente
 y no necesita servicios de conversión ni conexiones externas.
+
+PORTADA ACTUALIZADA (1.20.1)
+Se ha sustituido la imagen de inicio por PORTADA AUDIO.jpg, conservando el
+marco de presentación, la imagen completa sin deformación y los cinco segundos.
+El manual mantiene su versión 1.20.0 porque las funciones no cambian.

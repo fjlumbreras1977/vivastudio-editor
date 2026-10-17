@@ -1,0 +1,14 @@
+{
+  "version": "1.20.1",
+  "change": "Sustitución de la portada sin modificar la imagen adjunta",
+  "sourceImage": {
+    "width": 749,
+    "height": 422,
+    "sha256": "bcd1611a2731d15817ab7f6e4d5a2858b610cc437fe31a96909187a5f86bfe93"
+  },
+  "webFrameCSSUnchanged": true,
+  "durationMilliseconds": 5000,
+  "unitTests": 142,
+  "failures": 0,
+  "realBrowserTest": false
+}
