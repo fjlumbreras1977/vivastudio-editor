@@ -1,7 +1,7 @@
 VIVA AUDIO STUDIO SUITE EDITOR — PAQUETE COMPLETO PARA HOSTING
 Logo y favicon: imagen VIVA aportada por el usuario.
 El logo abre https://fjlumbreras1977.github.io/vivstudio/#home en la misma pestaña.
-Versión 1.20.1
+Versión 1.20.2
 
 La ventana inicial muestra el logo original de VIVA AUDIO STUDIO SUITE EDITOR.
 
@@ -546,3 +546,8 @@ PORTADA ACTUALIZADA (1.20.1)
 Se ha sustituido la imagen de inicio por PORTADA AUDIO.jpg, conservando el
 marco de presentación, la imagen completa sin deformación y los cinco segundos.
 El manual mantiene su versión 1.20.0 porque las funciones no cambian.
+
+CURSOR DE TEXTO (1.20.2)
+El cursor intermitente solo se muestra en campos editables. Se conservan
+la selección de texto, los atajos y el foco de los controles del editor.
+La portada actual conserva sus cinco segundos de duración.
