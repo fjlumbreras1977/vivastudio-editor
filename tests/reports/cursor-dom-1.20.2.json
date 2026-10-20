@@ -1,0 +1,25 @@
+{
+  "version": "1.20.2",
+  "model": "DOM/CSS simulado con jsdom; sin prueba visual en navegador",
+  "checks": [
+    "index.html: sin cursor de escritura en body",
+    "index.html: sin cursor de escritura en #startTitle",
+    "index.html: sin cursor de escritura en .eyebrow",
+    "index.html: sin cursor de escritura en #manualTitle",
+    "index.html: cursor, foco y escritura conservados en #projectName",
+    "index.html: cursor, foco y escritura conservados en #exportName",
+    "index.html: cursor, foco y escritura conservados en #markerNote",
+    "index.html: cursor, foco y escritura conservados en #manualSearch",
+    "index.html: cursor, foco y escritura conservados en input[type=number]",
+    "index.html: campo de solo lectura sin cursor de inserción",
+    "index.html: selección del texto conservada",
+    "Reproducir y zoom habilitados conservan sus cursores de control",
+    "manual.html: sin cursor de escritura en body",
+    "manual.html: sin cursor de escritura en .manual-content h1",
+    "manual.html: sin cursor de escritura en .manual-header h2",
+    "manual.html: cursor, foco y escritura conservados en #manualSearch",
+    "manual.html: campo de solo lectura sin cursor de inserción",
+    "manual.html: selección del texto conservada"
+  ],
+  "errors": []
+}
